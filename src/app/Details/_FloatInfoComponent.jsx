@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-
-export function FloatInfoComponent(props) {
+import ContactInfo from "./sections/_ContectInfo";
+export default function FloatInfoComponent(props) {
   return (
     <div className="fixed bottom-4 right-4 bg-zinc-300 p-4 rounded-2xl shadow-lg max-w-sm">
       <h2 className="text-slate-900 text-2xl font-bold leading-tight">
@@ -11,7 +11,7 @@ export function FloatInfoComponent(props) {
       <div className="flex justify-between items-center">
         <div className="flex flex-col items-center">
           <Image
-            src="/detailPage/bed.svg"
+            src="/details/bed.svg"
             alt="Bedroom"
             width={49}
             height={49}
@@ -21,7 +21,7 @@ export function FloatInfoComponent(props) {
         </div>
         <div className="flex flex-col items-center">
           <Image
-            src="/detailPage/bathIcon.svg"
+            src="/details/bathIcon.svg"
             alt="Bathroom"
             width={53}
             height={53}
@@ -31,7 +31,7 @@ export function FloatInfoComponent(props) {
         </div>
         <div className="flex flex-col items-center">
           <Image
-            src="/detailPage/areaIcon.svg"
+            src="/details/areaIcon.svg"
             alt="Area"
             width={53}
             height={53}
@@ -41,7 +41,7 @@ export function FloatInfoComponent(props) {
         </div>
         <div className="flex flex-col items-center">
           <Image
-            src="/detailPage/psfIcon.svg"
+            src="/details/psfIcon.svg"
             alt="Price psf"
             width={49}
             height={49}
@@ -50,7 +50,21 @@ export function FloatInfoComponent(props) {
           <span className="text-black text-xl font-medium">$100</span>
         </div>
       </div>
-      {/* buttom add later */}
+      <div>
+      <ContactInfo />  
+      </div>
+      <Image
+            src="/details/meeting.png"
+            alt="Price psf"
+            width={49}
+            height={49}
+          />
+              <Image
+          src="/details/message.png"
+          alt="Price psf"
+          width={49}
+          height={49}
+        />
     </div>
   );
 }

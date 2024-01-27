@@ -1,6 +1,6 @@
 import React from "react";
 
-export function DetailComponent() {
+export default function DetailComponent() {
   return (
     <div className="bg-zinc-300 w-full mt-9 pt-8 pb-5 px-10 md:px-5">
       <header className="flex flex-wrap gap-5">

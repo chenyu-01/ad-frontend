@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-export function ImageSlider({ images }) {
+export default function ImageSlider({ images }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {

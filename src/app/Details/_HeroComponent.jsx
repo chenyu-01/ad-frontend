@@ -1,9 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import { FloatInfoComponent } from "./FloatInfoComponent"; 
-import { ImageSlider } from '../components/ImageSlider';
+import FloatInfoComponent from "./_FloatInfoComponent"; 
+import  ImageSlider  from './sections/_ImageSlider';
 
-export function HeroComponent() {
+export default function HeroComponent() {
+
+  const imageList = {};
   return (
     <div className="relative mx-7 my-4 max-w-full">
 
@@ -11,18 +13,18 @@ export function HeroComponent() {
         <button onClick={() => window.history.back()} aria-label="Back" className="flex items-center justify-center">
 
           <Image
-            src="/detailPage/backIcon.svg"
+            src="/details/backIcon.svg"
             alt="Back"
             width={24}
             height={24}
           />
         </button>
-        <div className="text-xl font-bold">TYPE > NAME</div>
+        <div className="text-xl font-bold">TYPE {">"} NAME</div>
         <div /> 
       </div>
 
       <div className="flex flex-col items-center w-full md:w-1/2">
-        <ImageSlider images={imageList} />
+        <ImageSlider  images={imageList}/>
       </div>
 
       {/* 右边文本信息区 */}
