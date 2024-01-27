@@ -1,13 +1,11 @@
 import React from "react";
-import HeroComponent from "../components/HeroComponent";
-import FloatInfoComponent from "../components/FloatInfoComponent";
+import HeroComponent from "./HeroComponent";
 
 
 export default function Details() {
     return (
       <div className="container mx-auto px-4 py-8">
         <HeroComponent />
-        <FloatInfoComponent />
         
         <DescriptionSection />
         <LocationSection />
