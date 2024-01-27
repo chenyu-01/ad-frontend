@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 const PropertyList = () => {
   // Assuming 'properties' is the array of property data and 'categories' for the dropdown
   const [properties, setProperties] = useState([
@@ -25,9 +26,7 @@ const PropertyList = () => {
       // More property details
     },
   ]);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-
+  const router = useRouter();
   // Handlers for category change and search (to be implemented)
   const handleCategoryChange = (e) => {
     /* ... */
@@ -69,8 +68,10 @@ const PropertyList = () => {
               <td className="border px-4 py-2">
                 <button
                   className=" py-2 px-4 rounded"
-                  onClick={() => {
-                    // Handle detail click
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Navigate to property detail page
+                    router.push(`/property/${property.id}`);
                   }}
                 >
                   Detail
