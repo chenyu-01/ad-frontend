@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/router";
-const PropertyList = () => {
+import { useRouter } from "next/navigation";
+function PropertyList() {
   // Assuming 'properties' is the array of property data and 'categories' for the dropdown
+  const router = useRouter();
+
   const [properties, setProperties] = useState([
     {
       id: 1,
@@ -26,15 +28,15 @@ const PropertyList = () => {
       // More property details
     },
   ]);
-  const router = useRouter();
   // Handlers for category change and search (to be implemented)
-  const handleCategoryChange = (e) => {
-    /* ... */
+  const handleDetail = (e) => {
+    e.preventDefault();
+    // Navigate to property detail page
+    router.push(`/property/${property.id}`);
   };
   const handleSearch = (e) => {
     /* ... */
   };
-
   return (
     <div className="container mx-auto p-4">
       <form className="flex justify-between mb-4 items-center">
@@ -66,14 +68,7 @@ const PropertyList = () => {
               <td className="border px-4 py-2">{property.location}</td>
               <td className="border px-4 py-2">{property.price}</td>
               <td className="border px-4 py-2">
-                <button
-                  className=" py-2 px-4 rounded"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // Navigate to property detail page
-                    router.push(`/property/${property.id}`);
-                  }}
-                >
+                <button className=" py-2 px-4 rounded" onClick={handleDetail}>
                   Detail
                 </button>
               </td>
@@ -84,6 +79,6 @@ const PropertyList = () => {
       </table>
     </div>
   );
-};
+}
 
 export default PropertyList;

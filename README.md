@@ -41,7 +41,7 @@ export default function Home() {
 ## Routing
 
 ```js
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function ActiveLink({ children, href }) {
   const router = useRouter();
