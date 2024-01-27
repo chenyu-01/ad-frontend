@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router';
+
+"use client";
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import HeroComponent from "./_HeroComponent";
 import MoreList from "./_MoreList";
@@ -6,12 +8,28 @@ import DetailComponent from "./_DetailComponent";
 import "../globals.css";
 
 export default function Details() {
-
   const router = useRouter();
-  const { id } = router.query;
-
+  const [id, setId] = useState(null);
   const [data, setData] = useState(null);
 
+  useEffect(() => {
+    if (router.isReady) {
+      setId(router.query.id);
+    }
+  }, [router, router.isReady]);
+
+  useEffect(() => {
+    if (id) {
+      fetch(`/api/details/${id}`)
+        .then((response) => response.json())
+        .then((responseData) => {
+          setData(responseData);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }
+  }, [id]);
   //const moreItemsData = [];
   // useEffect(() => {
   //   if (id) {
