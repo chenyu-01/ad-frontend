@@ -3,12 +3,12 @@ import Image from "next/image";
 import ContactInfo from "./sections/_ContectInfo";
 export default function FloatInfoComponent(props) {
   return (
-    <div className="fixed bottom-4 right-4 bg-zinc-300 p-4 rounded-2xl shadow-lg max-w-sm">
-      <h2 className="text-slate-900 text-2xl font-bold leading-tight">
-        Information
-      </h2>
-      <div className="my-4 border-t border-black"></div> 
-      <div className="flex justify-between items-center">
+    <div className="relative bg-zinc-300 p-4 rounded-2xl shadow-lg">
+    <h2 className="text-slate-900 text-2xl font-bold leading-tight">
+      Information
+    </h2>
+    <div className="my-4 border-t border-black"></div> 
+    <div className="flex justify-between items-center">
         <div className="flex flex-col items-center">
           <Image
             src="/details/bed.svg"
@@ -53,18 +53,20 @@ export default function FloatInfoComponent(props) {
       <div>
       <ContactInfo />  
       </div>
-      <Image
-            src="/details/meeting.png"
-            alt="Price psf"
-            width={49}
-            height={49}
-          />
-              <Image
-          src="/details/message.png"
-          alt="Price psf"
-          width={49}
-          height={49}
+      <div className="flex justify-around mt-4">
+        <Image
+          src="/details/meeting.png"
+          alt="Meeting"
+          width={149}
+          height={60}
         />
+        <Image
+          src="/details/message.png"
+          alt="Message"
+          width={149}
+          height={60}
+        />
+      </div>
     </div>
   );
 }
