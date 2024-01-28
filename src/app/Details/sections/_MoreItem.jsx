@@ -1,5 +1,5 @@
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 export default function MoreItem({ imageUrl, name, price, description }) {
   return (
@@ -7,9 +7,9 @@ export default function MoreItem({ imageUrl, name, price, description }) {
       <Image
         src={imageUrl}
         alt={name}
-        width={150} 
-        height={150} 
-        objectFit="cover" 
+        width={150}
+        height={150}
+        objectFit="cover"
       />
       <h3 className="text-lg font-bold mt-2">{name}</h3>
       <p className="text-gray-500">{price}</p>

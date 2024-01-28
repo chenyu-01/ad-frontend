@@ -1,11 +1,16 @@
+<<<<<<< HEAD
 import React from 'react';
 import  MoreItem  from './sections/_MoreItem';
+=======
+import React from "react";
+import { MoreItem } from "./sections/_MoreItem";
+>>>>>>> main
 
 export default function MoreList({ items }) {
   return (
     <div className="mt-8">
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        {items.map(item => (
+        {items.map((item) => (
           <MoreItem
             key={item.id}
             imageUrl={item.imageUrl}
