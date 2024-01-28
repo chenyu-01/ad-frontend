@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import React from 'react';
 import  MoreItem  from './sections/_MoreItem';
-=======
-import React from "react";
-import { MoreItem } from "./sections/_MoreItem";
->>>>>>> main
 
 export default function MoreList({ items }) {
   return (
