@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-function MoreItem({ imageUrl, name, price, description }) {
+export default function MoreItem({ imageUrl, name, price, description }) {
   return (
     <div className="bg-white p-4 shadow-md rounded-lg text-center">
       <Image

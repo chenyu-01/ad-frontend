@@ -1,5 +1,5 @@
-import React from "react";
-import { MoreItem } from "./sections/_MoreItem";
+import React from 'react';
+import  MoreItem  from './sections/_MoreItem';
 
 export default function MoreList({ items }) {
   return (

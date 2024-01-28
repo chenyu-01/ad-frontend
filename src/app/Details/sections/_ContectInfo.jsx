@@ -3,10 +3,7 @@ import Image from "next/image";
 
 const ContactInfo = ({ avatar, name, title, company }) => {
   return (
-    <div
-      className="flex items-center bg-white p-3 shadow rounded-lg"
-      style={{ width: "450px", height: "103px" }}
-    >
+    <div className="flex items-center bg-white p-3 shadow rounded-lg" >
       <div className="flex-shrink-0">
         <Image
           src={avatar}
