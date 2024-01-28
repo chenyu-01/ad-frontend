@@ -2,9 +2,9 @@ import React from "react";
 
 export default function DetailComponent() {
   return (
-    <div className="bg-zinc-300 w-full mt-9 pt-8 pb-5 px-10 md:px-5">
+    <div className="bg-zinc-300 w-full mt-9 pt-8 pb-5 px-10 lg:px-5">
       <header className="flex flex-wrap gap-5">
-        <div className="flex flex-col w-full md:w-1/2">
+        <div className="flex flex-col w-full lg:w-1/2">
           <section>
             <h1 className="text-slate-900 text-4xl font-bold tracking-wide">
               Description
@@ -32,7 +32,7 @@ export default function DetailComponent() {
             </div>
           </section>
         </div>
-        <div className="flex flex-col w-full md:w-1/2 md:ml-5">
+        <div className="hidden lg:block lg:w-1/2 lg:ml-5">
           {/* Other contents */}
         </div>
       </header>

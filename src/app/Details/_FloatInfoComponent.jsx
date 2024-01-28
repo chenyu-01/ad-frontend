@@ -111,7 +111,7 @@ export default class FloatInfoComponent extends Component {
           </div>
         </div>
 
-        <div style={(isSticky && window.innerWidth < 1024) ? nextSiblingStyle : {}}></div>
+        {/* <div style={(isSticky && window.innerWidth < 1024) ? nextSiblingStyle : {}}></div> */}
       </>
     );
   }
