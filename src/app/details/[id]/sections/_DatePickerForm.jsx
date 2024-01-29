@@ -27,7 +27,7 @@ import { toast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
   dob: z.date({
-    required_error: "A date of birth is required.",
+    required_error: "A date of appointment is required.",
   }),
 });
 

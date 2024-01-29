@@ -1,10 +1,17 @@
 import React ,{ Component }from "react";
 import Image from "next/image";
 import ContactInfo from "./sections/_ContectInfo";
+//import DatePickerForm from "./sections/_DatePickerForm";
+
+
 export default class FloatInfoComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { isSticky: false, componentHeight: 0 };
+    this.state = {
+      isSticky: false,
+      componentHeight: 0,
+      showModal: false,
+    };
     this.ref = React.createRef();
   }
 
@@ -33,6 +40,14 @@ export default class FloatInfoComponent extends Component {
     } else {
       this.setState({ isSticky: false });
     }
+  };
+
+  openModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false });
   };
 
 
