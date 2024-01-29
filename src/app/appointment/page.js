@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 // Sample data for demonstration
 const appointments = [
@@ -46,7 +47,7 @@ export default function AppointmentTable() {
               <TableCell>{appointment.id}</TableCell>
               <TableCell>{appointment.date}</TableCell>
               <TableCell>
-                <button>Cancel</button>
+                <Button>Cancel</Button>
               </TableCell>
             </TableRow>
           ))}
