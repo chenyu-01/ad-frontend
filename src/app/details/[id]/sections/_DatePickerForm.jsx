@@ -1,5 +1,5 @@
 "use client";
-
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
@@ -23,7 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { toast } from "@/components/ui/use-toast";
+
 
 const FormSchema = z.object({
   dob: z.date({
@@ -31,23 +31,37 @@ const FormSchema = z.object({
   }),
 });
 
-export function DatePickerForm() {
+export default function DatePickerForm() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState(null);
+
   function onSubmit(data) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    setFormData(data);
+    setIsSubmitted(true);
+  }
+
+  function closeDialog() {
+    setShowDialog(false);
+    setFormData(null);
+  }  
+  
+  if (isSubmitted) {
+    return (
+      <div className="p-4 rounded-md">
+        <h2 className="text-lg text-black"> Submitted Successfully!</h2>
+        <pre className="mt-2 text-black">
+          {/* <code>{JSON.stringify(formData, null, 2)}</code> */}
         </pre>
-      ),
-    });
+      </div>
+    );
   }
 
   return (
+  <div>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
@@ -81,7 +95,7 @@ export function DatePickerForm() {
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
+                      date < new Date()
                     }
                     initialFocus
                   />
@@ -97,5 +111,6 @@ export function DatePickerForm() {
         <Button type="submit">Submit</Button>
       </form>
     </Form>
+  </div>
   );
 }

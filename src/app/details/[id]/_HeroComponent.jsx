@@ -4,7 +4,10 @@ import FloatInfoComponent from "./_FloatInfoComponent";
 import ImageSlider from './sections/_ImageSlider';
 
 export default function HeroComponent() {
-  const imageList = [];
+  const imageList = [
+    "/pixel-city-1.png",
+    "/pixel-city-2.png",
+  ];
 
   return (
     <div className="relative mx-7 my-4 max-w-full">

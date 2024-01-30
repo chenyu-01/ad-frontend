@@ -16,9 +16,20 @@ export default function ImageSlider({ images }) {
     setCurrentIndex(newIndex);
   };
 
+
+  const getNextImageIndexes = () => {
+    const nextIndexes = [];
+    for (let i = 1; i <= 3; i++) {
+      let nextIndex = (currentIndex + i) % images.length;
+      nextIndexes.push(nextIndex);
+
+      if (nextIndexes.length === images.length - 1) break;
+    }
+    return nextIndexes;
+  };
+
   return (
     <div className="relative">
-      {/* Display the current image */}
       {images[currentIndex] && (
         <Image
           src={images[currentIndex]}
@@ -28,20 +39,52 @@ export default function ImageSlider({ images }) {
           objectFit="cover"
         />
       )}
+<div className="relative mt-2">
+    {images.length > 1 && (
+      <>
+        <button
+          onClick={goToPrevious}
+          aria-label="Previous"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"
+        >
+          <Image
+            src="/details/Larrow.png"
+            alt="<"
+            width={40}
+            height={40}
+          />
+        </button>
 
-      {/* Previous button */}
-      <button
-        onClick={goToPrevious}
-        aria-label="Previous"
-        className="absolute left-0"
-      >
-        {"<"}
-      </button>
+        <button
+          onClick={goToNext}
+          aria-label="Next"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10" 
+        >
+          <Image
+            src="/details/Rarrow.png"
+            alt=">"
+            width={40}
+            height={40}
+          />
+        </button>
+      </>
+    )}
 
-      {/* Next button */}
-      <button onClick={goToNext} aria-label="Next" className="absolute right-0">
-        {">"}
-      </button>
+    <div className="flex justify-center space-x-2"> 
+      {getNextImageIndexes().map((index) => (
+        <Image
+          key={index}
+          src={images[index]}
+          alt={`Thumbnail ${index + 1}`}
+          width={100}
+          height={60}
+          objectFit="cover"
+          className="cursor-pointer"
+          onClick={() => setCurrentIndex(index)}
+        />
+      ))}
     </div>
+  </div>
+</div>
   );
 }
