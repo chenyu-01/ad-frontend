@@ -1,10 +1,17 @@
 import React ,{ Component }from "react";
 import Image from "next/image";
 import ContactInfo from "./sections/_ContectInfo";
+import DatePickerForm from "./sections/_DatePickerForm";
+import { Button } from "@/components/ui/button";
+
 export default class FloatInfoComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { isSticky: false, componentHeight: 0 };
+    this.state = {
+      isSticky: false,
+      componentHeight: 0,
+      showModal: false,
+    };
     this.ref = React.createRef();
   }
 
@@ -35,9 +42,17 @@ export default class FloatInfoComponent extends Component {
     }
   };
 
+  openModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false });
+  };
+
 
   render(){
-    const { isSticky, componentHeight, stickyWidth } = this.state;
+    const { isSticky, componentHeight, stickyWidth, showModal } = this.state;
     const stickyStyle = isSticky ? { position: 'fixed', top: 20, zIndex: 1000, width: `${stickyWidth}px` } : {};
 
     const nextSiblingStyle = isSticky ? { marginTop: `${componentHeight}px` } : {};
@@ -45,6 +60,17 @@ export default class FloatInfoComponent extends Component {
     
     return (
       <>
+        {showModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" onClick={this.closeModal}>
+            <div className="relative bg-white p-10 rounded-lg" onClick={e => e.stopPropagation()}>
+              <div className="absolute top-0 right-0 m-2 cursor-pointer" onClick={this.closeModal}>
+                <span className="text-red-600 text-2xl">&times;</span>
+              </div>
+
+              <DatePickerForm />
+              </div>
+            </div>
+          )}
         <div ref={this.ref} style={stickyStyle} className="bg-zinc-300 p-4 rounded-2xl shadow-lg">
         <h2 className="text-slate-900 text-2xl font-bold leading-tight">
           Information
@@ -96,12 +122,13 @@ export default class FloatInfoComponent extends Component {
           <ContactInfo />  
           </div>
           <div className="flex justify-around mt-4">
-            <Image
-              src="/details/meeting.png"
-              alt="Meeting"
-              width={149}
-              height={60}
-            />
+          <Image
+            src="/details/meeting.png"
+            alt="Meeting"
+            width={149}
+            height={60}
+            onClick={this.openModal} // 添加点击事件处理函数
+          />
             <Image
               src="/details/message.png"
               alt="Message"

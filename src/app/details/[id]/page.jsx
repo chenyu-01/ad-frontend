@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import HeroComponent from "./_HeroComponent";
 import MoreList from "./_MoreList";
 import DetailComponent from "./_DetailComponent";
-import "../globals.css";
+import "../../globals.css";
 
 export default function Details() {
   const router = useRouter();
