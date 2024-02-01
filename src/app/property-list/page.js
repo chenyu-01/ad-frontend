@@ -19,30 +19,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSearchParams, useRouter } from "next/navigation";
+import { set } from "date-fns";
 
-const data = [
-  /* ... mock data ... */
-  {
-    id: 1,
-    name: "Property 1",
-    location: "Location 1",
-    price: 100000,
-  },
-  {
-    id: 2,
-    name: "Property 2",
-    location: "Location 2",
-    price: 200000,
-  },
-  {
-    id: 3,
-    name: "Property 3",
-    location: "Location 3",
-    price: 300000,
-  },
-];
 const serverUrl = config.serverUrl;
 export default function PropertyList() {
+  const [propertyList, setPropertyList] = useState([]);
   const router = useRouter();
   // go to detail page
   function goToDetail(id) {
@@ -60,7 +41,7 @@ export default function PropertyList() {
         serverUrl + "/api/property/salelist/" + pageNum,
       );
       let data = await response.json();
-      console.log(data);
+      setPropertyList(data);
     } catch (error) {
       console.error(error);
     }
@@ -80,24 +61,24 @@ export default function PropertyList() {
       <Table className="text-2xl mb-5">
         <TableHeader>
           <TableRow>
-            <TableHead>Property Name</TableHead>
-            <TableHead>Location</TableHead>
+            <TableHead>Town</TableHead>
+            <TableHead>Street Name</TableHead>
+            <TableHead className="hidden sm:table-cell">Block</TableHead>
             <TableHead className="hidden sm:table-cell">Price</TableHead>
             <TableHead>Detail</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((property) => (
-            <TableRow key={property.id}>
-              <TableCell>{property.name}</TableCell>
-              <TableCell>{property.location}</TableCell>
-              <TableCell className="hidden sm:table-cell">
-                ${property.price}
-              </TableCell>
+          {propertyList.map((p) => (
+            <TableRow key={p.id}>
+              <TableCell>{p.town}</TableCell>
+              <TableCell>{p.streetName}</TableCell>
+              <TableCell className="hidden sm:table-cell">{p.block}</TableCell>
+              <TableCell className="hidden sm:table-cell">${p.price}</TableCell>
               <TableCell>
                 <Button
                   onClick={(e) => {
-                    goToDetail(property.id);
+                    goToDetail(p.id);
                   }}
                 >
                   Detail
