@@ -1,4 +1,5 @@
 "use client";
+import { config } from "@/config";
 import {
   Table,
   TableBody,
@@ -40,6 +41,7 @@ const data = [
     price: 300000,
   },
 ];
+const serverUrl = config.serverUrl;
 export default function PropertyList() {
   const router = useRouter();
   // go to detail page
@@ -47,15 +49,31 @@ export default function PropertyList() {
     router.push("/details/" + id);
   }
   const [pageNum, setPageNum] = useState(1);
+  const [isRent, setIsRent] = useState(false);
   // get the page number from the query string, and set it to pageNum when URL changes
   const searchParams = useSearchParams();
+  async function fetchProperties(pageNum) {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let response = await fetch(
+        serverUrl + "/api/property/salelist/" + pageNum,
+      );
+      let data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     const page = searchParams.get("page");
     if (page) {
       setPageNum(parseInt(page));
+      // fetch data from API
+      console.log("fetching data from API");
+      fetchProperties(page);
     }
-    // fetch data from API
   }, [searchParams]);
   return (
     <div className="max-w-screen-lg container mx-auto">
