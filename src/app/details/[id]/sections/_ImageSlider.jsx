@@ -30,28 +30,34 @@ export default function ImageSlider({ images }) {
 
   return (
     <div className="relative">
-      <div className="flex inset-0 flex items-center justify-center">
+      <div className="flex inset-0  items-center justify-center">
       {images[currentIndex] && (
-        <Image
-          src={images[currentIndex]}
-          alt={`Image ${currentIndex + 1}`}
-          width={500}
-          height={300}
-          objectFit="cover"
-        />
+        <div className="relative w-full h-auto items-center justify-center"> 
+          <Image
+            src={images[currentIndex]}
+            alt={`Image ${currentIndex + 1}`}
+            layout="responsive"
+            width={500}
+            height={300}
+            objectFit="cover"
+            className="block"
+
+          />
+          <div className="absolute" style={{ top: '0%', right: '0%' }}>
+            <Image
+              src="/details/sell.png" 
+              alt="sale"
+              width={100} 
+              height={100} 
+              className="block"
+            />
+          </div>
+        </div>
       )}
 
-    <div className="absolute top-0 right-0 m-4">
-          <Image
-            src="/details/sell.png" 
-            alt="sale"
-            width={100} 
-            height={100} 
-            className="block"
-          />
-        </div>
+
       </div>
-    
+
   <div className="relative mt-2">
     {images.length > 1 && (
       <>
