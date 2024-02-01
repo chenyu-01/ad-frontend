@@ -30,16 +30,18 @@ export default function PropertyList() {
     router.push("/details/" + id);
   }
   const [pageNum, setPageNum] = useState(1);
-  const [isRent, setIsRent] = useState(false);
+  const [isRent, setIsRent] = useState(true);
   // get the page number from the query string, and set it to pageNum when URL changes
   const searchParams = useSearchParams();
   async function fetchProperties(pageNum) {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let response = await fetch(
-        serverUrl + "/api/property/salelist/" + pageNum,
-      );
+      let fetchurl = serverUrl + "/api/property/rentlist/" + pageNum;
+      if (!isRent) {
+        fetchurl = serverUrl + "/api/property/salelist/" + pageNum;
+      }
+      let response = await fetch(fetchurl);
       let data = await response.json();
       setPropertyList(data);
     } catch (error) {
