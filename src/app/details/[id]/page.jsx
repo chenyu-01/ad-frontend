@@ -19,7 +19,7 @@ export default function Details() {
 
   useEffect(() => {
     if (id) {
-      fetch(`/api/details/${id}`)
+      fetch(`Localhost:8080/api/property/details/${id}`)
         .then((response) => response.json())
         .then((responseData) => {
           setData(responseData);
@@ -29,20 +29,6 @@ export default function Details() {
         });
     }
   }, [id]);
-  //const moreItemsData = [];
-  // useEffect(() => {
-  //   if (id) {
-
-  //     fetch(`/api/details/${id}`)
-  //       .then((response) => response.json())
-  //       .then((responseData) => {
-  //         setData(responseData);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error fetching data:', error);
-  //       });
-  //   }
-  // }, [id]);
 
   return (
     <div className="container mx-auto px-4 py-8">

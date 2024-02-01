@@ -40,14 +40,25 @@ export default function ImageSlider({ images }) {
           objectFit="cover"
         />
       )}
+
+    <div className="absolute top-0 right-0 m-4">
+          <Image
+            src="/details/sell.png" 
+            alt="sale"
+            width={100} 
+            height={100} 
+            className="block"
+          />
+        </div>
       </div>
-<div className="relative mt-2">
+    
+  <div className="relative mt-2">
     {images.length > 1 && (
       <>
         <button
           onClick={goToPrevious}
           aria-label="Previous"
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-5"
         >
           <Image
             src="/details/Larrow.png"
@@ -60,7 +71,7 @@ export default function ImageSlider({ images }) {
         <button
           onClick={goToNext}
           aria-label="Next"
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10" 
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-5" 
         >
           <Image
             src="/details/Rarrow.png"
