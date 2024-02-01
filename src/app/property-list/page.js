@@ -1,14 +1,24 @@
+"use client";
 import {
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableRow,
-  TableCaption,
-  TableFooter,
   TableHead,
 } from "@/components/ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useSearchParams, useRouter } from "next/navigation";
+
 const data = [
   /* ... mock data ... */
   {
@@ -31,10 +41,25 @@ const data = [
   },
 ];
 export default function PropertyList() {
+  const router = useRouter();
+  // go to detail page
+  function goToDetail(id) {
+    router.push("/details/" + id);
+  }
+  const [pageNum, setPageNum] = useState(1);
+  // get the page number from the query string, and set it to pageNum when URL changes
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const page = searchParams.get("page");
+    if (page) {
+      setPageNum(parseInt(page));
+    }
+    // fetch data from API
+  }, [searchParams]);
   return (
     <div className="max-w-screen-lg container mx-auto">
-      <Table className="text-2xl">
-        <TableCaption>All PropertyList </TableCaption>
+      <Table className="text-2xl mb-5">
         <TableHeader>
           <TableRow>
             <TableHead>Property Name</TableHead>
@@ -52,12 +77,38 @@ export default function PropertyList() {
                 ${property.price}
               </TableCell>
               <TableCell>
-                <Button id={property.id}>Detail</Button>
+                <Button
+                  onClick={(e) => {
+                    goToDetail(property.id);
+                  }}
+                >
+                  Detail
+                </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Pagination className="text-2xl">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          {[...Array(10)].map((_, i) => (
+            <PaginationItem key={i}>
+              <PaginationLink
+                href={"./property-list?" + ("page=" + (i + 1))}
+                isActive={i === pageNum - 1}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }
