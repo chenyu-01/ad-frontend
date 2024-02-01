@@ -30,6 +30,7 @@ export default function ImageSlider({ images }) {
 
   return (
     <div className="relative">
+      <div className="flex inset-0 flex items-center justify-center">
       {images[currentIndex] && (
         <Image
           src={images[currentIndex]}
@@ -39,6 +40,7 @@ export default function ImageSlider({ images }) {
           objectFit="cover"
         />
       )}
+      </div>
 <div className="relative mt-2">
     {images.length > 1 && (
       <>
