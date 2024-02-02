@@ -30,7 +30,7 @@ function AddProperty() {
                             
                             <div className=' h-[100px] relative z-[10] mt-[5px]'>
                               
-                              <div className=' gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
+                              <div className='flex justify-center items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
                                 <span id="listbox-Status" className="flex items-center  text-[30px] block  font-medium leading-6 text-gray-900">
                                 Status
                                 </span>
@@ -38,8 +38,11 @@ function AddProperty() {
 
                                 <div className="flex items-center  relative mt-2">
                                   <select  className=" w-[400px] cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-Status">
-                                    <option value="Sale" className="flex items-center ml-3 block truncate ">Sale</option>
-                                    <option value="Rent" className="flex items-center ml-3 block truncate ">Rent</option>
+                                    <option value="forSale" className="flex items-center ml-3 block truncate ">forSale</option>
+                                    <option value="forRent" className="flex items-center ml-3 block truncate ">forRent</option>
+                                    <option value="soldOut" className="flex items-center ml-3 block truncate ">soldOut</option>
+                                    <option value="rented" className="flex items-center ml-3 block truncate ">rented</option>
+
                                   </select>
                                 </div>
                                 
@@ -55,7 +58,7 @@ function AddProperty() {
                             
                             <div className=' h-[100px] relative z-[10] mt-[15px]'>
                               
-                              <div className=' gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
+                              <div className='flex justify-center items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
                                 <span id="listbox-label" className="flex items-center  text-[30px] block  font-medium leading-6 text-gray-900">
                                 FlatType
                                 </span>
@@ -79,7 +82,7 @@ function AddProperty() {
                             
                             <div className=' h-[100px] relative z-[10] mt-[15px]'>
                               
-                              <div className=' gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
+                              <div className='flex justify-center items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
                                 <span id="listbox-label" className="flex items-center  text-[30px] block  font-medium leading-6 text-gray-900">
                                 FloorArea
                                 </span>
@@ -103,7 +106,7 @@ function AddProperty() {
                             
                             <div className=' h-[100px] relative z-[10] mt-[15px]'>
                               
-                              <div className=' gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
+                              <div className='flex justify-center items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
                                 <span id="listbox-label" className="flex items-center  text-[30px] block  font-medium leading-6 text-gray-900">
                                 StoryRange
                                 </span>
@@ -127,7 +130,7 @@ function AddProperty() {
                             
                             <div className=' h-[100px] relative z-[10] mt-[15px]'>
                               
-                              <div className=' gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
+                              <div className='flex justify-center items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
                                 <span id="listbox-label" className="flex items-center  text-[30px] block  font-medium leading-6 text-gray-900">
                                 StreetName
                                 </span>
@@ -152,7 +155,7 @@ function AddProperty() {
                             
                             <div className=' h-[100px] relative z-[10] mt-[15px]'>
                               
-                              <div className=' gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
+                              <div className='flex justify-center items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   z-[10]'>
                                 <span id="listbox-label" className="flex items-center  text-[30px] block  font-medium leading-6 text-gray-900">
                                 BedRooms
                                 </span>
@@ -177,9 +180,9 @@ function AddProperty() {
                     <tbody className='text-center '>
                       <tr>          
                           <td >
-                            <div>
-                              <button className='flex justify-center items-center h-[40px]  w-[400px]  flex-nowrap bg-[#4a3aff] rounded-[3.0px] border-none relative z-[39] pointer mt-[9.6px] mr-0 mb-0 ml-[22.0px]'>
-                                <span className="flex justify-center items-center h-[30px] shrink-0 basis-auto font-['Inter'] text-[25px] font-normal  text-[#fff] relative text-left whitespace-nowrap z-40">
+                            <div className="flex justify-center items-center">
+                              <button className='h-[40px]  w-[400px]  flex-nowrap bg-[#4a3aff] rounded-[3.0px] border-none  z-[39] pointer mt-[9.6px] mr-0 mb-0 ml-[22.0px]'>
+                                <span className=" h-[30px] shrink-0 basis-auto font-['Inter'] text-[25px] font-normal  text-[#fff]  text-left whitespace-nowrap z-40">
                                   Continue
                                 </span>
                               </button>

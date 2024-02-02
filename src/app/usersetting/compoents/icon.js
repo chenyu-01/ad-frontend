@@ -36,9 +36,10 @@ function icon(){
         to(button, {
             keyframes: [{
                 '--icon-fill-size': '12px',
-                '--icon-outline-s': .9,
+                '--icon-outline-s': 0,//outline
                 '--icon-outline-o': 0,
                 '--icon-house-s': .85,
+                '--icon-fill': getVar('--c-active'),
                 duration: .2
             }, {
                 '--icon-house-s': 1,
@@ -48,6 +49,7 @@ function icon(){
                     to(button, {
                         keyframes: [{
                             '--icon-feather-right-s': 1,
+                            
                             duration: .1,
                             delay: .2,
                             onStart() {
@@ -113,6 +115,31 @@ function icon(){
         })
     }))
 
+    sidebar.querySelectorAll('.profile').forEach(button => wrap(button, () => {
+        to(button, {
+            keyframes: [{
+                '--icon-fill': getVar('--c-active'),
+                duration: .15
+            }, {
+                '--icon-r': '-20deg',
+                duration: .15
+            }, {
+                '--icon-r': '20deg',
+                duration: .15
+            }, {
+                '--icon-r': '0deg',
+                duration: .2
+            }, {
+                duration: .15,
+                clearProps: true,
+                onComplete() {
+                    button.classList.add('active')
+                    sidebar.animating = false
+                }
+            }]
+        })
+    }))
+
     sidebar.querySelectorAll('.explore').forEach(button => wrap(button, () => {
         to(button, {
             '--icon-triangle-fill': getVar('--c-active'),
@@ -128,34 +155,6 @@ function icon(){
                 button.classList.add('active')
                 sidebar.animating = false
             }
-        })
-    }))
-
-    sidebar.querySelectorAll('.notifications').forEach(button => wrap(button, () => {
-        to(button, {
-            duration: 1,
-            keyframes: [{
-                '--icon-r': '-12deg',
-                '--icon-ring-x': '-2.5px',
-                '--icon-bell-fill': getVar('--c-active'),
-                '--icon-stroke': '2px'
-            }, {
-                '--icon-r': '12deg',
-                '--icon-ring-x': '4.5px'
-            }, {
-                '--icon-r': '-12deg',
-                '--icon-ring-x': '-4.5px'
-            }, {
-                '--icon-r': '12deg',
-                '--icon-ring-x': '4.5px'
-            }, {
-                '--icon-r': '0deg',
-                '--icon-ring-x': '0px',
-                onComplete() {
-                    button.classList.add('active')
-                    sidebar.animating = false
-                }
-            }]
         })
     }))
 
@@ -179,51 +178,7 @@ function icon(){
         })
     }))
 
-    sidebar.querySelectorAll('.bookmark').forEach(button => wrap(button, () => {
-        to(button, {
-            '--icon-default-y': '-20px',
-            duration: .3
-        })
 
-        to(button, {
-            keyframes: [{
-                '--icon-background-y': '-5px',
-                duration: .1,
-                delay: .12
-            }, {
-                '--icon-background-y': '0px',
-                duration: .16
-            }]
-        })
-
-        to(button.querySelector('.corner'), {
-            keyframes: [{
-                morphSVG: 'M5.68047 3H11.9995H18.3186C20.7497 3 21.9299 9 19.2215 9H4.77786C2.06991 9 3.24972 3 5.68047 3Z',
-                duration: .15
-            }, {
-                morphSVG: 'M4.36835 6C4.36835 6 5.71509 10.7143 12.0001 10.7143C18.2852 10.7143 19.6316 6 19.6316 6C23.6719 6 21.8766 12 19.1829 12H4.81702C2.12365 12 0.327912 6 4.36835 6Z',
-                duration: .125
-            }, {
-                morphSVG: {
-                    shape: 'M4 20.3665C4.00001 20.8781 4.60713 21.1779 5.04898 20.8845L12 15.95L18.951 20.8845C19.3929 21.1779 20 20.8781 20 20.3664V15L4 14.9999V20.3665Z',
-                    shapeIndex: 6
-                },
-                duration: .6,
-                ease: 'elastic.out(1, .75)',
-                clearProps: true,
-                onStart() {
-                    set(button, {
-                        '--icon-corner-fill': getVar('--c-active'),
-                        delay: .05
-                    })
-                },
-                onComplete() {
-                    button.classList.add('active')
-                    sidebar.animating = false
-                }
-            }]
-        })
-    }))
 
     sidebar.querySelectorAll('.lists').forEach(button => wrap(button, () => {
         to(button, {
@@ -294,55 +249,9 @@ function icon(){
         })
     }))
 
-    sidebar.querySelectorAll('.profile').forEach(button => wrap(button, () => {
-        to(button, {
-            keyframes: [{
-                '--icon-fill': getVar('--c-active'),
-                duration: .15
-            }, {
-                '--icon-r': '-20deg',
-                duration: .15
-            }, {
-                '--icon-r': '20deg',
-                duration: .15
-            }, {
-                '--icon-r': '0deg',
-                duration: .2
-            }, {
-                duration: .15,
-                clearProps: true,
-                onComplete() {
-                    button.classList.add('active')
-                    sidebar.animating = false
-                }
-            }]
-        })
-    }))
+    
 
-    sidebar.querySelectorAll('.mores').forEach(button => wrap(button, () => {
-        to(button, {
-            keyframes: [{
-                '--icon-fill': getVar('--c-active'),
-                duration: .15
-            }, {
-                '--icon-r': '-20deg',
-                duration: .15
-            }, {
-                '--icon-r': '20deg',
-                duration: .15
-            }, {
-                '--icon-r': '0deg',
-                duration: .2
-            }, {
-                duration: .15,
-                clearProps: true,
-                onComplete() {
-                    button.classList.add('active')
-                    sidebar.animating = false
-                }
-            }]
-        })
-    }))
+    
 
     function wrap(button, callback) {
         button.addEventListener('click', e => {

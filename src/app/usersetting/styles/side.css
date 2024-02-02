@@ -1,7 +1,7 @@
 :root {
     --c-sidebar: #D9D9D9;
     --c-default: #000000;
-    --c-active: #1DA1F2;
+    --c-active: #aab2b8;
     --c-hover: #081018;
 }
 
@@ -75,11 +75,7 @@ aside {
                 --icon-feather-right-x: -7px;
                 --icon-feather-right-y: -3.5px;
                 --icon-feather-right-r: 0deg;
-                &.active {
-                    --icon-outline-o: 0;
-                    --icon-outline-s: .9;
-                    --icon-fill-size: 12px;
-                }
+                
                 .icon {
                     svg {
                         &.house {
@@ -88,12 +84,12 @@ aside {
                             .fill {
                                 fill: var(--c-active);
                                 clip-path: circle(var(--icon-fill-size) at 50% 50%);
-                            }
-                            .outline {
+                            }.outline {
                                 opacity: var(--icon-outline-o);
                                 transform: scale(var(--icon-outline-s)) translateZ(0);
                                 transform-origin: 12px 12px;
                             }
+                            
                         }
                         &.feather {
                             position: absolute;
@@ -115,6 +111,40 @@ aside {
                                 opacity: var(--icon-feather-right-o);
                                 transform: translate(var(--icon-feather-right-x), var(--icon-feather-right-y)) scale(var(--icon-feather-right-s)) rotate(var(--icon-feather-right-r)) translateZ(0);
                             }
+                        }
+                    }
+                }
+            }
+            &.profile {
+                --icon-r: 0deg;
+                --icon-eye-r: 90deg;
+                --icon-eye-r-s: 1;
+                .icon {
+                    &:before,
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        left: 13px;
+                        top: 5px;
+                        width: 2px;
+                        height: 2px;
+                        border-radius: 1px;
+                        border-radius: 1px;
+                        background: var(--c-background);
+                        box-shadow: 4px 0 0 var(--c-background);
+                        transform: rotateX(var(--icon-eye-r));
+                    }
+                    &:before {
+                        left: 9px;
+                        transform: scaleX(var(--icon-eye-r-s)) rotateX(var(--icon-eye-r));
+                    }
+                    svg {
+                        fill: var(--icon-fill);
+                        stroke: currentColor;
+                        stroke-width: 1.5px;
+                        .head {
+                            transform-origin: 12px 9px;
+                            transform: rotate(var(--icon-r));
                         }
                     }
                 }
@@ -244,40 +274,7 @@ aside {
                     }
                 }
             }
-            &.profile {
-                --icon-r: 0deg;
-                --icon-eye-r: 90deg;
-                --icon-eye-r-s: 1;
-                .icon {
-                    &:before,
-                    &:after {
-                        content: '';
-                        position: absolute;
-                        left: 13px;
-                        top: 5px;
-                        width: 2px;
-                        height: 2px;
-                        border-radius: 1px;
-                        border-radius: 1px;
-                        background: var(--c-background);
-                        box-shadow: 4px 0 0 var(--c-background);
-                        transform: rotateX(var(--icon-eye-r));
-                    }
-                    &:before {
-                        left: 9px;
-                        transform: scaleX(var(--icon-eye-r-s)) rotateX(var(--icon-eye-r));
-                    }
-                    svg {
-                        fill: var(--icon-fill);
-                        stroke: currentColor;
-                        stroke-width: 1.5px;
-                        .head {
-                            transform-origin: 12px 9px;
-                            transform: rotate(var(--icon-r));
-                        }
-                    }
-                }
-            }
+            
             &.mores {
                 --icon-r: 0deg;
                 --icon-eye-r: 90deg;

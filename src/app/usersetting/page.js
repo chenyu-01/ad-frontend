@@ -5,6 +5,7 @@ import Sidebar from './compoents/side';
 import Profile from './compoents/profile';
 import Preference from './compoents/preference';
 import AddProperty from './compoents/addProperty';
+import PropertyList from './compoents/propertylist';
 
 
 export default function Usersetting() {
@@ -17,14 +18,20 @@ export default function Usersetting() {
     };
 
     return (
-        <div className="flex">
+        <div className='container mx-auto'>
+            <div className="flex justify-center   ">
 
-            <Sidebar onPageChange={handlePageChange} />
 
-            <div className="flex-grow">
+            <div className="">
                 {selectedPage === 'profile' && <Profile />}
                 {selectedPage === 'preference' && <Preference />}
-                {selectedPage === 'submit' && <AddProperty />}
+                {selectedPage === 'addproperty' && <AddProperty />}
+                {selectedPage === 'list' && <PropertyList onPageChange={handlePageChange}/>}
+            
+            </div>
+            <Sidebar onPageChange={handlePageChange} />
+            
+
             </div>
         </div>
     );

@@ -8,8 +8,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+} from "./table";
+import { Button } from "./button";
 
 // Sample data for demonstration
 const appointments = [
@@ -38,7 +38,8 @@ export default function AppointmentTable() {
           <TableRow>
             <TableHead>Appointment ID</TableHead>
             <TableHead>Appointment Date</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead colSpan={2} className="text-center">Actions</TableHead>
+            
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -46,9 +47,14 @@ export default function AppointmentTable() {
             <TableRow key={appointment.id}>
               <TableCell>{appointment.id}</TableCell>
               <TableCell>{appointment.date}</TableCell>
-              <TableCell>
+              <TableCell className="text-center">
+                <Button >Modify</Button>
+
+              </TableCell>
+              <TableCell className="text-center">
                 <Button>Cancel</Button>
               </TableCell>
+
             </TableRow>
           ))}
         </TableBody>
@@ -56,11 +62,10 @@ export default function AppointmentTable() {
         <TableFooter>
           <TableRow>
             <TableCell colSpan={2}>Total Appointments</TableCell>
-            <TableCell>{appointments.length}</TableCell>
+            <TableCell colSpan={2} className="text-center">{appointments.length}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>
     </div>
   );
 }
-
