@@ -39,7 +39,7 @@ function PropertyList({ onPageChange}) {
                 
                 <tr className="border">
                   <td rowSpan="2" className="border">
-                    <img className="" src="https://via.placeholder.com/53x11" alt="placeholder" />
+                    <img className="" src="pixel-city-1.png" alt="placeholder" />
                   </td>
                   <td className="border text-stone-950 text-base font-medium font-['SF UI Display'] whitespace-normal">
                     {propertylist.title}

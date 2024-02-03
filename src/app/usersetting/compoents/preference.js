@@ -38,7 +38,7 @@ export default function Preference() {
               Town              
             </td>
             <td className='flex items-center w-[342px] h-[44px] rounded-[6px] border-solid border border-[rgba(83,76,76,0.14)] relative z-[15] mt-[11px] mr-0 mb-0 ml-[24px]'>
-              <input type="text" name="town" value={preference.town} onChange={handleChange} className="h-[16px] font-['Inter'] text-[14px] font-medium px-4 text-[#534c4c]"/>
+              <input type="text" name="town" value={preference.town} onChange={handleChange} className="h-[16px] font-['Inter'] text-[20px] font-medium px-4 text-[#534c4c]"/>
               
             </td>
           </tr >
@@ -62,7 +62,7 @@ export default function Preference() {
             <td >
               OneBedRoom              
             </td>
-            <td className='flex items-center justify-center content-center place-items-center border-solid h-[80px] w-[342px]'>
+            <td className='flex items-center justify-center content-center place-items-center h-[80px] w-[342px]'>
               <Switchbtn name="onebedroom" value={preference.onebedroom} onChange={handleChange}></Switchbtn>
             </td>
           </tr >

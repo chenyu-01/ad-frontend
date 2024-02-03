@@ -115,7 +115,7 @@ const Siderbar = ({ onPageChange}) =>{
                         <path className="bottom" d="M7 16H12" />
                     </svg>
                 </div>
-                List
+                PropertyList
             </div>
         </button>
 

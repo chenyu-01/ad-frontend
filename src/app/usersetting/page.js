@@ -20,7 +20,7 @@ export default function Usersetting() {
     return (
         <div className='container mx-auto'>
             <div className="flex justify-center   ">
-
+            <Sidebar onPageChange={handlePageChange} />
 
             <div className="">
                 {selectedPage === 'profile' && <Profile />}
@@ -29,7 +29,7 @@ export default function Usersetting() {
                 {selectedPage === 'list' && <PropertyList onPageChange={handlePageChange}/>}
             
             </div>
-            <Sidebar onPageChange={handlePageChange} />
+            
             
 
             </div>
