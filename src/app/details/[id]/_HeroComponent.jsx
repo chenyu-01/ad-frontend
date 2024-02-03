@@ -3,7 +3,7 @@ import Image from "next/image";
 import FloatInfoComponent from "./_FloatInfoComponent"; 
 import ImageSlider from './sections/_ImageSlider';
 
-export default function HeroComponent() {
+export default function HeroComponent(type,name,price,images,info) {
   const imageList = [
     "/pixel-city-1.png",
     "/pixel-city-2.png",
