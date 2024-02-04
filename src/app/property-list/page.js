@@ -43,6 +43,7 @@ export default function PropertyList() {
         fetchurl = serverUrl + "/api/property/salelist/" + pageNum;
       }
       let response = await fetch(fetchurl);
+
       let data = await response.json();
       setPropertyList(data);
       console.log(data);
