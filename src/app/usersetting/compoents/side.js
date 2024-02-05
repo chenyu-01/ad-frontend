@@ -23,7 +23,7 @@ const Siderbar = ({ onPageChange}) =>{
     
     return (
     <div >
-       <aside>
+       <aside className="w-[210px] hidden md:block ">
     
     <nav>                                         
         <button className="home">

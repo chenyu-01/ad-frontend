@@ -4,16 +4,20 @@ import '../styles/switchbtn.css'
 
 export default function Switchbtn ({name,value,onChange}) {
   const handleCheckboxChange = (e) => {
+    console.log("Eventbtn:",e);
+    
     onChange({ name, value: e.target.checked });
+    
   };
   return (
-    <div>
+    <div >
       <label >
 			  <input
          type="checkbox"
          name={name}
          checked={value}
-         onChange={handleCheckboxChange}   />
+         onChange={handleCheckboxChange} 
+          />
 		  </label>
     </div>
     

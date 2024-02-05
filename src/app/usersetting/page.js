@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Sidebar from './compoents/side';
 import Profile from './compoents/profile';
-import Preference from './compoents/preference';
+import Preferences from './compoents/preference';
 import AddProperty from './compoents/addProperty';
 import PropertyList from './compoents/propertylist';
 
@@ -18,17 +18,17 @@ export default function Usersetting() {
     };
 
     return (
-        <div className='container mx-auto'>
-            <div className="flex justify-center   ">
-            <Sidebar onPageChange={handlePageChange} />
+        <div className='container max-w-md md:max-w-screen-sm mx-auto  mx-4'>
+            <div className="flex justify-center">
+                <Sidebar onPageChange={handlePageChange} className=" hidden md:block "/>
 
-            <div className="">
-                {selectedPage === 'profile' && <Profile />}
-                {selectedPage === 'preference' && <Preference />}
-                {selectedPage === 'addproperty' && <AddProperty />}
-                {selectedPage === 'list' && <PropertyList onPageChange={handlePageChange}/>}
-            
-            </div>
+                <div className="">
+                    {selectedPage === 'profile' && <Profile />}
+                    {selectedPage === 'preference' && <Preferences />}
+                    {selectedPage === 'addproperty' && <AddProperty />}
+                    {selectedPage === 'list' && <PropertyList onPageChange={handlePageChange}/>}
+                
+                </div>
             
             
 

@@ -1,45 +1,105 @@
 'use client'
-import React,{useState} from 'react';
+import { config } from "@/config";
+import React,{useState,useEffect} from 'react';
 import '../styles/index.css';
 import Switchbtn from './switchbtn';
 
-
-export default function Preference() {
-  const [preference,setPreference ] = useState({
-    town: "queestown",
-    storyrange: "1",
-    onebedroom: true,
-    twobedrooms: true,
-    threebedrooms: true,
-    fourbedrooms: true,
-    lowpricerange:true,
-    midpricerange:true,
-    highpricerange:true,
+const serverUrl = config.serverUrl;
+const customerid = 1;
+export default function Preferences() {
+  const [preferences,setPreferences ] = useState({
+    town: '',
+    storyRange: '',
+    bedroom1: '',
+    bedroom2: '',
+    bedroom3: '',
+    bedroom4: '',
+    lowPriceRange:'',
+    midPriceRange:'',
+    highPriceRange:'',
   });
+
+
+  async function fetchPreferences(customerid) {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl = serverUrl + "/api/usersetting/getPreferences/" + customerid;
+      let response = await fetch(fetchurl,{
+        method:'GET',
+        mode:'cors',
+        headers:{
+          'Accept':'application/json',
+        },
+      });
+      let data = await response.json();
+      console.log(data)
+      setPreferences(data)
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  useEffect(() => {
+    // the first time the page is loaded, fetch data from API
+    fetchPreferences(customerid);
+  }, []);
     
-  const handleChange = ({name,value}) => {
+  const handleChange = (e) => {
+    console.log("e",e);
+    console.log("e event",e.target);
     
-    setPreference((prevData) => ({
+    const {name,value,type,checked} = e;
+    const inputValue = type === 'checkbox' ? checked : value;
+    console.log("Eventpreference:",e);
+    
+    setPreferences((prevData) => ({
       ...prevData,
-      [name]:value
+      [name]:inputValue
     }));
+    
   
   };
 
+  const handleSave = async() => {
+    try{
+      console.log("preferences",preferences);
+      console.log("body",JSON.stringify(preferences));
+      let fetchurl = serverUrl + "/api/usersetting/savePreferences/" + customerid;
+      let response = await fetch(fetchurl, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        
+        body: JSON.stringify(preferences),
+    });
+    
+    if (response.ok){
+      window.alert("save success")
+    }else{
+      window.alert("save failed")
+    }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   return (
-    <div className='main-container  flex flex-col items-center  w-[700px] h-[844px] bg-[#fff] relative overflow-hidden mx-auto my-0'>
+    <div className='main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0'>
       
     <div className=' flex flex-col items-center'>
-      <table className="table-auto font-['Inter'] text-[32px] font-semibold leading-[38.727px] text-[#000] border-collapse ">
+      <table className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000] border-collapse ">  
       
         <tbody className='text-center '>
           <tr>          
             <td >
               Town              
             </td>
-            <td className='flex items-center w-[342px] h-[44px] rounded-[6px] border-solid border border-[rgba(83,76,76,0.14)] relative z-[15] mt-[11px] mr-0 mb-0 ml-[24px]'>
-              <input type="text" name="town" value={preference.town} onChange={handleChange} className="h-[16px] font-['Inter'] text-[20px] font-medium px-4 text-[#534c4c]"/>
-              
+            <td className='flex items-center justify-center w-full '>
+              <div className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
+                <input type="text" name="town" value={preferences.town} onChange={handleChange} className="flex items-center  h-[30px] font-['Inter'] md:text-[25px] sm:text-[20px] font-medium px-4 text-[#534c4c]"/>
+              </div>
             </td>
           </tr >
         </tbody>
@@ -50,42 +110,46 @@ export default function Preference() {
             <td >
               storyRange              
             </td>
-            <td className='flex items-center w-[342px] h-[44px] rounded-[6px] border-solid border border-[rgba(83,76,76,0.14)] relative z-[15] mt-[11px] mr-0 mb-0 ml-[24px]'>
-              <input type="text" name="storyrange" value={preference.storyrange} onChange={handleChange} className="h-[16px] font-['Inter'] text-[14px] font-medium px-4 text-[#534c4c]"/>
-              
+            <td className='flex items-center justify-center w-full '>
+              <div className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
+                <input type="text" name="storyRange" value={preferences.storyRange} onChange={handleChange} className="flex items-center  h-[30px] font-['Inter'] md:text-[25px] sm:text-[20px] font-medium px-4 text-[#534c4c]"/>
+              </div>
             </td>
           </tr >
         </tbody>
 
         <tbody className='text-center '>
           <tr>          
-            <td >
+            <td className='flex-grow'>
               OneBedRoom              
-            </td>
-            <td className='flex items-center justify-center content-center place-items-center h-[80px] w-[342px]'>
-              <Switchbtn name="onebedroom" value={preference.onebedroom} onChange={handleChange}></Switchbtn>
+            </td >
+            <td className='flex items-center justify-center  w-full '>
+              <div className='flex items-center justify-center '>
+                <Switchbtn name="bedroom1" value={preferences.bedroom1} onChange={handleChange} className=" my-auto"></Switchbtn>
+              </div>
             </td>
           </tr >
         </tbody>
 
-        <tbody className='text-center '>
+        <tbody className='text-center'>
           <tr>          
-            <td >
+            <td>
               TwoBedRooms            
             </td>
-            <td className='flex items-center justify-center content-center place-items-center border-solid h-[80px] w-[342px]'>
-              <Switchbtn name="twobedrooms" value={preference.twobedrooms} onChange={handleChange}></Switchbtn>
+            <td className='flex  items-center justify-center w-full'>
+              <Switchbtn name="bedroom2" value={preferences.bedroom2} onChange={handleChange}></Switchbtn>
             </td>
-          </tr >
+          </tr>
         </tbody>
+
 
         <tbody className='text-center '>
           <tr>          
             <td>
               ThreeBedRooms              
             </td>
-            <td className='flex items-center justify-center content-center place-items-center border-solid h-[80px] w-[342px]'>
-              <Switchbtn name="threebedrooms" value={preference.threebedrooms} onChange={handleChange}></Switchbtn>
+            <td className='flex items-center justify-center content-center place-items-center w-full'>
+              <Switchbtn name="bedroom3" value={preferences.bedroom3} onChange={handleChange}></Switchbtn>
             </td>
           </tr >
         </tbody>
@@ -96,8 +160,8 @@ export default function Preference() {
             <td >
               FourBedRooms              
             </td>
-            <td className='flex items-center justify-center content-center place-items-center border-solid h-[80px] w-[342px]'>
-              <Switchbtn name="fourbedrooms" value={preference.fourbedrooms} onChange={handleChange}></Switchbtn>
+            <td className='flex items-center justify-center content-center place-items-center w-full'>
+              <Switchbtn name="bedroom4" value={preferences.bedroom4} onChange={handleChange}></Switchbtn>
             </td>
           </tr >
         </tbody>
@@ -107,8 +171,8 @@ export default function Preference() {
             <td >
               LowPriceRange             
             </td>
-            <td className='flex items-center justify-center content-center place-items-center border-solid h-[80px] w-[342px]'>
-              <Switchbtn name="lowpricerange" value={preference.lowpricerange} onChange={handleChange}></Switchbtn>
+            <td className='flex items-center justify-center content-center place-items-center w-full'>
+              <Switchbtn name="lowPriceRange" value={preferences.lowPriceRange} onChange={handleChange}></Switchbtn>
             </td>
           </tr >
         </tbody>
@@ -118,8 +182,8 @@ export default function Preference() {
             <td >
               MidPriceRange             
             </td>
-            <td className='flex items-center justify-center content-center place-items-center border-solid h-[80px] w-[342px]'>
-              <Switchbtn name="midpricerange" value={preference.midpricerange} onChange={handleChange}></Switchbtn>
+            <td className='flex items-center justify-center content-center place-items-center w-full'>
+              <Switchbtn name="midPriceRange" value={preferences.midPriceRange} onChange={handleChange}></Switchbtn>
             </td>
           </tr >
         </tbody>
@@ -130,8 +194,8 @@ export default function Preference() {
             <td >
               HighPriceRange             
             </td>
-            <td className='flex items-center justify-center content-center place-items-center border-solid h-[80px] w-[342px]'>
-              <Switchbtn name="midpricerange" value={preference.midpricerange} onChange={handleChange}></Switchbtn>
+            <td className='flex items-center justify-center content-center place-items-center w-full'>
+              <Switchbtn name="highPriceRange" value={preferences.highPriceRange} onChange={handleChange}></Switchbtn>
             </td>
           </tr >
         </tbody>
@@ -141,9 +205,9 @@ export default function Preference() {
       </table>
       
                    
-      <div className=" flex justify-center w-[625px] mt-4">
+      <div className=" flex justify-center w-full mt-4">
               
-        <button type="submit" className="flex w-[200px] h-[45px] justify-center items-center rounded-[6px] bg-[#24265f] font-['Inter'] text-[20px] font-medium  text-[#fff]  whitespace-nowrap z-[41]">
+        <button type="submit" onClick={handleSave} className="flex w-[200px] h-[45px] justify-center items-center rounded-[6px] bg-[#24265f] font-['Inter'] text-[20px] font-medium  text-[#fff]  whitespace-nowrap z-[41]">
           Save
         </button>
                         
