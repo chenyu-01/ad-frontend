@@ -1,4 +1,5 @@
 "use client";
+import { config } from "@/config";
 import { useRouter } from "next/navigation";
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from "react";
@@ -16,18 +17,22 @@ export default function Details() {
   const [isLoading, setIsLoading] = useState(true);
   const [info, setInfo] = useState({});
 
+  const serverUrl = config.serverUrl;
+
   useEffect(() => {
     if (params.id) {
       setIsLoading(true);
-      fetch(`http://localhost:8080/api/property/details/${params.id}`)
+      fetch(serverUrl+`/api/property/details/${params.id}`)
         .then((response) => response.json())
         .then((responseData) => {
           setData(responseData);
           
           const newInfo = {
+            estate: params.id,
             area: responseData.floorArea,
             bedrooms: responseData.flatType,
             owner: responseData.ownerId,
+            loc: responseData.town,
             ...(responseData.propertyStatus === "forRent" && { contractMonthPeriod: responseData.contractMonthPeriod })
           };
           

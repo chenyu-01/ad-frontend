@@ -47,6 +47,9 @@ export default function HeroComponent(props) {
 
           <div className="mt-4">
             <FloatInfoComponent 
+            info = {info}
+            type = {TYPE}
+            price = {price}
             />
           </div>
         </div>
