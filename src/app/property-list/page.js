@@ -9,18 +9,10 @@ import {
   TableRow,
   TableHead,
 } from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSearchParams, useRouter } from "next/navigation";
-import { set } from "date-fns";
+import MyPagination from "./MyPagination";
 
 const serverUrl = config.serverUrl;
 export default function PropertyList() {
@@ -32,6 +24,9 @@ export default function PropertyList() {
   }
   const [pageNum, setPageNum] = useState(1);
   const [isRent, setIsRent] = useState(true);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const lastPageNum = Math.ceil(totalRecords / 10);
+
   // get the page number from the query string, and set it to pageNum when URL changes
   const searchParams = useSearchParams();
   async function fetchProperties(pageNum) {
@@ -43,9 +38,9 @@ export default function PropertyList() {
         fetchurl = serverUrl + "/api/property/salelist/" + pageNum;
       }
       let response = await fetch(fetchurl);
-
       let data = await response.json();
-      setPropertyList(data);
+      setTotalRecords(data.totalRecords);
+      setPropertyList(data.properties);
       console.log(data);
     } catch (error) {
       console.error(error.message);
@@ -64,11 +59,16 @@ export default function PropertyList() {
       console.log("fetching data from API");
       fetchProperties(page);
     }
-  }, [searchParams, pageNum, isRent]);
+  }, [searchParams, isRent]);
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
     fetchProperties(pageNum);
   }, []);
+  const switchRent = (e) => {
+    e.preventDefault();
+    setIsRent(!isRent);
+    router.push("/property-list?page=1");
+  };
   return (
     <div className="max-w-screen-lg container mx-auto">
       {/* search bar */}
@@ -83,19 +83,13 @@ export default function PropertyList() {
         </form>
         <div className="flex justify-end space-x-5">
           <Button
-            onClick={(e) => {
-              setIsRent(true);
-              fetchProperties(pageNum);
-            }}
+            onClick={switchRent}
             className={isRent ? "bg-gray-800" : "bg-gray-300"}
           >
             Rent
           </Button>
           <Button
-            onClick={(e) => {
-              setIsRent(false);
-              fetchProperties(pageNum);
-            }}
+            onClick={switchRent}
             className={isRent ? "bg-gray-300" : "bg-gray-800"}
           >
             Sale
@@ -132,26 +126,11 @@ export default function PropertyList() {
           ))}
         </TableBody>
       </Table>
-      <Pagination className="text-2xl">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          {[...Array(10)].map((_, i) => (
-            <PaginationItem key={i}>
-              <PaginationLink
-                href={"./property-list?" + ("page=" + (i + 1))}
-                isActive={i === pageNum - 1}
-              >
-                {i + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <MyPagination
+        pageNum={pageNum}
+        lastPageNum={lastPageNum}
+        router={router}
+      />
     </div>
   );
 }

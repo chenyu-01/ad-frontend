@@ -1,24 +1,13 @@
 "use client";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { config } from "@/config";
-const serverUrl = config.serverUrl;
-function SearchProperties() {
-  const [searchParams, setSearchParams] = useState({
-    lowPrice: 0,
-    highPrice: 0,
-    town: "",
-    roomOne: false,
-    roomTwo: false,
-    roomThree: false,
-    roomFour: false,
-  });
-  const [properties, setProperties] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
+const serverUrl = config.serverUrl;
+
+function SearchProperties() {
+  const [searchParams, setSearchParams] = useState({});
+  const [properties, setProperties] = useState([]);
+  const [error, setError] = useState("");
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setSearchParams((prevState) => ({
@@ -26,7 +15,6 @@ function SearchProperties() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -53,65 +41,109 @@ function SearchProperties() {
   };
 
   return (
-    <div className="space-y-4">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input
+    <div className="mt-5 container mx-auto">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col space-y-5 text-lg "
+      >
+        <div className="flex justify-between ">
+          <label htmlFor="lowPrice" className="whitespace-nowrap">
+            Low Price
+          </label>
+          <input
             type="number"
+            min={0}
             name="lowPrice"
+            id="lowPrice"
             value={searchParams.lowPrice}
             onChange={handleChange}
             placeholder="Low Price"
-            className="w-full"
+            className=" sm:w-4/5 "
           />
-          <Input
+        </div>
+        <div className="flex  justify-between">
+          <label htmlFor="highPrice" className="whitespace-nowrap">
+            High Price
+          </label>
+          <input
+            id="highPrice"
+            min={0}
             type="number"
             name="highPrice"
             value={searchParams.highPrice}
             onChange={handleChange}
             placeholder="High Price"
-            className="w-full"
+            className="sm:w-4/5"
           />
-          <Input
+        </div>
+        <div className="flex  justify-between">
+          <label htmlFor="town" className="">
+            Town
+          </label>
+          <input
+            id="town"
             type="text"
             name="town"
             value={searchParams.town}
             onChange={handleChange}
             placeholder="Town"
-            className="md:col-span-2"
+            className="sm:w-4/5"
+            required
           />
         </div>
-        <div className="flex flex-wrap gap-4">
-          <Checkbox
-            label="1 Room"
-            name="roomOne"
-            checked={searchParams.roomOne}
-            onChange={handleChange}
-          />
-          <Checkbox
-            label="2 Rooms"
-            name="roomTwo"
-            checked={searchParams.roomTwo}
-            onChange={handleChange}
-          />
-          <Checkbox
-            label="3 Rooms"
-            name="roomThree"
-            checked={searchParams.roomThree}
-            onChange={handleChange}
-          />
-          <Checkbox
-            label="4 Rooms"
-            name="roomFour"
-            checked={searchParams.roomFour}
-            onChange={handleChange}
-          />
+        <div className="flex  justify-between">
+          <label className="whitespace-nowrap">Flat Type</label>
+          <div className="flex flex-wrap gap-x-3 justify-between   w-4/5">
+            <label className="inline-flex items-center" htmlFor="roomOne">
+              1 Room
+              <input
+                type="checkbox"
+                name="roomOne"
+                id="roomOne"
+                checked={searchParams.roomOne}
+                onChange={handleChange}
+              />
+            </label>
+
+            <label htmlFor="roomTwo" className="inline-flex items-center">
+              2 Rooms
+              <input
+                id="roomTwo"
+                type="checkbox"
+                name="roomTwo"
+                checked={searchParams.roomTwo}
+                onChange={handleChange}
+              />
+            </label>
+
+            <label className="inline-flex items-center" htmlFor="roomThree">
+              3 Rooms
+              <input
+                id="roomThree"
+                type="checkbox"
+                name="roomThree"
+                checked={searchParams.roomThree}
+                onChange={handleChange}
+                className="form-checkbox"
+              />
+            </label>
+            <label className="inline-flex items-center" htmlFor="roomFour">
+              4 Rooms
+              <input
+                id="roomFour"
+                type="checkbox"
+                name="roomFour"
+                checked={searchParams.roomFour}
+                onChange={handleChange}
+                className="form-checkbox"
+              />
+            </label>
+          </div>
         </div>
-        <Button type="submit" disabled={isLoading} className="w-full md:w-auto">
-          {isLoading ? <Spinner size="sm" /> : "Search"}
-        </Button>
+        <button type="submit" className="bg-gray-800 text-white p-2 rounded-lg">
+          Search
+        </button>
       </form>
-      {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       <div className="space-y-2">
         {properties &&
@@ -126,12 +158,5 @@ function SearchProperties() {
     </div>
   );
 }
-export default SearchProperties;
 
-function Spinner() {
-  return (
-    <div className="flex justify-center items-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-    </div>
-  );
-}
+export default SearchProperties;
