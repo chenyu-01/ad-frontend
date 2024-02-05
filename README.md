@@ -1,9 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It uses eslint, prettier, husky, lint-staged, and commitlint for code quality and commit message linting. It also uses tailwindcss for styling. To learn more about Next.js, take a look at the following resources:
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It uses eslint, prettier, husky, lint-staged, and commitlint for code quality and commit message linting. It also uses tailwindcss for styling.
 
-[Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-[Routing](https://nextjs.org/docs/routing/introduction) - learn about Next.js routing.
+To learn more, take a look at the following resources:
 
-> note that we are using nextjs version 14.0.4, and tailwindcss 3.3.0. We are not using typescript.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Routing](https://nextjs.org/docs/routing/introduction) - learn about Next.js routing.
+- [Javascript Fetch API](https://www.javascripttutorial.net/javascript-fetch-api/) - learn about the fetch api.
+- [Tailwindcss Documentation](https://tailwindcss.com/docs) - learn about tailwindcss.
+- [React Use State](https://react.dev/learn/reacting-to-input-with-state) - learn about react.
+  > note that we are using nextjs version 14.0.4, and tailwindcss 3.3.0. We are not using typescript.
 
 ## Getting Started
 
@@ -50,10 +54,10 @@ function ActiveLink({ children, href }) {
     color: router.asPath === href ? "red" : "black",
   };
 
-  const handleClick = (e) => {
+  function handleClick(e) {
     e.preventDefault();
     router.push(href);
-  };
+  }
 
   return (
     <a href={href} onClick={handleClick} style={style}>
