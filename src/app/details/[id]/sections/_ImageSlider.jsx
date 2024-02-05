@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-export default function ImageSlider({ images }) {
+export default function ImageSlider({ images , type}) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -43,6 +43,7 @@ export default function ImageSlider({ images }) {
             className="block"
 
           />
+        {type === "Sale"?(
           <div className="absolute" style={{ top: '0%', right: '0%' }}>
             <Image
               src="/details/sell.png" 
@@ -52,7 +53,18 @@ export default function ImageSlider({ images }) {
               className="block"
             />
           </div>
-        </div>
+        ):(
+            <div className="absolute" style={{ top: '0%', right: '0%' }}>
+            <Image
+              src="/details/rent.png" 
+              alt="rent"
+              width={100} 
+              height={100} 
+              className="block"
+            />
+            </div>
+        )}
+      </div>
       )}
 
 

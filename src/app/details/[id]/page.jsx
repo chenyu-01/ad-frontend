@@ -1,5 +1,5 @@
 "use client";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from "react";
 import HeroComponent from "./_HeroComponent";
@@ -9,11 +9,12 @@ import Image from "next/image";
 import "../../globals.css";
 
 export default function Details() {
-  // const router = useRouter();
+  const router = useRouter();
   const [id, setId] = useState(null);
   const [data, setData] = useState(null);
   const params = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [info, setInfo] = useState({});
 
   useEffect(() => {
     if (params.id) {
@@ -22,18 +23,28 @@ export default function Details() {
         .then((response) => response.json())
         .then((responseData) => {
           setData(responseData);
+          
+          const newInfo = {
+            area: responseData.floorArea,
+            bedrooms: responseData.flatType,
+            owner: responseData.ownerId,
+            ...(responseData.propertyStatus === "forRent" && { contractMonthPeriod: responseData.contractMonthPeriod })
+          };
+          
+          setInfo(newInfo);
+
           setIsLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
-         // setIsLoading(false);
+          setIsLoading(false);
           //SHALL GOTO 404 PAGE
-
+          router.push("/error");
         });
     }
   }, [params.id]);
 
-  if (isLoading) {
+  if (isLoading||!data) {
     return <div className="flex justify-center items-center h-screen">
              <Image
               src="/details/loading.gif" 
