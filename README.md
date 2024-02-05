@@ -54,10 +54,10 @@ function ActiveLink({ children, href }) {
     color: router.asPath === href ? "red" : "black",
   };
 
-  const handleClick = (e) => {
+  function handleClick(e) {
     e.preventDefault();
     router.push(href);
-  };
+  }
 
   return (
     <a href={href} onClick={handleClick} style={style}>

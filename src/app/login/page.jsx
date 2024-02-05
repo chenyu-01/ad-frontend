@@ -1,32 +1,29 @@
-"use client"
+"use client";
 import * as React from "react";
 // import { FormEvent } from 'react'
- import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
+  async function handleSubmit(event) {
+    event.preventDefault();
 
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-   const router = useRouter();
-  // async function handleSubmit(event) {
-  //   event.preventDefault()
- 
-  //   const formData = new FormData(event.currentTarget)
-  //   const email = formData.get('email')
-  //   const password = formData.get('password')
- 
-  //   const response = await fetch('/api/auth/login', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ email, password }),
-  //   })
- 
-  //   if (response.ok) {
-  //     router.push('/profile')
-  //   } else {
-  //     // Handle errors
-  //   }
-  // }
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
+    if (response.ok) {
+      router.push("/profile");
+    } else {
+      // Handle errors
+    }
+  }
 
   return (
     <div className="bg-white pl-10 pr-20 py-12 rounded-3xl max-md:px-5">
@@ -62,32 +59,48 @@ export default function Login() {
                 </div>
               </div>
               <form>
-              {/* <div className="text-slate-500 text-opacity-60 text-2xl mt-32 max-md:max-w-full max-md:mt-10">
+                {/* <div className="text-slate-500 text-opacity-60 text-2xl mt-32 max-md:max-w-full max-md:mt-10">
                 Enter your email
               </div> */}
-              <input type="email" name="email" placeholder="Enter your email" required />
-              <div className="bg-slate-500 w-[432px] shrink-0 max-w-full h-[3px] mt-3.5" />
-              <div className="flex items-stretch justify-between gap-5 mt-16 pr-2.5 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
-                {/* <div className="text-slate-500 text-opacity-60 text-2xl grow shrink basis-auto my-auto">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                />
+                <div className="bg-slate-500 w-[432px] shrink-0 max-w-full h-[3px] mt-3.5" />
+                <div className="flex items-stretch justify-between gap-5 mt-16 pr-2.5 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
+                  {/* <div className="text-slate-500 text-opacity-60 text-2xl grow shrink basis-auto my-auto">
                   Enter Password
                 </div> */}
-                <input type="password" name="password" placeholder="Enter Password" required />
-              </div>
-              <div className="bg-slate-500 w-[432px] shrink-0 max-w-full h-[5px]" />
-              {/* <div className="text-white text-2xl font-bold bg-slate-600 justify-center items-center mt-16 px-16 py-4 max-md:max-w-full max-md:mt-10 max-md:px-5">
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    required
+                  />
+                </div>
+                <div className="bg-slate-500 w-[432px] shrink-0 max-w-full h-[5px]" />
+                {/* <div className="text-white text-2xl font-bold bg-slate-600 justify-center items-center mt-16 px-16 py-4 max-md:max-w-full max-md:mt-10 max-md:px-5">
                 Login
               </div> */}
-              <button type="submit" onClick={() => router.push('/dashboard')}className="text-white text-2xl font-bold bg-slate-600 justify-center items-center mt-16 px-16 py-4 max-md:max-w-full max-md:mt-10 max-md:px-5">
-                Login
-              </button>
-              <button type="submit" onClick={() => router.push('/register')}className="text-white text-2xl font-bold bg-slate-600 justify-center items-center mt-16 px-16 py-4 max-md:max-w-full max-md:mt-10 max-md:px-5">
-                Register
-              </button>
+                <button
+                  type="submit"
+                  onClick={() => router.push("/dashboard")}
+                  className="text-white text-2xl font-bold bg-slate-600 justify-center items-center mt-16 px-16 py-4 max-md:max-w-full max-md:mt-10 max-md:px-5"
+                >
+                  Login
+                </button>
+                <button
+                  type="submit"
+                  onClick={() => router.push("/register")}
+                  className="text-white text-2xl font-bold bg-slate-600 justify-center items-center mt-16 px-16 py-4 max-md:max-w-full max-md:mt-10 max-md:px-5"
+                >
+                  Register
+                </button>
               </form>
-              <div className="text-slate-500 text-opacity-60 text-2xl self-center mt-11 max-md:mt-10">
-              </div>
-              <div className="self-center flex w-[123px] max-w-full items-stretch justify-between gap-5 mt-12 max-md:mt-10">
-             </div>
+              <div className="text-slate-500 text-opacity-60 text-2xl self-center mt-11 max-md:mt-10"></div>
+              <div className="self-center flex w-[123px] max-w-full items-stretch justify-between gap-5 mt-12 max-md:mt-10"></div>
             </div>
           </div>
         </div>
