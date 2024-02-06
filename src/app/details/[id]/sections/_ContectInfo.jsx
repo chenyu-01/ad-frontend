@@ -9,7 +9,7 @@ const ContactInfo = ({ owner }) => {
   useEffect(() => {
     const fetchOwnerInfo = async () => {
       try {
-        const response = await fetch(serverUrl+`/api/user/owner/${owner}`);
+        const response = await fetch(serverUrl+`/api/owner/${owner}`);
         if (!response.ok) {
           throw new Error('Failed to fetch owner info');
         }
