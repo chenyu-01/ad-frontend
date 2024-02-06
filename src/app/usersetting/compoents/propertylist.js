@@ -1,44 +1,52 @@
 'use client'
-import React from 'react';
+import React,{useState,useEffect} from 'react';
+import { config } from "@/config";
 
 
-
-function PropertyList({ onPageChange}) {
-
-    const handleButtonClick = (page) => {
-        onPageChange(page);
+const serverUrl = config.serverUrl;
+const customerid = 1;
+function PropertyList() {
+ 
+    const [propertylists,setPropertylists ] = useState([]);
+  
+    async function fetchPropertylists(customerid) {
+      // fetch data from API
+      try {
+        // ... fetch data from API ...
+        let fetchurl = serverUrl + "/api/usersetting/getPropertyList/" + customerid;
+        let response = await fetch(fetchurl,{
+          method:'GET',
+          mode:'cors',
+          headers:{
+            'Accept':'application/json',
+          },
+        });
+        let data = await response.json();
+        console.log(data)
+        setPropertylists(data)
+      } catch (error) {
+        console.error(error.message);
+      }
     }
-    const propertylists = [
-        {
-        id: "1",
-        title: 'SaaS Homepage redesign and onboarding updates',
-        stitle: 'UX/UI Design',
-        post: 'Posted 27 minutes ago'
-        },
-        {
-        id: "2",
-        title: 'SaaS Homepage redesign and onboarding updates',
-        stitle: 'UX/UI Design',
-        post: 'Posted 27 minutes ago'
-        },
-        {
-        id: "3",
-        title: 'SaaS Homepage redesign and onboarding updates',
-        stitle: 'UX/UI Design',
-        post: 'Posted 27 minutes ago'
-        },
-    ];
+    useEffect(() => {
+      // the first time the page is loaded, fetch data from API
+      fetchPropertylists(customerid);
+    }, []);
+  
+
+    
+    
   return (
-    <div className="w-[700px] h-[812px] bg-stone-50 relative">
-      <div className='flex justify-center mt-[10px] '>
+    <div className="">
+      <div className='main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 '>
         <table className="">
           {propertylists.map((propertylist) => (
             <tbody>
             <tr className="border" key={propertylist.id}>
-              <table className="w-[318px] h-[122px]  bg-white rounded-[20px] shadow mt-[10px] relative z-10">
+              <table className="w-[318px] h-[122px]  bg-white rounded-[20px] shadow mt-[10px]  z-10">
                 
                 <tr className="border">
-                  <td rowSpan="2" className="border">
+                  <td rowSpan="2" className=" border">
                     <img className="" src="pixel-city-1.png" alt="placeholder" />
                   </td>
                   <td className="border text-stone-950 text-base font-medium font-['SF UI Display'] whitespace-normal">
@@ -60,13 +68,6 @@ function PropertyList({ onPageChange}) {
           ))}
         </table>
 
-        <div className="absolute bottom-4 right-4 z-20">
-          <div className="flex items-center justify-center w-[53px] h-[53px] bg-red-600 bg-opacity-20 rounded-full text-[20px] text-white mb-4 mr-4">
-            <button onClick={() => handleButtonClick('addproperty')} className="w-[45px] h-[45px] bg-red-600 rounded-full text-white text-[40px] flex items-center justify-center">
-              +
-            </button>
-          </div>
-        </div>
 
       </div>
     </div>
