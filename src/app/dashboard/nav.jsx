@@ -14,7 +14,7 @@ export default function Nav() {
     <div className="flex flex-col items-stretch py-11 text-base font-semibold tracking-tight bg-white basis-0">
       <div className="flex gap-4 justify-between items-stretch self-start px-5 mt-28 whitespace-nowrap text-stone-950 max-md:mt-10">
         <div className="flex flex-col w-1 h-6 bg-green-700 rounded-2xl" />
-        <SettingsIcon />
+        <HomeIcon />
         <div className="flex-auto my-auto">Dashboard</div>
       </div>
 
