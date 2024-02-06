@@ -1,10 +1,11 @@
-import React ,{ Component }from "react";
+import React ,{ Component,useEffect, useState}from "react";
 import Image from "next/image";
 import ContactInfo from "./sections/_ContectInfo";
 import DatePickerForm from "./sections/_DatePickerForm";
 import { Button } from "@/components/ui/button";
 
 export default class FloatInfoComponent extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +14,7 @@ export default class FloatInfoComponent extends Component {
       showModal: false,
     };
     this.ref = React.createRef();
+    
   }
 
   componentDidMount() {
@@ -67,7 +69,10 @@ export default class FloatInfoComponent extends Component {
                 <span className="text-red-600 text-2xl">&times;</span>
               </div>
 
-              <DatePickerForm />
+              <DatePickerForm 
+              owner = {this.props.info.owner}
+              id = {this.props.info.estate}
+              />
               </div>
             </div>
           )}
@@ -85,17 +90,17 @@ export default class FloatInfoComponent extends Component {
                 height={49}
               />
               <span className="text-gray-400 text-xs mt-2">Bedroom</span>
-              <span className="text-black text-xl font-medium">2</span>
+              <span className="text-black text-xl font-medium">{this.props.info.bedrooms}</span>
             </div>
             <div className="flex flex-col items-center">
               <Image
-                src="/details/bathIcon.svg"
-                alt="Bathroom"
+                src="/details/loc.png"
+                alt="Location"
                 width={53}
                 height={53}
               />
-              <span className="text-gray-400 text-xs mt-2">Bathroom</span>
-              <span className="text-black text-xl font-medium">1</span>
+              <span className="text-gray-400 text-xs mt-2">Loaction</span>
+              <span className="text-black text-xl font-medium">{this.props.info.loc}</span>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -105,8 +110,9 @@ export default class FloatInfoComponent extends Component {
                 height={53}
               />
               <span className="text-gray-400 text-xs mt-2">Area (ft²)</span>
-              <span className="text-black text-xl font-medium">100</span>
+              <span className="text-black text-xl font-medium">{this.props.info.area}</span>
             </div>
+            { this.props.type === "Sale" ?(
             <div className="flex flex-col items-center">
               <Image
                 src="/details/psfIcon.svg"
@@ -115,11 +121,26 @@ export default class FloatInfoComponent extends Component {
                 height={49}
               />
               <span className="text-gray-400 text-xs mt-2">Price psf</span>
-              <span className="text-black text-xl font-medium">$100</span>
+              <span className="text-black text-xl font-medium">${this.props.price/this.props.info.area}</span>
+            </div>):(
+              <div className="flex flex-col items-center">
+              <Image
+                src="/details/periodIcon.png"
+                alt="period"
+                width={49}
+                height={49}
+              />
+              <span className="text-gray-400 text-xs mt-2">Period</span>
+              <span className="text-black text-xl font-medium">{this.props.info.contractMonthPeriod}</span>
             </div>
+            )
+
+            }
           </div>
           <div>
-          <ContactInfo />  
+          <ContactInfo 
+          owner = {this.props.info.owner}
+          />  
           </div>
           <div className="flex justify-around mt-4">
           <Image
@@ -127,7 +148,7 @@ export default class FloatInfoComponent extends Component {
             alt="Meeting"
             width={149}
             height={60}
-            onClick={this.openModal} // 添加点击事件处理函数
+            onClick={this.openModal} 
           />
             <Image
               src="/details/message.png"

@@ -1,4 +1,5 @@
 "use client";
+import { config } from "@/config";
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
@@ -24,14 +25,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-
+const serverUrl = config.serverUrl;
 const FormSchema = z.object({
   dob: z.date({
     required_error: "A date of appointment is required.",
   }),
 });
 
-export default function DatePickerForm() {
+export default function DatePickerForm(props) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
@@ -40,8 +41,35 @@ export default function DatePickerForm() {
   const [formData, setFormData] = useState(null);
 
   function onSubmit(data) {
-    setFormData(data);
-    setIsSubmitted(true);
+    const requestBody = {
+      ownerId: props.owner,
+      buyerId: "1", //tmp
+      propertyId: props.id, 
+      appointmentDate: data.dob.toISOString(), // 转换日期为 ISO 字符串
+    };
+
+    fetch(serverUrl+'/api/appointment/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      setIsSubmitted(true);
+      setFormData(requestBody); // 或其他表示成功的状态
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+    
   }
 
   function closeDialog() {
