@@ -47,7 +47,10 @@ function SearchProperties() {
         className="flex flex-col space-y-5 text-lg "
       >
         <div className="flex justify-between ">
-          <label htmlFor="lowPrice" className="whitespace-nowrap">
+          <label
+            htmlFor="lowPrice"
+            className="whitespace-nowrap hidden sm:block"
+          >
             Low Price
           </label>
           <input
@@ -62,7 +65,10 @@ function SearchProperties() {
           />
         </div>
         <div className="flex  justify-between">
-          <label htmlFor="highPrice" className="whitespace-nowrap">
+          <label
+            htmlFor="highPrice"
+            className="whitespace-nowrap hidden sm:block"
+          >
             High Price
           </label>
           <input
@@ -73,11 +79,11 @@ function SearchProperties() {
             value={searchParams.highPrice}
             onChange={handleChange}
             placeholder="High Price"
-            className="sm:w-4/5"
+            className="sm:w-4/5 "
           />
         </div>
         <div className="flex  justify-between">
-          <label htmlFor="town" className="">
+          <label htmlFor="town" className="hidden sm:block">
             Town
           </label>
           <input
@@ -87,57 +93,61 @@ function SearchProperties() {
             value={searchParams.town}
             onChange={handleChange}
             placeholder="Town"
-            className="sm:w-4/5"
+            className="sm:w-4/5 "
             required
           />
         </div>
-        <div className="flex  justify-between">
-          <label className="whitespace-nowrap">Flat Type</label>
-          <div className="flex flex-wrap gap-x-3 justify-between   w-4/5">
-            <label className="inline-flex items-center" htmlFor="roomOne">
-              1 Room
-              <input
-                type="checkbox"
-                name="roomOne"
-                id="roomOne"
-                checked={searchParams.roomOne}
-                onChange={handleChange}
-              />
-            </label>
+        <div className="flex justify-between">
+          <label className="whitespace-nowrap hidden sm:flex">Flat Type</label>
+          <div className="flex sm:w-4/5 sm:space-x-5">
+            <div className="">
+              <label className="items-center" htmlFor="roomOne">
+                1 Room
+                <input
+                  type="checkbox"
+                  name="roomOne"
+                  id="roomOne"
+                  checked={searchParams.roomOne}
+                  onChange={handleChange}
+                />
+              </label>
 
-            <label htmlFor="roomTwo" className="inline-flex items-center">
-              2 Rooms
-              <input
-                id="roomTwo"
-                type="checkbox"
-                name="roomTwo"
-                checked={searchParams.roomTwo}
-                onChange={handleChange}
-              />
-            </label>
+              <label htmlFor="roomTwo" className="inline-flex items-center">
+                2 Rooms
+                <input
+                  id="roomTwo"
+                  type="checkbox"
+                  name="roomTwo"
+                  checked={searchParams.roomTwo}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
 
-            <label className="inline-flex items-center" htmlFor="roomThree">
-              3 Rooms
-              <input
-                id="roomThree"
-                type="checkbox"
-                name="roomThree"
-                checked={searchParams.roomThree}
-                onChange={handleChange}
-                className="form-checkbox"
-              />
-            </label>
-            <label className="inline-flex items-center" htmlFor="roomFour">
-              4 Rooms
-              <input
-                id="roomFour"
-                type="checkbox"
-                name="roomFour"
-                checked={searchParams.roomFour}
-                onChange={handleChange}
-                className="form-checkbox"
-              />
-            </label>
+            <div className=" ">
+              <label className="inline-flex items-center" htmlFor="roomThree">
+                3 Rooms
+                <input
+                  id="roomThree"
+                  type="checkbox"
+                  name="roomThree"
+                  checked={searchParams.roomThree}
+                  onChange={handleChange}
+                  className="form-checkbox"
+                />
+              </label>
+              <label className="inline-flex items-center" htmlFor="roomFour">
+                4 Rooms
+                <input
+                  id="roomFour"
+                  type="checkbox"
+                  name="roomFour"
+                  checked={searchParams.roomFour}
+                  onChange={handleChange}
+                  className="form-checkbox"
+                />
+              </label>
+            </div>
           </div>
         </div>
         <button type="submit" className="bg-gray-800 text-white p-2 rounded-lg">
