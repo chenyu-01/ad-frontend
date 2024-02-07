@@ -1,8 +1,8 @@
 'use client'
 import { config } from "@/config";
 import React,{useState,useEffect} from 'react';
-import '../styles/index.css';
-import Switchbtn from './switchbtn';
+import '../usersetting/styles/index.css';
+import Switchbtn from '../usersetting/compoents/switchbtn';
 
 const serverUrl = config.serverUrl;
 const customerid = 1;
@@ -18,6 +18,7 @@ export default function Preferences() {
     midPriceRange:'',
     highPriceRange:'',
   });
+  const [enumOptions,setEnumOptions] = useState([]);
 
 
   async function fetchPreferences(customerid) {
@@ -33,48 +34,65 @@ export default function Preferences() {
         },
       });
       let data = await response.json();
-      console.log(data)
       setPreferences(data)
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function fetchTownName() {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl = serverUrl + "/api/usersetting/getTownName";
+      let response = await fetch(fetchurl,{
+        method:'GET',
+        mode:'cors',
+        headers:{
+          'Accept':'application/json',
+        },
+      });
+      let data = await response.json();   
+      setEnumOptions(data)      
     } catch (error) {
       console.error(error.message);
     }
   }
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
-    fetchPreferences(customerid);
+    fetchTownName();
+    fetchPreferences(customerid);    
   }, []);
+
     
   const handleChange = (e) => {
-    console.log("e",e);
-    console.log("e event",e.target);
-    
     const {name,value,type,checked} = e;
-    const inputValue = type === 'checkbox' ? checked : value;
-    console.log("Eventpreference:",e);
-    
-    setPreferences((prevData) => ({
-      ...prevData,
-      [name]:inputValue
-    }));
-    
-  
+    if(type == "change"){
+      const {name,value,type,checked} = e.target;
+      setPreferences((prevData) => ({
+        ...prevData,
+        [name]:value
+      }));
+    }else{
+      setPreferences((prevData) => ({
+        ...prevData,
+        [name]:value
+      }));
+    }     
   };
 
   const handleSave = async() => {
-    try{
-      console.log("preferences",preferences);
-      console.log("body",JSON.stringify(preferences));
+    try{   
       let fetchurl = serverUrl + "/api/usersetting/savePreferences/" + customerid;
       let response = await fetch(fetchurl, {
         method: 'POST',
         mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
-        },
-        
+        },     
         body: JSON.stringify(preferences),
     });
-    
+   
     if (response.ok){
       window.alert("save success")
     }else{
@@ -86,6 +104,7 @@ export default function Preferences() {
   }
 
   return (
+    <div>
     <div className='main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0'>
       
     <div className=' flex flex-col items-center'>
@@ -97,8 +116,14 @@ export default function Preferences() {
               Town              
             </td>
             <td className='flex items-center justify-center w-full '>
-              <div className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
-                <input type="text" name="town" value={preferences.town} onChange={handleChange} className="flex items-center  h-[30px] font-['Inter'] md:text-[25px] sm:text-[20px] font-medium px-4 text-[#534c4c]"/>
+              <div >
+                <select name="town" value={preferences.town} onChange={handleChange} className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6" >
+                  {enumOptions.map(option =>(
+                    <option key={option} value={option} className="flex items-center ml-3 truncate  ">
+                       {option} 
+                    </option>
+                  ))}
+                </select>
               </div>
             </td>
           </tr >
@@ -220,6 +245,7 @@ export default function Preferences() {
         
 
       
+    </div>
     </div>
   );
 }

@@ -4,10 +4,10 @@ import Header from "./header";
 export default function Dashbaord() {
   return (
     <div className="flex gap-0 justify-between items-stretch pr-1.5 bg-white max-md:flex-wrap">
-      <Nav />
+      
 
       <div className="flex flex-col flex-1 items-stretch my-auto max-md:max-w-full">
-        <Header />
+        
 
         <div className="mt-4 max-md:pr-5 max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:items-stretch">
