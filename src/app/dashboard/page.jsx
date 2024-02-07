@@ -31,7 +31,7 @@ export default function Dashbaord() {
                       style={{ width: 300, height: 300 }}
                     />
                     <div className="text-xl tracking-tighter whitespace-nowrap text-zinc-950">
-                      Outram Park
+                      Outram Park Sale $800k
                     </div>
                   </td>
 
@@ -43,7 +43,7 @@ export default function Dashbaord() {
                       style={{ width: 300, height: 300 }}
                     />
                     <div className="text-xl tracking-tighter whitespace-nowrap text-zinc-950">
-                      Lakeside
+                      Lakeside Sale $680k
                     </div>
                   </td>
 
@@ -55,7 +55,7 @@ export default function Dashbaord() {
                       style={{ width: 300, height: 300 }}
                     />
                     <div className="text-xl tracking-tighter whitespace-nowrap text-zinc-950">
-                      Jurong West
+                      Jurong West Rent $2000
                     </div>
                   </td>
 
@@ -67,7 +67,7 @@ export default function Dashbaord() {
                       style={{ width: 300, height: 300 }}
                     />
                     <div className="text-xl tracking-tighter whitespace-nowrap text-zinc-950">
-                      Jurong West
+                      Jurong West Sale $770k
                     </div>
                   </td>
                 </tr>
@@ -83,7 +83,7 @@ export default function Dashbaord() {
                       style={{ width: 300, height: 300 }}
                     />
                     <div className="text-xl tracking-tighter whitespace-nowrap text-zinc-950">
-                      Buona Vista
+                      Buona Vista Sale $900k
                     </div>
                   </td>
 
@@ -95,7 +95,7 @@ export default function Dashbaord() {
                       style={{ width: 300, height: 300 }}
                     />
                     <div className="text-xl tracking-tighter whitespace-nowrap text-zinc-950">
-                      Pasir Ris
+                      Pasir Ris Rent $1800
                     </div>
                   </td>
 
@@ -107,7 +107,7 @@ export default function Dashbaord() {
                       style={{ width: 300, height: 300 }}
                     />
                     <div className="text-xl tracking-tighter whitespace-nowrap text-zinc-950">
-                      Ang Mo Kio
+                      Ang Mo Kio Sale $750k
                     </div>
                   </td>
 
@@ -119,7 +119,8 @@ export default function Dashbaord() {
                       style={{ width: 300, height: 300 }}
                     />
                     <div className="text-xl tracking-tighter whitespace-nowrap text-zinc-950">
-                      Clementi
+                      Clementi Rent
+                       $2200
                     </div>
                   </td>
                 </tr>

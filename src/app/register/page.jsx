@@ -1,6 +1,6 @@
 "use client";
 import React ,{useState}from "react";
-import { useRouter} from "next/navigation"; 
+import { useRouter} from "next/navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Register() {
@@ -9,7 +9,7 @@ export default function Register() {
   const [error, setError] = useState(null);
   const handleSubmit = async(event) => {
     event.preventDefault(); // Prevent default form submission behavior
-   
+
     const formData = {
       role: event.target.elements.role.value,
       name: event.target.elements.name.value,
@@ -20,26 +20,17 @@ export default function Register() {
     };
 
     const newData = {
-      role: event.target.elements.role.value,
       name: event.target.elements.name.value,
       email: event.target.elements.email.value,
       password: event.target.elements.password.value,
-      contactNumber: null,
+      contactNumber: "123",
+      role: "buyer",
       preferences: null
     };
-
-    // this.customerId = customerId;
-    // this.name = name;
-    // this.email = email;
-    // this.password = password;
-    // this.contactNumber = contactNumber;
-    // this.preferences = preferences;
-    // console.log(formData); // Log form data for demonstration
 
     // check password and repeat password are same else error
 
     try {
-      console.log(newData);
       const response = await fetch("http://localhost:8080/api/customer/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -47,7 +38,6 @@ export default function Register() {
         body: JSON.stringify(newData),
         credentials: "include"
       });
-      
       if (response.ok) {
         router.push("/login");
       } else {
@@ -80,13 +70,13 @@ export default function Register() {
                         <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">
                           <label className="form-label" htmlFor="form3Example1c">Your Role</label>
-                        
+
                           <select name="role"  className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6" >
                                   <option value="owner" className="flex items-center ml-3  truncate ">Owner</option>
                                   <option value="buyer" className="flex items-center ml-3  truncate ">Buyer</option>
-                                  <option value="rentalseeker" className="flex items-center ml-3  truncate ">Rentalseeker</option> 
+                                  <option value="rentalseeker" className="flex items-center ml-3  truncate ">Rentalseeker</option>
                            </select>
-                           
+
                         </div>
                       </div>
                       <div className="d-flex flex-row align-items-center mb-4">
@@ -101,6 +91,13 @@ export default function Register() {
                         <div className="form-outline flex-fill mb-0">
                           <label className="form-label" htmlFor="form3Example3c">Your Email</label>
                           <input type="email" id="form3Example3c" name="email" className="form-control" />
+                        </div>
+                      </div>
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div className="form-outline flex-fill mb-0">
+                          <label className="form-label" htmlFor="form3Example3c">Your Phone Number</label>
+                          <input type="number" id="form3Example3c" name="contactNumber" className="form-control" />
                         </div>
                       </div>
                       <div className="d-flex flex-row align-items-center mb-4">
