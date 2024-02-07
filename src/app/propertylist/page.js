@@ -4,9 +4,8 @@ import { config } from "@/config";
 
 
 const serverUrl = config.serverUrl;
-const customerid = 1;
+const customerid = 2;
 function PropertyList() {
- 
     const [propertylists,setPropertylists ] = useState([]);
   
     async function fetchPropertylists(customerid) {
@@ -34,14 +33,14 @@ function PropertyList() {
     }, []);
   
 
-    
+   
     
   return (
     <div className="">
       <div className='main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 '>
         <table className="">
-          {propertylists.map((propertylist) => (
-            <tbody>
+          {propertylists.map(propertylist => (
+            <tbody key={propertylist.propertyid}>
             <tr className="border" key={propertylist.id}>
               <table className="w-[318px] h-[122px]  bg-white rounded-[20px] shadow mt-[10px]  z-10">
                 
@@ -50,15 +49,16 @@ function PropertyList() {
                     <img className="" src="pixel-city-1.png" alt="placeholder" />
                   </td>
                   <td className="border text-stone-950 text-base font-medium font-['SF UI Display'] whitespace-normal">
-                    {propertylist.title}
+                    {propertylist.town}
+                    {propertylist.streetName}
                   </td>
                 </tr>
 
                 <tr className="border">
                   <td className="text-neutral-400 text-sm font-medium font-['SF UI Display']">
-                    {propertylist.stitle}
+                    {propertylist.propertyStatus}
                     <div>
-                      {propertylist.post}
+                      {propertylist.price}
                     </div>
                   </td>
                 </tr>

@@ -1,7 +1,7 @@
 'use client'
 import { config } from "@/config";
 import React ,{useState,useEffect}from 'react';
-import '../styles/index.css';
+import '../usersetting/styles/index.css';
 import { set } from 'date-fns';
 
 const serverUrl = config.serverUrl;

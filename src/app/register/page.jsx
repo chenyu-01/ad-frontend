@@ -1,23 +1,68 @@
 "use client";
-import React from "react";
-import { useRouter } from "next/navigation"; 
+import React ,{useState}from "react";
+import { useRouter} from "next/navigation"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Register() {
   // Function to handle form submission
   const router = useRouter();
-  const handleSubmit = (event) => {
+  const [error, setError] = useState(null);
+  const handleSubmit = async(event) => {
     event.preventDefault(); // Prevent default form submission behavior
-    // You can add your form submission logic here
-    // For example, you can access form data using event.target.elements
+   
     const formData = {
+      role: event.target.elements.role.value,
       name: event.target.elements.name.value,
       email: event.target.elements.email.value,
       password: event.target.elements.password.value,
       repeatPassword: event.target.elements.repeatPassword.value,
       agreeTerms: event.target.elements.agreeTerms.checked,
     };
-    console.log(formData); // Log form data for demonstration
+
+    const newData = {
+      role: event.target.elements.role.value,
+      name: event.target.elements.name.value,
+      email: event.target.elements.email.value,
+      password: event.target.elements.password.value,
+      contactNumber: null,
+      preferences: null
+    };
+
+    // this.customerId = customerId;
+    // this.name = name;
+    // this.email = email;
+    // this.password = password;
+    // this.contactNumber = contactNumber;
+    // this.preferences = preferences;
+    // console.log(formData); // Log form data for demonstration
+
+    // check password and repeat password are same else error
+
+    try {
+      console.log(newData);
+      const response = await fetch("http://localhost:8080/api/customer/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // body: JSON.stringify(formData),
+        body: JSON.stringify(newData),
+        credentials: "include"
+      });
+      
+      if (response.ok) {
+        router.push("/login");
+      } else {
+        const data = await response.json();
+        if (data && data.message) {
+          setError(data.message);
+        } else {
+          setError("Registeration failed");
+        }
+      }
+    }
+      catch (error) {
+        console.error("Error:", error);
+        setError("An error occurred while logging in");
+      }
   };
 
   return (
@@ -31,6 +76,19 @@ export default function Register() {
                   <div className="col-md-10 col-lg-6 col-xl-7 order-2 order-lg-1">
                     <h6 className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</h6>
                     <form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
+                    <div className="d-flex flex-row align-items-center mb-4">
+                        <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                        <div className="form-outline flex-fill mb-0">
+                          <label className="form-label" htmlFor="form3Example1c">Your Role</label>
+                        
+                          <select name="role"  className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6" >
+                                  <option value="owner" className="flex items-center ml-3  truncate ">Owner</option>
+                                  <option value="buyer" className="flex items-center ml-3  truncate ">Buyer</option>
+                                  <option value="rentalseeker" className="flex items-center ml-3  truncate ">Rentalseeker</option> 
+                           </select>
+                           
+                        </div>
+                      </div>
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">

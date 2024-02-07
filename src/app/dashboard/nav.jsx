@@ -17,38 +17,38 @@ export default function Nav() {
       <div className="flex gap-4 justify-between items-stretch self-start px-5 mt-28 whitespace-nowrap text-stone-950 max-md:mt-10">
         <div className="flex flex-col w-1 h-6 bg-green-700 rounded-2xl" />
         <SettingsIcon/>
-        <div className="flex-auto my-auto">Dashboard</div>
+        <div className="flex-auto my-auto" onClick={()=>router.push("/dashboard")}>Dashboard</div>
       </div>
 
       <div className="flex flex-col items-center px-10 mt-12 font-medium text-stone-300 max-md:px-5 max-md:mt-10">
         <div className="flex gap-4 justify-between items-stretch self-stretch text-blue-500 whitespace-nowrap">
           <Propic/>
-          <div className="flex-auto my-auto">Profile</div>
+          <div className="flex-auto my-auto" onClick={()=>router.push("/profile")}>Profile</div>
         </div>
 
         <div className="flex gap-4 justify-between items-stretch self-stretch  text-blue-500 mt-12 max-md:mt-10">
           <Seticon/>
-          <div className="flex-auto my-auto">Settings</div>
+          <div className="flex-auto my-auto" onClick={()=>router.push("/preferences")}>Settings</div>
         </div>
 
         <div className="flex gap-4 justify-between items-stretch self-stretch text-blue-500 mt-12 max-md:mt-10">
           <Appoinments/>
-          <div className="flex-auto">Appoinments</div>
+          <div className="flex-auto" onClick={()=>router.push("/appointment")}>Appoinments</div>
         </div>
 
         <div className="flex gap-4 justify-between items-stretch self-stretch text-blue-500 mt-12 max-md:mt-10 flex-shrink-0">
         <Appoinments/>
-          <div className="flex-auto">Add New Property</div>
+          <div className="flex-auto" onClick={()=>router.push("/addproperty")}>Add New Property</div>
           </div>
 
           <div className="flex gap-4 justify-between items-stretch self-stretch text-blue-500 mt-12 max-md:mt-10 flex-shrink-0">
           <Favorites/>
-          <div className="flex-auto">Property List</div>
+          <div className="flex-auto" onClick={()=>router.push("/propertylist")}>Property List</div>
           </div>
 
           <div className="flex gap-4 justify-between items-stretch self-stretch text-red-500 mt-12 max-md:mt-10">
             <Search/>
-          <div className="flex-auto" >Search</div> 
+          <div className="flex-auto" onClick={()=>router.push("/search")}>Search</div> 
           </div>
 
           <div className="flex gap-4 justify-between items-stretch self-stretch text-red-500 mt-12 max-md:mt-10">
