@@ -1,7 +1,8 @@
+"use client";
 import * as React from "react";
-import Nav from "./nav";
-import Header from "./header";
+import { useRouter } from "next/navigation";
 export default function Dashbaord() {
+  const router = useRouter();
   return (
     <div className="flex gap-0 justify-between items-stretch pr-1.5 bg-white max-md:flex-wrap">
       
@@ -25,8 +26,9 @@ export default function Dashbaord() {
                 <tr>
                   <td class="p-12">
                     <img
+                      onClick={() => router.push("/details/1")}
                       loading="lazy"
-                      src="hou1.jpeg"
+                      src="hou1.jpeg "
                       className="object-center self-stretch my-auto w-full aspect-[1.54] max-md:mt-10"
                       style={{ width: 300, height: 300 }}
                     />
@@ -37,6 +39,7 @@ export default function Dashbaord() {
 
                   <td class="p-12">
                     <img
+                      onClick={() => router.push("/details/1")}
                       loading="lazy"
                       src="hou2.jpeg"
                       className="object-center self-stretch my-auto w-full aspect-[1.54] max-md:mt-10"
@@ -49,6 +52,7 @@ export default function Dashbaord() {
 
                   <td class="p-12">
                     <img
+                      onClick={() => router.push("/details/1")}
                       loading="lazy"
                       src="hou3.jpeg"
                       className="object-center self-stretch my-auto w-full aspect-[1.54] max-md:mt-10"
@@ -61,6 +65,7 @@ export default function Dashbaord() {
 
                   <td class="p-12">
                     <img
+                      onClick={() => router.push("/details/1")}
                       loading="lazy"
                       src="dream.jpg"
                       className="object-center self-stretch my-auto w-full aspect-[1.54] max-md:mt-10"
@@ -77,6 +82,7 @@ export default function Dashbaord() {
                 <tr>
                   <td class="p-12">
                     <img
+                     onClick={() => router.push("/details/1")}
                       loading="lazy"
                       src="/pic2.jpeg"
                       className="object-center self-stretch my-auto w-full aspect-[1.54] max-md:mt-10"
@@ -89,6 +95,7 @@ export default function Dashbaord() {
 
                   <td class="p-12">
                     <img
+                      onClick={() => router.push("/details/1")}
                       loading="lazy"
                       src="pic3.jpeg"
                       className="object-center self-stretch my-auto w-full aspect-[1.54] max-md:mt-10"
@@ -101,6 +108,7 @@ export default function Dashbaord() {
 
                   <td class="p-12">
                     <img
+                     onClick={() => router.push("/details/1")}
                       loading="lazy"
                       src="pic4.jpeg"
                       className="object-center self-stretch my-auto w-full aspect-[1.54] max-md:mt-10"
@@ -113,6 +121,7 @@ export default function Dashbaord() {
 
                   <td class="p-12">
                     <img
+                      onClick={() => router.push("/details/1")}
                       loading="lazy"
                       src="pic6.avif"
                       className="object-center self-stretch my-auto w-full aspect-[1.54] max-md:mt-10"
