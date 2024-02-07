@@ -5,7 +5,9 @@ import Seticon from "./icons/setting";
 import Appoinments from "./icons/appoinment";
 import Favorites from "./icons/fav";
 import Logout from "./icons/logout";
-import { useRouter } from "next/navigation"; // Import from "next/router" instead of "next/navigation"
+import Search from "./icons/search";
+import { useRouter } from "next/navigation"; 
+
 
 export default function Nav() {
   const router = useRouter();
@@ -35,8 +37,18 @@ export default function Nav() {
         </div>
 
         <div className="flex gap-4 justify-between items-stretch self-stretch text-blue-500 mt-12 max-md:mt-10 flex-shrink-0">
+        <Appoinments/>
+          <div className="flex-auto">Add New Property</div>
+          </div>
+
+          <div className="flex gap-4 justify-between items-stretch self-stretch text-blue-500 mt-12 max-md:mt-10 flex-shrink-0">
           <Favorites/>
-          <div className="flex-auto">Favorites</div>
+          <div className="flex-auto">Property List</div>
+          </div>
+
+          <div className="flex gap-4 justify-between items-stretch self-stretch text-red-500 mt-12 max-md:mt-10">
+            <Search/>
+          <div className="flex-auto" >Search</div> 
           </div>
 
           <div className="flex gap-4 justify-between items-stretch self-stretch text-red-500 mt-12 max-md:mt-10">
