@@ -5,7 +5,6 @@ import "@/app/(dashboard)/usersetting/styles/index.css";
 import { set } from "date-fns";
 
 const serverUrl = config.serverUrl;
-const customerid = 1;
 export default function Profile() {
   const [profile, setProfile] = useState({
     name: "",
@@ -14,17 +13,14 @@ export default function Profile() {
     contactNumber: "",
   });
 
-  async function fetchProfile(customerid) {
+  async function fetchProfile() {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let fetchurl = serverUrl + "/api/usersetting/getProfile/" + customerid;
+      let fetchurl = serverUrl + "/api/usersetting/getProfile";
       let response = await fetch(fetchurl, {
         method: "GET",
-        mode: "cors",
-        headers: {
-          Accept: "application/json",
-        },
+        credentials: "include",
       });
       let data = await response.json();
       console.log(data);
@@ -35,7 +31,7 @@ export default function Profile() {
   }
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
-    fetchProfile(customerid);
+    fetchProfile();
   }, []);
 
   const handleChange = (e) => {

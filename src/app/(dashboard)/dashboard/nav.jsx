@@ -7,19 +7,28 @@ import Favorites from "./icons/fav";
 import Logout from "./icons/logout";
 import Find from "./icons/find";
 import { useRouter } from "next/navigation";
-
+import { config } from "@/config";
+let serverUrl = config.serverUrl;
 export default function Nav() {
   const router = useRouter();
+
+  function logout() {
+    fetch(serverUrl + "/api/customer/logout", {
+      method: "POST",
+      credentials: "include",
+    }).then((response) => {
+      if (response.ok) {
+        router.push("/login");
+      }
+    });
+  }
 
   return (
     <div className="flex flex-col items-stretch py-11 text-base font-semibold tracking-tight bg-white basis-0">
       <div className="flex gap-4 justify-between items-stretch self-start px-5 mt-28 whitespace-nowrap text-stone-950 max-md:mt-10">
         <div className="flex flex-col w-1 h-6 bg-green-700 rounded-2xl" />
         <SettingsIcon />
-        <div
-          className="flex-auto my-auto"
-          onClick={() => router.push("/dashboard")}
-        >
+        <div className="flex-auto my-auto" onClick={() => router.push("/")}>
           Dashboard
         </div>
       </div>
@@ -84,7 +93,7 @@ export default function Nav() {
 
         <div className="flex gap-4 justify-between items-stretch self-stretch text-red-500 mt-12 max-md:mt-10">
           <Logout />
-          <div className="flex-auto" onClick={() => router.push("/login")}>
+          <div className="flex-auto" onClick={() => logout()}>
             Logout
           </div>
         </div>

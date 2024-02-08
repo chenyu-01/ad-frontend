@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Use next/navigation instead of next/router
-
+import { config } from "@/config";
+const serverUrl = config.serverUrl;
 export default function Login() {
   const [account, setAccount] = useState({
     email: "",
@@ -14,7 +15,7 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/customer/login", {
+      const response = await fetch(serverUrl + "/api/customer/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(account),
@@ -22,7 +23,7 @@ export default function Login() {
       });
 
       if (response.ok) {
-        router.push("/dashboard");
+        router.push("/");
       } else {
         const data = await response.json();
         if (data && data.message) {
