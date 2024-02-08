@@ -408,7 +408,7 @@ const handleSave = async() => {
                     <tbody className='text-center '>
                       <tr>          
                           <td >
-                            
+
                             <div className=' h-[50px]   mt-[5px]'>
                               
                               <div className='flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   '>
