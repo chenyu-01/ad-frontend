@@ -23,9 +23,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 The routing in nextjs is based on the file system. So, if you want to create a new page, just create a new file in the pages directory. For example, if you want to create a page for the url /about, create a file called about.js in the pages directory. You can also create nested pages. For example, if you want to create a page for the url /about/me, create a file called me.js in the about directory inside the pages directory.
 
-For example, if you want to create a page for the url `localhost:port/property-list`, create a file called page.js in the property-list directory inside the pages directory.
+For example, if you want to create a page for the url `localhost:port/property-list`, create a file called searchDialog.jsx in the property-list directory inside the pages directory.
 
-- `src/app/property-list/page.js`
+- `src/app/property-list/searchDialog.jsx`
 
 ## Links and Navigation
 

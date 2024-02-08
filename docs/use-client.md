@@ -8,7 +8,7 @@ When using useState in Next.js, the following error is thrown:
 You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
 Learn more: https://nextjs.org/docs/getting-started/react-essentials
 
-   ╭─[C:\....\Project\ad-frontend\src\app\property-list\page.js:1:1]
+   ╭─[C:\....\Project\ad-frontend\src\app\property-list\searchDialog.jsx:1:1]
  1 │ import React, { useState } from "react";
    ·                 ────────
  2 │ const PropertyList = () => {
@@ -17,7 +17,7 @@ Learn more: https://nextjs.org/docs/getting-started/react-essentials
    ╰────
 
 Maybe one of these should be marked as a client entry with "use client":
-  ./src\app\property-list\page.js
+  ./src\app\property-list\searchDialog.jsx
 
 ```
 

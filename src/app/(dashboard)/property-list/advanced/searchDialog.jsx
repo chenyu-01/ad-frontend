@@ -1,88 +1,61 @@
 "use client";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { config } from "@/config";
+import { fetchListByProps } from "@/app/(dashboard)/property-list/fetchListByProps";
+import InputLabel from "@/app/(dashboard)/property-list/advanced/InputLabel";
+import { number } from "zod";
 
 const serverUrl = config.serverUrl;
 
-function SearchProperties() {
+const SearchDialogue = forwardRef(function SearchDialogue(props, ref) {
   const [searchParams, setSearchParams] = useState({});
   const [properties, setProperties] = useState([]);
+  const [records, setRecords] = useState([]);
   const [error, setError] = useState("");
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.currentTarget; // destructure the event
     setSearchParams((prevState) => ({
       ...prevState,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? !checked : value, // if type is checkbox, then toggle the value, else set the value
     }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-
     try {
-      const response = await fetch(serverUrl + "/api/property/list/search/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(searchParams),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to fetch properties");
-      }
+      let response = await fetchListByProps(searchParams);
       let data = await response.json();
-      setProperties(data);
-      setIsLoading(false);
+      setProperties(data.properties);
+      setRecords(data.totalRecords);
     } catch (error) {
-      setError("Failed to fetch properties. Please try again.");
-      setIsLoading(false);
+      setError(error.message);
     }
   };
 
   return (
-    <div className="mt-5 container mx-auto">
+    <dialog className="mt-5 container mx-auto " ref={ref}>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col space-y-5 text-lg "
       >
-        <div className="flex justify-between ">
-          <label
-            htmlFor="lowPrice"
-            className="whitespace-nowrap hidden sm:block"
-          >
-            Low Price
-          </label>
-          <input
-            type="number"
-            min={0}
-            name="lowPrice"
-            id="lowPrice"
-            value={searchParams.lowPrice}
-            onChange={handleChange}
-            placeholder="Low Price"
-            className=" sm:w-4/5 "
-          />
-        </div>
-        <div className="flex  justify-between">
-          <label
-            htmlFor="highPrice"
-            className="whitespace-nowrap hidden sm:block"
-          >
-            High Price
-          </label>
-          <input
-            id="highPrice"
-            min={0}
-            type="number"
-            name="highPrice"
-            value={searchParams.highPrice}
-            onChange={handleChange}
-            placeholder="High Price"
-            className="sm:w-4/5 "
-          />
-        </div>
-        <div className="flex  justify-between">
+        <InputLabel
+          id={"lowPrice"}
+          label={"Low Price"}
+          type={number}
+          min={0}
+          value={searchParams.lowPrice}
+          onChange={handleChange}
+        />
+        <InputLabel
+          id={"highPrice"}
+          label={"High Price"}
+          type={number}
+          min={0}
+          value={searchParams.highPrice}
+          onChange={handleChange}
+        />
+        <div className="flex justify-between">
           <label htmlFor="town" className="hidden sm:block">
             Town
           </label>
@@ -165,8 +138,8 @@ function SearchProperties() {
             </div>
           ))}
       </div>
-    </div>
+    </dialog>
   );
-}
+});
 
-export default SearchProperties;
+export default SearchDialogue;
