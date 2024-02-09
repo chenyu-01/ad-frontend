@@ -28,7 +28,7 @@ export default function Nav() {
       <div className="flex gap-4 justify-between items-stretch self-start px-5 mt-28 whitespace-nowrap text-stone-950 max-md:mt-10">
         <div className="flex flex-col w-1 h-6 bg-green-700 rounded-2xl" />
         <SettingsIcon />
-        <div className="flex-auto my-auto" onClick={() => router.push("/")}>
+        <div className="flex-auto my-auto" onClick={() => router.push("dashboard")}>
           Dashboard
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function Nav() {
 
         <div className="flex gap-4 justify-between items-stretch self-stretch text-yellow-500 mt-12 max-md:mt-10">
           <Find />
-          <div className="flex-auto" onClick={() => router.push("/search")}>
+          <div className="flex-auto" onClick={() => router.push("/property-list")}>
             Search
           </div>
         </div>
