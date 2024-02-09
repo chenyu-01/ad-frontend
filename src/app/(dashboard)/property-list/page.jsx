@@ -56,7 +56,7 @@ export default function PropertyList() {
       {/* search bar */}
       <div className="flex justify-between items-center my-5">
         <form
-          className="flex justify-between sm:flex hidden"
+          className="flex justify-between xl:flex hidden"
           onSubmit={(e) => {
             e.preventDefault();
             searchProperty();
@@ -73,8 +73,8 @@ export default function PropertyList() {
           <Button type="submit">Search</Button>
         </form>
 
+        <SearchDialogue ref={dialog} search={searchProperty} />
         <div className="flex justify-end space-x-5">
-          <SearchDialogue ref={dialog} search={searchProperty} />
           <Button onClick={openDialog}>Filter</Button>
           <Button
             onClick={() => setPropertyType("rental")}
