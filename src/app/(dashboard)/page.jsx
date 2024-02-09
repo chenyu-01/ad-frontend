@@ -65,7 +65,6 @@ export default function Dashboard() {
   );
 }
 
-
 // Card component for displaying images with captions
 function Card({ onClick, src, alt, caption }) {
   return (
@@ -85,4 +84,3 @@ function Card({ onClick, src, alt, caption }) {
     </div>
   );
 }
-
