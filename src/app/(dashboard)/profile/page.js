@@ -45,10 +45,10 @@ export default function Profile() {
   const handleSave = async () => {
     try {
       console.log(JSON.stringify(profile));
-      let fetchurl = serverUrl + "/api/usersetting/saveProfile" ;
+      let fetchurl = serverUrl + "/api/usersetting/saveProfile/" + customerid;
       let response = await fetch(fetchurl, {
         method: "POST",
-        credentials: "include",
+        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },

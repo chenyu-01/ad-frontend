@@ -38,13 +38,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex flex-col h-screen">
+        <div className="flex h-screen">
           <div>
-            <Header />
-          </div>
-
-          <div className="flex w-full">
             <Nav />
+          </div>
+          <div className="flex flex-col w-full">
+            <Header />
             <div className="flex justify-center items-center w-full ">
               {children}
             </div>
