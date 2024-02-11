@@ -5,7 +5,6 @@ import "@/app/(dashboard)/usersetting/styles/index.css";
 import Switchbtn from "@/app/(dashboard)/usersetting/compoents/switchbtn";
 
 const serverUrl = config.serverUrl;
-const customerid = 1;
 export default function Preferences() {
   const [preferences, setPreferences] = useState({
     town: "",
@@ -20,15 +19,14 @@ export default function Preferences() {
   });
   const [enumOptions, setEnumOptions] = useState([]);
 
-  async function fetchPreferences(customerid) {
+  async function fetchPreferences() {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let fetchurl =
-        serverUrl + "/api/usersetting/getPreferences/" + customerid;
+      let fetchurl = serverUrl + "/api/usersetting/getPreferences"
       let response = await fetch(fetchurl, {
         method: "GET",
-        mode: "cors",
+        credentials: "include",
         headers: {
           Accept: "application/json",
         },
@@ -45,13 +43,7 @@ export default function Preferences() {
     try {
       // ... fetch data from API ...
       let fetchurl = serverUrl + "/api/usersetting/getTownName";
-      let response = await fetch(fetchurl, {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          Accept: "application/json",
-        },
-      });
+      let response = await fetch(fetchurl);
       let data = await response.json();
       setEnumOptions(data);
     } catch (error) {
@@ -61,7 +53,7 @@ export default function Preferences() {
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
     fetchTownName();
-    fetchPreferences(customerid);
+    fetchPreferences();
   }, []);
 
   const handleChange = (e) => {

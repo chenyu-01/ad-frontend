@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
 
 const serverUrl = config.serverUrl;
-const customerid = 2;
 function AddProperty() {
   const [status, setStatus] = useState("");
   const [property, setProperty] = useState({
@@ -21,9 +20,31 @@ function AddProperty() {
     leaseCommenceDate: "",
     remainingLease: "",
     bedrooms: "1",
+    ownerid:"",
   });
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
+  async function fetchProperty(){
+    try {
+      let fetchurl = serverUrl + "/api/usersetting/getProperty";
+      let response=await fetch(fetchurl,{
+        method:"GET",
+        credentials: "include",
+        headers:{
+          Accept:"application/json",
+        },
+      });
+      let data = await response.json();
+      if(response.ok){
+        setProperty(data);
+        console.log(data);
+      }
+    }catch(error){
+      console.error(error.message);
+    }
+  }
+
+
   async function fetchPropertyStatus() {
     // fetch data from API
     try {
@@ -31,7 +52,6 @@ function AddProperty() {
       let fetchurl = serverUrl + "/api/usersetting/getPropertyStatus";
       let response = await fetch(fetchurl, {
         method: "GET",
-        mode: "cors",
         headers: {
           Accept: "application/json",
         },
@@ -50,7 +70,6 @@ function AddProperty() {
       let fetchurl = serverUrl + "/api/usersetting/getTownName";
       let response = await fetch(fetchurl, {
         method: "GET",
-        mode: "cors",
         headers: {
           Accept: "application/json",
         },
@@ -81,6 +100,7 @@ function AddProperty() {
         propertyStatus: "rented",
       };
     });
+    fetchProperty();
   }, []);
 
   useEffect(() => {
@@ -90,10 +110,10 @@ function AddProperty() {
   const handleSave = async () => {
     try {
       console.log(property);
-      let fetchurl = serverUrl + "/api/usersetting/saveProperty/" + customerid;
+      let fetchurl = serverUrl + "/api/usersetting/saveProperty";
       let response = await fetch(fetchurl, {
         method: "POST",
-        mode: "cors",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -151,9 +171,10 @@ function AddProperty() {
                         onChange={(e) => {
                           handleChange(e);
                         }}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      >
-                        {enumStatusOptions.map((option) => (
+                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
+
+                        { property.propertyid == null &&(
+                        enumStatusOptions.map((option) => (
                           <option
                             key={option}
                             value={option}
@@ -161,7 +182,16 @@ function AddProperty() {
                           >
                             {option}
                           </option>
-                        ))}
+                        ))
+                        )}
+
+                        {property.propertyid != null &&(
+                            <>
+                              <option value="forRent" className="flex items-center ml-3 truncate">forRent</option>
+                              <option value="forSale" className="flex items-center ml-3 truncate">forSale</option>
+                            </>
+
+                        )}
                       </select>
                     </div>
                   </td>
