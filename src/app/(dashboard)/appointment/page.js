@@ -1,65 +1,123 @@
-import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+"use client";
+import { config } from "@/config";
+import React, { useState, useEffect } from "react";
+import "@/app/(dashboard)/usersetting/styles/index.css";
+import AppoinmentTable from "./AppoinmentTable";
+const serverUrl = config.serverUrl;
+export default function ManageAppointments() {
+  const [appointments, setAppointments] = useState([]);
+  const [appointmentForOwner, setAppointmentForOwner] = useState([]);
+  const [customer, setCustomer] = useState();
+  async function fetchRequestedAppointments() {
+    try {
+      // fetch data from API
+      let fetchurl = serverUrl + "/api/appointment/getAppointments";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+      });
+      let data = await response.json();
+      setAppointments(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  async function fetchAppointmentFromOtherCustomer() {
+    try {
+      let fetchurl = serverUrl + "/api/appointment/getAppointmentsForOwner";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+      });
+      let data = await response.json();
+      console.log(data);
+      setAppointmentForOwner(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  async function fetchCustomer() {
+    try {
+      let fetchurl = serverUrl + "/api/customer/check-auth";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+      });
+      let data = await response.json();
+      setCustomer(data);
+      console.log(data);
+      if (data.role === "owner") {
+        fetchAppointmentFromOtherCustomer();
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  async function handleConfirm(appointmentid) {
+    try {
+      let fetchurl = serverUrl + "/api/appointment/confirm/" + appointmentid;
+      let response = await fetch(fetchurl);
+      if (response.ok) {
+        window.alert("confirm successful");
+        // refresh the page
+        window.location.reload();
+      } else {
+        window.alert("confirm failed");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
-// Sample data for demonstration
-const appointments = [
-  {
-    id: "1029",
-    date: "10/02/2024",
-  },
-  {
-    id: "1098",
-    date: "13/02/2024",
-  },
-  {
-    id: "1120",
-    date: "01/03/2024",
-  },
-  // Add more appointments as needed
-];
+  useEffect(() => {
+    // the first time the page is loaded, fetch data from API
+    fetchRequestedAppointments();
+    fetchCustomer();
+  }, []);
 
-export default function AppointmentTable() {
+  const handleCancel = async (appointmentid) => {
+    try {
+      let fetchurl = serverUrl + "/api/appointment/cancel/" + appointmentid;
+      console.log("id:" + appointmentid);
+      let response = await fetch(fetchurl, {
+        method: "DELETE",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        window.alert("cancel successful");
+        // refresh the page
+        window.location.reload();
+      } else {
+        window.alert("cancel failed");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
-    <div className="max-w-screen-lg container mx-auto">
-      <h1 className="text-3xl text-center mb-8">Appointment Table</h1>
-      <Table>
-        <TableCaption>Your Appointment List</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Appointment ID</TableHead>
-            <TableHead>Appointment Date</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {appointments.map((appointment) => (
-            <TableRow key={appointment.id}>
-              <TableCell>{appointment.id}</TableCell>
-              <TableCell>{appointment.date}</TableCell>
-              <TableCell>
-                <Button>Cancel</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        {/* TableFooter can be used if you have any footer content */}
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={2}>Total Appointments</TableCell>
-            <TableCell>{appointments.length}</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+    <div>
+      {appointments.length >= 1 && (
+        <>
+          <h1>Manage Requested Appointments</h1>
+          <AppoinmentTable appointments={appointments} cancel={handleCancel} />
+        </>
+      )}
+      {appointmentForOwner.length >= 1 && (
+        <>
+          <h1>Manage Appointments for Owner</h1>
+          <AppoinmentTable
+            appointments={appointmentForOwner}
+            Action={handleConfirm}
+            actionName={`Confirm`}
+            cancel={handleCancel}
+          />
+        </>
+      )}
     </div>
   );
 }

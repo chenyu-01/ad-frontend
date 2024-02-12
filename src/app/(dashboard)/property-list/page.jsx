@@ -1,32 +1,33 @@
 "use client";
-import { config } from "@/config";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSearchParams, useRouter } from "next/navigation";
 import MyPagination from "./MyPagination";
 import PropertyListTable from "./PropertyListTable";
 import { fetchListByProps } from "./fetchListByProps.js";
 import Error from "./Error.jsx";
+import SearchDialogue from "@/app/(nodashboard)/advanced/SearchDialog";
 export default function PropertyList() {
   const [propertyList, setPropertyList] = useState([]);
   const router = useRouter();
-  const [town, setTown] = useState("");
-  const [pageNum, setPageNum] = useState(1);
-  const [propertyType, setPropertyType] = useState("all");
+  let [town, setTown] = useState("");
+  let [page, setPage] = useState(1);
+  let [propertyType, setPropertyType] = useState("all");
   const [totalRecords, setTotalRecords] = useState(0);
   const lastPageNum = Math.ceil(totalRecords / 10);
   const [error, setError] = useState("");
+  const dialog = useRef(null);
   // get the page number from the query string, and set it to pageNum when URL changes
   const searchParams = useSearchParams();
-  const searchProperty = async () => {
+  const searchProperty = async ({ ...dataParams } = {}) => {
     try {
       let data = await fetchListByProps({
-        town: town,
-        page: pageNum,
-        propertyType: propertyType,
+        page,
+        town,
+        propertyType,
+        ...dataParams,
       });
-      console.log(data);
       setPropertyList(data.properties);
       setTotalRecords(data.totalRecords);
       setError("");
@@ -35,14 +36,17 @@ export default function PropertyList() {
       setError(error);
     }
   };
+  const openDialog = () => {
+    dialog.current?.showModal();
+  };
 
   useEffect(() => {
-    const page = searchParams.get("page");
-    if (page) {
-      setPageNum(parseInt(page));
+    const pageNum = searchParams.get("page");
+    if (pageNum) {
+      setPage(parseInt(pageNum));
     }
     searchProperty();
-  }, [searchParams, propertyType]);
+  }, [searchParams, propertyType, propertyType]);
   useEffect(() => {
     searchProperty();
   }, []);
@@ -52,7 +56,7 @@ export default function PropertyList() {
       {/* search bar */}
       <div className="flex justify-between items-center my-5">
         <form
-          className="flex justify-between"
+          className="flex justify-between sm:flex hidden"
           onSubmit={(e) => {
             e.preventDefault();
             searchProperty();
@@ -68,7 +72,10 @@ export default function PropertyList() {
           ></Input>
           <Button type="submit">Search</Button>
         </form>
+
         <div className="flex justify-end space-x-5">
+          <SearchDialogue ref={dialog} search={searchProperty} />
+          <Button onClick={openDialog}>Filter</Button>
           <Button
             onClick={() => setPropertyType("rental")}
             className={
@@ -93,11 +100,7 @@ export default function PropertyList() {
       </div>
       {!error && <PropertyListTable propertyList={propertyList} />}
       {error && <Error message={error} />}
-      <MyPagination
-        pageNum={pageNum}
-        lastPageNum={lastPageNum}
-        router={router}
-      />
+      <MyPagination pageNum={page} lastPageNum={lastPageNum} router={router} />
     </div>
   );
 }
