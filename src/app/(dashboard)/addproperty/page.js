@@ -76,6 +76,7 @@ function AddProperty() {
       let fetchurl = serverUrl + "/api/usersetting/getPropertyStatus";
       let response = await fetch(fetchurl, {
         method: "GET",
+        credentials: "include",
         headers: {
           Accept: "application/json",
         },
@@ -94,6 +95,7 @@ function AddProperty() {
       let fetchurl = serverUrl + "/api/usersetting/getTownName";
       let response = await fetch(fetchurl, {
         method: "GET",
+        credentials: "include",
         headers: {
           Accept: "application/json",
         },
