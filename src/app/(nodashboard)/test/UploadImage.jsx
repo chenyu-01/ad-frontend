@@ -16,6 +16,7 @@ export default function Upload({ propertyId }) {
       return;
     }
     const data = await response.json();
+    console.log(data);
     setImagePreview(data.imageUrl);
   };
   const uploadImage = async (e) => {
