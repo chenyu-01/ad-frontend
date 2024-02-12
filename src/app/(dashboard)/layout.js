@@ -1,8 +1,5 @@
-"use client";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
 import Header from "./dashboard/header";
 import Nav from "./dashboard/nav";
 
@@ -15,26 +12,6 @@ export const metadata = {
 */
 
 export default function RootLayout({ children }) {
-  // const router = useRouter();
-  // const pathName = usePathname();
-  // const searchParams = useSearchParams();
-  // const isLoginPage = pathName === '/login';
-  //
-  // const isRegisterPage = pathName === '/register';
-  // const hasQueryParams = searchParams.length > 0;
-  //
-  // if ((isLoginPage || isRegisterPage) && !hasQueryParams) {
-  //
-  //     return(
-  //       <html lang="en">
-  //         <body className={inter.className}>
-  //           {children}
-  //         </body>
-  //       </html>
-  //     )
-  //
-  //   }
-
   return (
     <html lang="en">
       <body className={inter.className}>
