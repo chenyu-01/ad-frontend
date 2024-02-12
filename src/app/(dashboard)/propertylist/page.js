@@ -7,12 +7,11 @@ const customerid = 2;
 function PropertyList() {
   const [propertylists, setPropertylists] = useState([]);
 
-  async function fetchPropertylists(customerid) {
+  async function fetchPropertylists() {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let fetchurl =
-        serverUrl + "/api/usersetting/getPropertyList/" + customerid;
+      let fetchurl = serverUrl + "/api/usersetting/getPropertyList";
       let response = await fetch(fetchurl, {
         method: "GET",
         mode: "cors",
@@ -29,7 +28,7 @@ function PropertyList() {
   }
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
-    fetchPropertylists(customerid);
+    fetchPropertylists();
   }, []);
 
   return (
