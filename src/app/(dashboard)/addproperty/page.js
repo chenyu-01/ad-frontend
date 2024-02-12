@@ -24,6 +24,30 @@ function AddProperty() {
   });
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
+  const [role,setRole] = useState();
+  async function fetchRole() {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl =
+        serverUrl + "/api/usersetting/getRole";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      let data = await response.json();
+      if(response.ok)
+      console.log(data);
+      
+      setRole(data.role);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async function fetchProperty(){
     try {
       let fetchurl = serverUrl + "/api/usersetting/getProperty";
@@ -90,6 +114,7 @@ function AddProperty() {
   };
 
   useEffect(() => {
+    fetchRole();
     fetchPropertyStatus();
     fetchTownName();
     // the first time the page is loaded, fetch data from API
@@ -134,6 +159,7 @@ function AddProperty() {
 
   return (
     <div>
+      {role == "owner" &&(
       <div className="main-container w-full  flex flex-col items-center mx-auto my-0 overflow-y-auto">
         <div className="w-full  bg-[#fff]  top-0 left-0  z-[3]">
           <div className="w-full  text-[0px] bg-[rgba(255,255,255,0.2)] rounded-[3.0px] border-solid border-[5px] border-[#eff0f6]  z-[4] mt-0 mr-0 mb-0 ml-0">
@@ -563,6 +589,18 @@ function AddProperty() {
           </div>
         </div>
       </div>
+      )}
+
+      {role != "owner" &&(
+          <>
+          <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
+
+          <div className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000]">
+            You don not have the permission.
+          </div>
+          </div>
+          </>
+        )}
     </div>
   );
 }

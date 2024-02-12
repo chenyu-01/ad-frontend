@@ -7,8 +7,31 @@ const serverUrl = config.serverUrl;
 function PropertyList() {
   const router = useRouter();
   const [propertylists, setPropertylists] = useState([]);
+  const [role,setRole] = useState();
 
-  async function fetchPropertylists(customerid) {
+  async function fetchRole() {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl =
+        serverUrl + "/api/usersetting/getRole";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      let data = await response.json();
+      if(response.ok)
+      console.log(data);
+      setRole(data.role);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function fetchPropertylists() {
     // fetch data from API
     try {
       // ... fetch data from API ...
@@ -31,6 +54,8 @@ function PropertyList() {
   }
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
+    fetchRole();
+  
     fetchPropertylists();
   }, []);
 
@@ -56,8 +81,11 @@ function PropertyList() {
   }
 
   return (
+    
     <div className="">
       <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
+
+        {role == "owner" &&(
         <table className="">
           {propertylists.map((propertylist) => (
               <button key={propertylist.id} onClick={() => handleClick(propertylist.id,propertylist.propertyStatus)}>
@@ -90,6 +118,16 @@ function PropertyList() {
               </button>
           ))}
         </table>
+        )}
+        
+
+        {role != "owner" &&(
+          <>
+          <div className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000]">
+            You don not have the permission.
+          </div>
+          </>
+        )}
       </div>
     </div>
   );

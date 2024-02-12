@@ -35,21 +35,26 @@ export default function RootLayout({ children }) {
   //
   //   }
 
+
+
+
   return (
-    <html lang="en">
+      <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-screen">
-          <div>
+      <div className="mx-48">
+        <div className = "grid grid-rows-4 grid-flow-col gap-4">
+          <div className="row-span-4">
             <Nav />
           </div>
-          <div className="flex flex-col w-full">
+          <div className="col-span-2">
             <Header />
-            <div className="flex justify-center items-center w-full ">
-              {children}
-            </div>
+          </div>
+          <div className=" row-span-3 col-span-2">
+            {children}
           </div>
         </div>
+      </div>
       </body>
-    </html>
+      </html>
   );
 }

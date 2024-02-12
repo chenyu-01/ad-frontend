@@ -128,7 +128,7 @@ export default function Preferences() {
 
             <tbody className="text-center ">
               <tr>
-                <td>storyRange</td>
+                <td>StoryRange</td>
                 <td className="flex items-center justify-center w-full ">
                   <div className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
                     <input
