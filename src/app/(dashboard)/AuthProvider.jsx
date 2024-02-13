@@ -39,6 +39,9 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error(error);
+      setIsAuthenticated(false);
+      setUserData(null);
+      router.push("/login");
     }
   };
   useEffect(() => {
