@@ -2,9 +2,12 @@
 import { config } from "@/config";
 import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation"
 
 const serverUrl = config.serverUrl;
 function AddProperty() {
+  const router = useRouter();
   const [status, setStatus] = useState("");
   const [property, setProperty] = useState({
     propertyid: "",
@@ -157,6 +160,10 @@ function AddProperty() {
     } catch (error) {
       console.error(error.message);
     }
+  };
+
+  const goBack = () => {
+    window.history.back();
   };
 
   return (
@@ -572,17 +579,14 @@ function AddProperty() {
 
               <tbody className="text-center ">
                 <tr>
-                  <td colSpan={2}>
+                  <td className="flex justify-center items-center">
                     <div className="flex justify-center items-center">
-                      <button
-                        type="submmit"
-                        onClick={handleSave}
-                        className="h-[40px]  w-[400px]  flex-nowrap bg-[#4a3aff] rounded-[3.0px] border-none  z-[39] pointer mt-[9.6px] mr-0 mb-0 ml-[22.0px]"
-                      >
-                        <span className=" h-[30px] shrink-0 basis-auto font-['Inter'] text-[25px] font-normal  text-[#fff]  text-left whitespace-nowrap z-40">
-                          Continue
-                        </span>
-                      </button>
+                      <Button onClick={handleSave}>Save</Button>
+                    </div>  
+                  </td>
+                  <td>
+                    <div className="flex justify-center items-center">
+                      <Button onClick={goBack}>Back</Button>
                     </div>
                   </td>
                 </tr>

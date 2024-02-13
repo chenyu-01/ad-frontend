@@ -56,6 +56,7 @@ export default function Profile() {
       });
       if (response.ok) {
         window.alert("save success");
+        fetchProfile()
       } else {
         window.alert("save failed");
       }
