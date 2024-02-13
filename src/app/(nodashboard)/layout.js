@@ -14,8 +14,10 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <div className="container mx-auto h-screen">
             <div className="flex flex-col">
-              <Header />
-              <div className={`px-5 mt-10`}>{children}</div>
+              <div className="max-w-screen-lg">
+                <Header />
+              </div>
+              <div className={`flex mt-10`}>{children}</div>
             </div>
           </div>
         </AuthProvider>

@@ -98,7 +98,9 @@ export default function PropertyList() {
           </Button>
         </div>
       </div>
-      {!error && <PropertyListTable propertyList={propertyList} />}
+      <div className="h-[70vh] overflow-auto">
+        <PropertyListTable propertyList={propertyList} />
+      </div>
       {error && <Error message={error} />}
       <MyPagination pageNum={page} lastPageNum={lastPageNum} router={router} />
     </div>

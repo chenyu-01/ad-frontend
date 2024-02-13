@@ -19,8 +19,8 @@ export default function RootLayout({ children }) {
           <div className="container mx-auto h-screen">
             <div className="flex flex-col mt-10">
               <Header />
-              <div className="flex w-full justify-center mt-10">
-                <div className={`px-5 `}>
+              <div className="flex w-full justify-center ">
+                <div className={`px-5 mt-10 `}>
                   <Nav />
                 </div>
                 <div className="flex justify-center w-full items-center ">
