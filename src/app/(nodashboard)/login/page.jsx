@@ -14,7 +14,7 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/api/customer/login", {
+      const response = await fetch(serverUrl + "/api/customer/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(account),
@@ -45,12 +45,9 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-white p-10 rounded-3xl md:p-5 md:max-w-screen-md mx-auto">
-      <div className="flex flex-col md:flex-row items-center">
+    <div className="bg-white rounded-3xl md:max-w-screen-lg">
+      <div className="flex flex-col md:flex-row items-center justify-center">
         <div className="w-full md:w-1/2">
-          <div className="text-blue-400 text-4xl font-bold mb-5 md:mb-10">
-            HDB Market Insights
-          </div>
           <img
             loading="lazy"
             src="dream.jpg"
@@ -59,10 +56,6 @@ export default function Login() {
           />
         </div>
         <div className="w-full md:w-1/2 mt-5 md:mt-0 md:ml-10">
-          <div className="text-blue-600 text-4xl mb-5 md:mb-10">
-            <span className="font-bold text-blue-400">Hello, DreamHome</span>
-            <span className="text-5xl text-blue-400">!</span>
-          </div>
           <div className="flex flex-col items-stretch">
             <div className="text-slate-500 text-2xl font-bold mb-5">Login</div>
             <form onSubmit={handleSubmit}>
@@ -84,18 +77,11 @@ export default function Login() {
               />
               <button
                 type="submit"
-                className="bg-slate-600 text-white font-bold py-2 px-4 rounded"
+                className="bg-slate-600 w-full text-white font-bold py-2 px-4 rounded"
               >
                 Login
               </button>
               {error && <div className="text-red-500">{error}</div>}
-              <button
-                type="button"
-                onClick={() => router.push("/register")}
-                className="bg-slate-600 text-white font-bold py-2 px-4 mt-3 rounded"
-              >
-                Register
-              </button>
             </form>
           </div>
         </div>
