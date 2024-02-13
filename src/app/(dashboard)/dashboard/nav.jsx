@@ -6,24 +6,12 @@ import Appoinments from "./icons/appoinment";
 import OwnerListIcon from "./icons/OwnerListIcon";
 import Logout from "./icons/logout";
 import Find from "./icons/find";
-import { useRouter } from "next/navigation";
-import { config } from "@/config";
 import Link from "next/link";
 import AddNewIcon from "./icons/AddNewIcon";
-let serverUrl = config.serverUrl;
+import { AuthContext } from "@/app/(dashboard)/AuthProvider";
+import { useContext } from "react";
 export default function Nav() {
-  const router = useRouter();
-
-  function logout() {
-    fetch(serverUrl + "/api/customer/logout", {
-      method: "POST",
-      credentials: "include",
-    }).then((response) => {
-      if (response.ok) {
-        router.push("/login");
-      }
-    });
-  }
+  const { logout } = useContext(AuthContext);
 
   return (
     <div className="flex flex-col items-stretch text-base font-semibold tracking-tight bg-white basis-0">
@@ -45,7 +33,7 @@ export default function Nav() {
           Add New Property
         </NavLink>
         <NavLink href={"/propertylist"} icon={<OwnerListIcon />}>
-          Owner Property List
+          My Properties
         </NavLink>
         <NavLink href="/property-list" icon={<Find />}>
           Search
@@ -70,7 +58,7 @@ function NavLink({ href, children, icon }) {
       href={href}
     >
       {icon}
-      <div className="flex-auto my-auto">{children}</div>
+      <div className="flex-auto my-auto whitespace-nowrap">{children}</div>
     </Link>
   );
 }
