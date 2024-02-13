@@ -115,7 +115,7 @@ function PropertyList() {
                     <td rowSpan="2" className=" border w-1/2">
                       <img
                         className="h-full"
-                        src="pixel-city-1.png"
+                        src={propertylist.imageUrl}
                         alt="placeholder"
                       />
                     </td>

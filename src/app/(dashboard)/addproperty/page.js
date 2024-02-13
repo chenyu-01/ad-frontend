@@ -8,9 +8,11 @@ import { useRouter } from "next/navigation"
 const serverUrl = config.serverUrl;
 function AddProperty() {
   const router = useRouter();
-  const [status, setStatus] = useState("");
+  // for image
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isSelect, setIsSelect] = useState(false);
   const [property, setProperty] = useState({
-    propertyid: "",
+    propertyid: "null",
     town: "",
     propertyStatus: "",
     flatType: "",
@@ -24,10 +26,60 @@ function AddProperty() {
     remainingLease: "",
     bedrooms: "1",
     ownerid:"",
+    imageUrl:""
   });
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
   const [role,setRole] = useState();
+  const fetchImage = async (id) => {
+    const fetchURL = `${serverUrl}/api/usersetting/fetchImg/` + id;
+    const response = await fetch(fetchURL);
+    // if response not found, then just return
+    if (!response.ok) {
+      return;
+    }
+    const data = await response.json();
+    console.log(data);
+    setImagePreview(data.imageUrl);
+  };
+
+  const uploadImage = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    console.log(formData.get("image"));
+    const idtoSend = property.id || 'null';
+    const uploadURL = `${serverUrl}/api/usersetting/upload/` + idtoSend;
+    try {
+      const response = await fetch(uploadURL, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        console.log("Image uploaded successfully");
+        let data = await response.json();
+        const imageUrl = data.imageUrl
+        console.log(imageUrl);
+        property.imageUrl = imageUrl;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.substr(0, 5) === "image") {
+      // Check if the file is an image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result); // reader.result contains the base64 encoded image
+        setIsSelect(true);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+    }
+  };
   async function fetchRole() {
     // fetch data from API
     try {
@@ -64,6 +116,8 @@ function AddProperty() {
       let data = await response.json();
       if(response.ok){
         setProperty(data);
+
+        fetchImage(data.id);
         console.log(data);
       }
     }catch(error){
@@ -577,19 +631,50 @@ function AddProperty() {
                 </>
               )}
 
-              <tbody className="text-center ">
+              <tbody>
                 <tr>
-                  <td className="flex justify-center items-center">
-                    <div className="flex justify-center items-center">
-                      <Button onClick={handleSave}>Save</Button>
-                    </div>  
-                  </td>
                   <td>
-                    <div className="flex justify-center items-center">
-                      <Button onClick={goBack}>Back</Button>
-                    </div>
+                    <form className="container mx-auto p-4" onSubmit={uploadImage}>
+                      <h1 className="text-xl font-bold mb-4">Upload an Image</h1>
+                      <input
+                          type="file"
+                          name="image"
+                          onChange={handleImageChange}
+                          className="file:mr-4 file:py-2 file:px-4
+                   file:rounded-full file:border-0
+                   file:text-sm file:font-semibold
+                   file:bg-violet-50 file:text-violet-700
+                   hover:file:bg-violet-100"
+                      />
+                      {imagePreview && (
+                          <div className="mt-4">
+                            <img
+                                src={imagePreview}
+                                alt="Preview"
+                                className="max-w-xs max-h-xs rounded-md shadow-lg"
+                            />
+                          </div>
+                      )}
+                      {isSelect && <Button type="submit">Submit</Button>}
+                    </form>
                   </td>
                 </tr>
+
+              </tbody>
+
+              <tbody className="text-center ">
+              <tr>
+                <td className="flex justify-center items-center">
+                  <div className="flex justify-center items-center">
+                    <Button onClick={handleSave}>Save</Button>
+                  </div>
+                </td>
+                <td>
+                  <div className="flex justify-center items-center">
+                    <Button onClick={goBack}>Back</Button>
+                  </div>
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -597,9 +682,9 @@ function AddProperty() {
       </div>
       )}
 
-      {role != "owner" &&(
+      {role != "owner" && (
           <>
-          <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
+            <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
 
           <div className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000]">
             You don not have the permission.
