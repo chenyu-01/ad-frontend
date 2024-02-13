@@ -29,7 +29,9 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         const data = await response.json();
         setUserData(data);
-        router.push("/");
+        if (router.pathname === "/login" || router.pathname === "/register") {
+          router.push("/");
+        }
       } else {
         setIsAuthenticated(false);
         setUserData(null);
