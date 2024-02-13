@@ -1,7 +1,7 @@
 import { forwardRef, useRef } from "react";
-import InputLabel from "@/app/(nodashboard)/advanced/InputLabel";
-import CheckBoxLabel from "@/app/(nodashboard)/advanced/CheckBoxLabel";
-import SelectLabel from "@/app/(nodashboard)/advanced/SelectLabel";
+import InputLabel from "@/app/(dashboard)/property-list/advanced/InputLabel";
+import CheckBoxLabel from "@/app/(dashboard)/property-list/advanced/CheckBoxLabel";
+import SelectLabel from "@/app/(dashboard)/property-list/advanced/SelectLabel";
 import "./mydialog.css";
 const SearchDialogue = forwardRef(function SearchDialogue(props, ref) {
   const form = useRef(null);

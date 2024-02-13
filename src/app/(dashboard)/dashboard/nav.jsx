@@ -26,8 +26,8 @@ export default function Nav() {
   }
 
   return (
-    <div className="flex flex-col items-stretch py-11 text-base font-semibold tracking-tight bg-white basis-0">
-      <div className="flex flex-col items-center font-medium text-stone-300 max-md:px-5 max-md:mt-10">
+    <div className="flex flex-col items-stretch text-base font-semibold tracking-tight bg-white basis-0">
+      <div className="flex flex-col items-center font-medium text-stone-300">
         <NavLink href={`/`} icon={<DashboardIcon />}>
           Dashboard
         </NavLink>
@@ -52,7 +52,7 @@ export default function Nav() {
         </NavLink>
 
         <button
-          className="flex gap-4 items-center self-stretch text-red-500 mt-12 max-md:mt-10"
+          className="flex gap-4 items-center self-stretch text-red-500"
           onClick={() => logout()}
         >
           <Logout />
@@ -66,7 +66,7 @@ export default function Nav() {
 function NavLink({ href, children, icon }) {
   return (
     <Link
-      className="flex gap-4 items-center self-stretch  text-blue-500 mt-12 max-md:mt-10"
+      className="flex gap-4 items-center self-stretch  text-blue-500 mb-10"
       href={href}
     >
       {icon}

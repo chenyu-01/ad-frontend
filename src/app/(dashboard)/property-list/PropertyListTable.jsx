@@ -8,8 +8,10 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Error from "@/components/ui/Error";
 
 export default function PropertyListTable({ propertyList }) {
+  if (!propertyList) return <Error message={"No content"} />;
   return (
     <Table className="text-2xl mb-5">
       <TableHeader>
@@ -22,7 +24,7 @@ export default function PropertyListTable({ propertyList }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {propertyList.map((p) => (
+        {propertyList?.map((p) => (
           <TableRow key={p.id}>
             <TableCell>{p.town}</TableCell>
             <TableCell>{p.streetName}</TableCell>
