@@ -139,7 +139,7 @@ export default function Preferences() {
 
             <tbody className="text-center ">
               <tr>
-                <td>StoryRange</td>
+                <td>Story Range</td>
                 <td className="flex items-center justify-center w-full ">
                   <div className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
                     <input
@@ -156,7 +156,7 @@ export default function Preferences() {
 
             <tbody className="text-center ">
               <tr>
-                <td className="flex-grow">OneBedRoom</td>
+                <td className="flex-grow">One BedRoom</td>
                 <td className="flex items-center justify-center  w-full ">
                   <div className="flex items-center justify-center ">
                     <Switchbtn
@@ -172,7 +172,7 @@ export default function Preferences() {
 
             <tbody className="text-center">
               <tr>
-                <td>TwoBedRooms</td>
+                <td>Two BedRooms</td>
                 <td className="flex  items-center justify-center w-full">
                   <Switchbtn
                     name="bedroom2"
@@ -185,7 +185,7 @@ export default function Preferences() {
 
             <tbody className="text-center ">
               <tr>
-                <td>ThreeBedRooms</td>
+                <td>Three BedRooms</td>
                 <td className="flex items-center justify-center content-center place-items-center w-full">
                   <Switchbtn
                     name="bedroom3"
@@ -198,7 +198,7 @@ export default function Preferences() {
 
             <tbody className="text-center ">
               <tr>
-                <td>FourBedRooms</td>
+                <td>Four BedRooms</td>
                 <td className="flex items-center justify-center content-center place-items-center w-full">
                   <Switchbtn
                     name="bedroom4"
@@ -211,7 +211,7 @@ export default function Preferences() {
 
             <tbody className="text-center ">
               <tr>
-                <td>LowPriceRange</td>
+                <td>Low Price Range</td>
                 <td className="flex items-center justify-center content-center place-items-center w-full">
                   <Switchbtn
                     name="lowPriceRange"
@@ -224,7 +224,7 @@ export default function Preferences() {
 
             <tbody className="text-center ">
               <tr>
-                <td>MidPriceRange</td>
+                <td>Mid Price Range</td>
                 <td className="flex items-center justify-center content-center place-items-center w-full">
                   <Switchbtn
                     name="midPriceRange"
@@ -237,7 +237,7 @@ export default function Preferences() {
 
             <tbody className="text-center ">
               <tr>
-                <td>HighPriceRange</td>
+                <td>High Price Range</td>
                 <td className="flex items-center justify-center content-center place-items-center w-full">
                   <Switchbtn
                     name="highPriceRange"
