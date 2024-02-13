@@ -4,30 +4,17 @@ import Propic from "./icons/profilepic";
 import Seticon from "./icons/setting";
 import Appoinments from "./icons/appoinment";
 import OwnerListIcon from "./icons/OwnerListIcon";
-import Logout from "./icons/logout";
 import Find from "./icons/find";
-import { useRouter } from "next/navigation";
-import { config } from "@/config";
 import Link from "next/link";
 import AddNewIcon from "./icons/AddNewIcon";
-let serverUrl = config.serverUrl;
+import { AuthContext } from "@/app/(dashboard)/AuthProvider";
+import { useContext } from "react";
 export default function Nav() {
-  const router = useRouter();
-
-  function logout() {
-    fetch(serverUrl + "/api/customer/logout", {
-      method: "POST",
-      credentials: "include",
-    }).then((response) => {
-      if (response.ok) {
-        router.push("/login");
-      }
-    });
-  }
-
+  const { userData } = useContext(AuthContext);
+  const isOwner = userData?.role === "owner"; // if user is owner
   return (
-    <div className="flex flex-col items-stretch py-11 text-base font-semibold tracking-tight bg-white basis-0">
-      <div className="flex flex-col items-center font-medium text-stone-300 max-md:px-5 max-md:mt-10">
+    <div className="flex flex-col items-stretch text-base font-semibold tracking-tight bg-white basis-0">
+      <div className="flex flex-col items-center font-medium text-stone-300">
         <NavLink href={`/`} icon={<DashboardIcon />}>
           Dashboard
         </NavLink>
@@ -41,23 +28,19 @@ export default function Nav() {
         <NavLink href={`/appointment`} icon={<Appoinments />}>
           Appoinments
         </NavLink>
-        <NavLink href={`/addproperty`} icon={<AddNewIcon />}>
-          Add New Property
-        </NavLink>
-        <NavLink href={"/propertylist"} icon={<OwnerListIcon />}>
-          Owner Property List
-        </NavLink>
+        {isOwner && (
+          <>
+            <NavLink href={`/addproperty`} icon={<AddNewIcon />}>
+              Add New Property
+            </NavLink>
+            <NavLink href={"/propertylist"} icon={<OwnerListIcon />}>
+              My Properties
+            </NavLink>
+          </>
+        )}
         <NavLink href="/property-list" icon={<Find />}>
           Search
         </NavLink>
-
-        <button
-          className="flex gap-4 items-center self-stretch text-red-500 mt-12 max-md:mt-10"
-          onClick={() => logout()}
-        >
-          <Logout />
-          <div>Logout</div>
-        </button>
       </div>
     </div>
   );
@@ -66,11 +49,13 @@ export default function Nav() {
 function NavLink({ href, children, icon }) {
   return (
     <Link
-      className="flex gap-4 items-center self-stretch  text-blue-500 mt-12 max-md:mt-10"
+      className="flex gap-4 items-center self-stretch  text-blue-500 mb-10"
       href={href}
     >
       {icon}
-      <div className="flex-auto my-auto">{children}</div>
+      <div className="flex-auto my-auto whitespace-nowrap md:text-2xl">
+        {children}
+      </div>
     </Link>
   );
 }

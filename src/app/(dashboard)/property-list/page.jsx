@@ -6,8 +6,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import MyPagination from "./MyPagination";
 import PropertyListTable from "./PropertyListTable";
 import { fetchListByProps } from "./fetchListByProps.js";
-import Error from "./Error.jsx";
-import SearchDialogue from "@/app/(nodashboard)/advanced/SearchDialog";
+import Error from "../../../components/ui/Error.jsx";
+import SearchDialogue from "@/app/(dashboard)/property-list/advanced/SearchDialog";
 export default function PropertyList() {
   const [propertyList, setPropertyList] = useState([]);
   const router = useRouter();
@@ -98,7 +98,9 @@ export default function PropertyList() {
           </Button>
         </div>
       </div>
-      {!error && <PropertyListTable propertyList={propertyList} />}
+      <div className="h-[70vh] overflow-auto">
+        <PropertyListTable propertyList={propertyList} />
+      </div>
       {error && <Error message={error} />}
       <MyPagination pageNum={page} lastPageNum={lastPageNum} router={router} />
     </div>

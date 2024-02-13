@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { config } from "@/config";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,20 +7,10 @@ const serverUrl = config.serverUrl;
 export default function Register() {
   // Function to handle form submission
   const router = useRouter();
-  const [error, setError] = useState(null);
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
     const formData = {
-      role: event.target.elements.role.value,
-      name: event.target.elements.name.value,
-      email: event.target.elements.email.value,
-      password: event.target.elements.password.value,
-      repeatPassword: event.target.elements.repeatPassword.value,
-      agreeTerms: event.target.elements.agreeTerms.checked,
-    };
-
-    const newData = {
       name: event.target.elements.name.value,
       email: event.target.elements.email.value,
       password: event.target.elements.password.value,
@@ -37,7 +26,7 @@ export default function Register() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // body: JSON.stringify(formData),
-        body: JSON.stringify(newData),
+        body: JSON.stringify(formData),
         credentials: "include",
       });
       if (response.ok) {
@@ -57,7 +46,7 @@ export default function Register() {
   };
 
   return (
-    <section className="vh-100" style={{ backgroundColor: "#eee" }}>
+    <section className="vh-100">
       <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-lg-12 col-xl-11">
