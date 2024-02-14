@@ -98,6 +98,7 @@ export default function Preferences() {
 
       if (response.ok) {
         window.alert("save success");
+        fetchPreferences()
       } else {
         window.alert("save failed");
       }
