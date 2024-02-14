@@ -19,44 +19,38 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Links and Navigation
+## AuthContext in Our Project
 
-```js
-import Link from "next/link";
-export default function Home() {
-  return (
+We are using the AuthContext to manage the user authentication state and user data that include user's id.
+To use the AuthContext, you can import the AuthContext and use the useContext hook to access the user data and the login and logout functions.
+
+```javascript
+import { useContext } from "react";
+import { AuthContext } from "@/app/(dashboard)/AuthProvider";
+
+function TestComponent() {
+  const { userData, isAuthenticated } = useContext(AuthContext);
+  {
+    /*return ( 
     <div>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
+      <h1>{userData.name}</h1>
+      <h2>{userData.email}</h2>
+      <h3>{userData.role}</h3>
+      <h4>{userData.contactNumber}</h4>
     </div>
-  );
+  );*/
+  }
 }
 ```
 
-## Routing
+Here is userData object structure:
 
-```js
-import { useRouter } from "next/navigation";
-
-function ActiveLink({ children, href }) {
-  const router = useRouter();
-  const style = {
-    marginRight: 10,
-    color: router.asPath === href ? "red" : "black",
-  };
-
-  function handleClick(e) {
-    e.preventDefault();
-    router.push(href);
-  }
-
-  return (
-    <a href={href} onClick={handleClick} style={style}>
-      {children}
-    </a>
-  );
+```javascript
+{
+  customerId: string,
+  email: string,
+  name: string,
+  role: string,
+  contactNumber: string,
 }
-
-export default ActiveLink;
 ```
