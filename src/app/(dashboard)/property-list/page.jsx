@@ -13,7 +13,7 @@ import { config } from "@/config";
 const serverUrl = config.serverUrl;
 
 export default function PropertyList() {
-  const [propertyList, setPropertyList] = useState([]);
+  const [propertylist, setPropertylist] = useState([]);
   const router = useRouter();
   const [town, setTown] = useState("");
   const [page, setPage] = useState(1);
@@ -23,7 +23,6 @@ export default function PropertyList() {
   const [error, setError] = useState("");
   const dialog = useRef(null);
   const [sortDirection, setSortDirection] = useState("asc");
-  const [sortUrl, setSortUrl] = useState("");
 
   const searchParams = useSearchParams();
 
@@ -37,7 +36,7 @@ export default function PropertyList() {
         sortDirection,
         ...dataParams,
       });
-      setPropertyList(data.properties);
+      setPropertylist(data.properties);
       setTotalRecords(data.totalRecords);
       setError("");
     } catch (error) {
@@ -53,8 +52,18 @@ export default function PropertyList() {
   const handleSort = () => {
     setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     // Assuming sortUrl is constructed based on sortDirection
-   fetchSortUrl
+    fetchData(sortDirection);
   };
+
+  async function fetchData(sortDirection) {
+    try {
+      const data_fetch = await fetchSort(sortDirection);
+      console.log('Data fetched:', data_fetch);
+      setPropertylist(data_fetch);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
   
 
   useEffect(() => {
@@ -66,28 +75,24 @@ export default function PropertyList() {
   }, [searchParams, propertyType, sortDirection]);
   
 
-  useEffect(() => {
+
     // Fetch the sorting API URL from the backend
-    const fetchSortUrl = async () => {
-      try {
-        const fetchurl = await fetch( serverUrl +'/api/property/list/sort/');
-        let response = await fetch(fetchurl, {
-          method: "POST",
-          credentials: "include",
-        });
-        let data = await response.json();
-        if (!data.ok) {
-          throw new Error('Failed to fetch sorting URL');
-        }
-        console.log(data);
-        setSortUrl(data.sortUrl);
-      } catch (error) {
-        console.error('Error fetching sorting URL:', error);
-      }
-    };
-  
-    fetchSortUrl();
-  }, []);
+  async function fetchSort(sort) {
+    try {
+      const fetchurl = serverUrl +'/api/property/list/sort/' + sort;
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+      });
+      let data = await response.json();
+      console.log(data.properties);
+      return data.properties;
+    } catch (error) {
+      console.error('Error fetching sorting URL:', error.message);
+      return null;
+    }
+  }
+
 
   return (
     <div className="max-w-screen-lg container mx-auto">
@@ -137,7 +142,7 @@ export default function PropertyList() {
         </div>
       </div>
       <div className="h-[70vh] overflow-auto">
-        <PropertyListTable propertyList={propertyList} />
+        <PropertyListTable propertyList={propertylist} />
       </div>
       {error && <Error message={error} />}
       <MyPagination pageNum={page} lastPageNum={lastPageNum} router={router} />
