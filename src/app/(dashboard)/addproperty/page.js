@@ -11,8 +11,6 @@ function AddProperty() {
   // for image
   const [imagePreview, setImagePreview] = useState(null);
   const [isSelect, setIsSelect] = useState(false);
-  const [property, setProperty] = useState([]);
-  /*
   const [property, setProperty] = useState({
     propertyid: "null",
     town: "",
@@ -25,13 +23,12 @@ function AddProperty() {
     contractMonthPeriod: "",
     block: "",
     leaseCommenceDate: "",
-    remainingLease: "",
-    bedrooms: "1",
+    flatModel: "",
     ownerid:"",
     imageUrl:""
   });
 
-   */
+
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
   const [enumFlatTypes, setEnumFlatTypes] = useState([]);
@@ -255,7 +252,7 @@ function AddProperty() {
         body: JSON.stringify(property),
       });
       console.log(JSON.stringify(property));
-
+      console.log(response);
       if (response.ok) {
         window.alert("save success");
       } else {
