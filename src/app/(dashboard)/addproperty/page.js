@@ -11,6 +11,8 @@ function AddProperty() {
   // for image
   const [imagePreview, setImagePreview] = useState(null);
   const [isSelect, setIsSelect] = useState(false);
+  const [property, setProperty] = useState([]);
+  /*
   const [property, setProperty] = useState({
     propertyid: "null",
     town: "",
@@ -28,8 +30,14 @@ function AddProperty() {
     ownerid:"",
     imageUrl:""
   });
+
+   */
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
+  const [enumFlatTypes, setEnumFlatTypes] = useState([]);
+  const [enumFlatModels,setEnumFlatModels] = useState([]);
+
+
   const [role,setRole] = useState();
   const fetchImage = async (id) => {
     const fetchURL = `${serverUrl}/api/usersetting/fetchImg/` + id;
@@ -149,7 +157,7 @@ function AddProperty() {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let fetchurl = serverUrl + "/api/usersetting/getTownName";
+      let fetchurl = serverUrl + "/api/usersetting/getTownNames";
       let response = await fetch(fetchurl, {
         method: "GET",
         credentials: "include",
@@ -159,6 +167,44 @@ function AddProperty() {
       });
       let data = await response.json();
       setEnumTownOptions(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function fetchFlatType() {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl = serverUrl + "/api/usersetting/getFlatTypes";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      let data = await response.json();
+      setEnumFlatTypes(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function fetchFlatModel() {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl = serverUrl + "/api/usersetting/getFlatModels";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      let data = await response.json();
+      setEnumFlatModels(data);
     } catch (error) {
       console.error(error.message);
     }
@@ -176,6 +222,8 @@ function AddProperty() {
     fetchRole();
     fetchPropertyStatus();
     fetchTownName();
+    fetchFlatType();
+    fetchFlatModel();
     // the first time the page is loaded, fetch data from API
     //SelectStatus({target:{value:'rented'}});
     setProperty((prevProperty) => {
@@ -189,7 +237,9 @@ function AddProperty() {
 
   useEffect(() => {
     handleChange({ target: { name: "town", value: enumTownOptions[0] } });
-  }, [enumTownOptions]);
+    handleChange({ target: { name: "flatType", value: enumFlatTypes[0] } });
+    handleChange({ target: { name: "flatModel", value: enumFlatModels[0] } });
+  }, [enumTownOptions,enumFlatTypes,enumFlatModels]);
 
   const handleSave = async () => {
     try {
@@ -339,35 +389,45 @@ function AddProperty() {
                     </div>
                   </td>
                   <td>
-                    <div className="flex items-center  mt-2">
-                      <input
-                        name="flatType"
-                        value={property.flatType}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      />
+                    <div className="flex items-center  w-full">
+                      <select
+                          name="flatType"
+                          value={property.flatType}
+                          onChange={handleChange}
+                          className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                      >
+                        {enumFlatTypes.map((option) => (
+                            <option
+                                key={option}
+                                value={option}
+                                className="flex items-center ml-3 truncate  "
+                            >
+                              {option}
+                            </option>
+                        ))}
+                      </select>
                     </div>
                   </td>
                 </tr>
               </tbody>
 
               <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px]  mt-[5px]">
-                      <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
+              <tr>
+                <td>
+                  <div className=" h-[50px]  mt-[5px]">
+                    <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
                         <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
+                            id="listbox-label"
+                            className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
                         >
                           StoryRange
                         </span>
-                      </div>
                     </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center   mt-2">
-                      <input
+                  </div>
+                </td>
+                <td>
+                  <div className="flex items-center   mt-2">
+                    <input
                         name="storeyRange"
                         value={property.storeyRange}
                         onChange={handleChange}
@@ -469,43 +529,28 @@ function AddProperty() {
                           id="listbox-label"
                           className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
                         >
-                          BedRooms
+                          FlatModel
                         </span>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <div className="flex items-center  mt-2">
+                    <div className="flex items-center  w-full">
                       <select
-                        name="bedrooms"
-                        value={property.bedrooms}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                          name="flatModel"
+                          value={property.flatModel}
+                          onChange={handleChange}
+                          className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
                       >
-                        <option
-                          value="1"
-                          className="flex items-center ml-3  truncate "
-                        >
-                          1
-                        </option>
-                        <option
-                          value="2"
-                          className="flex items-center ml-3  truncate "
-                        >
-                          2
-                        </option>
-                        <option
-                          value="3"
-                          className="flex items-center ml-3  truncate "
-                        >
-                          3
-                        </option>
-                        <option
-                          value="4"
-                          className="flex items-center ml-3  truncate "
-                        >
-                          4
-                        </option>
+                        {enumFlatModels.map((option) => (
+                            <option
+                                key={option}
+                                value={option}
+                                className="flex items-center ml-3 truncate  "
+                            >
+                              {option}
+                            </option>
+                        ))}
                       </select>
                     </div>
                   </td>
@@ -513,22 +558,22 @@ function AddProperty() {
               </tbody>
 
               <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px]   mt-[5px]">
-                      <div className="flex items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+              <tr>
+                <td>
+                  <div className=" h-[50px]   mt-[5px]">
+                    <div className="flex items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
                         <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
+                            id="listbox-label"
+                            className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
                         >
                           Price
                         </span>
-                      </div>
                     </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center  relative mt-2">
-                      <input
+                  </div>
+                </td>
+                <td>
+                  <div className="flex items-center  relative mt-2">
+                    <input
                         name="price"
                         value={property.price}
                         onChange={handleChange}
@@ -562,33 +607,6 @@ function AddProperty() {
                             type="date"
                             name="leaseCommenceDate"
                             value={property.leaseCommenceDate}
-                            onChange={handleChange}
-                            className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                  <tbody className="text-center ">
-                    <tr>
-                      <td>
-                        <div className=" h-[50px]   mt-[5px]">
-                          <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
-                            <span
-                              id="listbox-label"
-                              className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
-                            >
-                              RemainingLease
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center  mt-2">
-                          <input
-                            name="remainingLease"
-                            value={property.remainingLease}
                             onChange={handleChange}
                             className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
                           />
