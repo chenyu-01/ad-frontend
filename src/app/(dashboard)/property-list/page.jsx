@@ -13,7 +13,7 @@ import { config } from "@/config";
 const serverUrl = config.serverUrl;
 
 export default function PropertyList() {
-  const [propertylist, setPropertylist] = useState([]);
+  const [propertyList, setPropertyList] = useState([]);
   const router = useRouter();
   const [town, setTown] = useState("");
   const [page, setPage] = useState(1);
@@ -23,9 +23,7 @@ export default function PropertyList() {
   const [error, setError] = useState("");
   const dialog = useRef(null);
   const [sortDirection, setSortDirection] = useState("asc");
-
   const searchParams = useSearchParams();
-
 
   const searchProperty = async ({ ...dataParams } = {}) => {
     try {
@@ -36,7 +34,7 @@ export default function PropertyList() {
         sortDirection,
         ...dataParams,
       });
-      setPropertylist(data.properties);
+      setPropertyList(data.properties);
       setTotalRecords(data.totalRecords);
       setError("");
     } catch (error) {
@@ -52,18 +50,10 @@ export default function PropertyList() {
   const handleSort = () => {
     setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     // Assuming sortUrl is constructed based on sortDirection
-    fetchData(sortDirection);
+    fetchSort(sortDirection);
+
   };
 
-  async function fetchData(sortDirection) {
-    try {
-      const data_fetch = await fetchSort(sortDirection);
-      console.log('Data fetched:', data_fetch);
-      setPropertylist(data_fetch);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
   
 
   useEffect(() => {
@@ -81,12 +71,12 @@ export default function PropertyList() {
     try {
       const fetchurl = serverUrl +'/api/property/list/sort/' + sort;
       let response = await fetch(fetchurl, {
-        method: "GET",
+        method: "POST",
         credentials: "include",
       });
       let data = await response.json();
       console.log(data.properties);
-      return data.properties;
+      setPropertyList(data.properties)
     } catch (error) {
       console.error('Error fetching sorting URL:', error.message);
       return null;
@@ -142,7 +132,7 @@ export default function PropertyList() {
         </div>
       </div>
       <div className="h-[70vh] overflow-auto">
-        <PropertyListTable propertyList={propertylist} />
+        <PropertyListTable propertyList={propertyList} />
       </div>
       {error && <Error message={error} />}
       <MyPagination pageNum={page} lastPageNum={lastPageNum} router={router} />
