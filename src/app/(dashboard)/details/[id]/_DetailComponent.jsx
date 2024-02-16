@@ -56,7 +56,7 @@ export default function DetailComponent(props) {
           }
         </div>
         <div className="hidden lg:block lg:w-1/2 lg:ml-5">
-          {/* Other contents */}w
+          {/* Other contents */}
         </div>
       </header>
     </div>

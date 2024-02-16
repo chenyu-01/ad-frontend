@@ -9,6 +9,7 @@ const LineChart = ({ currentValue, labels, id}) => {
   const [dataPoints, setDataPoints] = useState([]);
   const serverUrl = config.serverUrl;
   
+  
   useEffect(() => {
     if (id && serverUrl) {
       console.log(`Fetching data for ID: ${id} from URL: ${serverUrl}/api/property/predict/${id}`);
