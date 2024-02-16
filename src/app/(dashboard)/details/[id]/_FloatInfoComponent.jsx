@@ -79,6 +79,7 @@ export default class FloatInfoComponent extends Component {
               <DatePickerForm
                 owner={this.props.info.owner}
                 id={this.props.info.estate}
+                user={this.props.info.userid}
               />
             </div>
           </div>
@@ -139,7 +140,8 @@ export default class FloatInfoComponent extends Component {
                 />
                 <span className="text-gray-400 text-xs mt-2">Price psf</span>
                 <span className="text-black text-xl font-medium">
-                  ${this.props.price / this.props.info.area}
+                  {/* shall be int */}
+                  $ {Math.floor(this.props.price/this.props.info.area)}
                 </span>
               </div>
             ) : (

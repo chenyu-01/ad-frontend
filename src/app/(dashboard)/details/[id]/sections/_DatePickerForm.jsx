@@ -43,7 +43,7 @@ export default function DatePickerForm(props) {
   function onSubmit(data) {
     const requestBody = {
       ownerId: props.owner,
-      buyerId: "1", //tmp
+      buyerId: props.user, //tmp
       propertyId: props.id,
       appointmentDate: data.dob.toISOString(), 
     };

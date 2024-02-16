@@ -5,7 +5,7 @@ import ImageSlider from "./sections/_ImageSlider";
 
 export default function HeroComponent(props) {
   //const imageList = ["/pixel-city-1.png", "/pixel-city-2.png"];
-  const imageList = [props.ImageUrl];
+  const imageList = [props.ImageUrl,props.ImageUrl];
   const { type, name, price, ImageUrl, info } = props;
   const TYPE = type === "forRent" ? "Rent" : "Sale";
 
