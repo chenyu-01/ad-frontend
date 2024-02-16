@@ -9,6 +9,8 @@ function PropertyList() {
   const router = useRouter();
   const [propertylists, setPropertylists] = useState([]);
   const [role,setRole] = useState();
+  const [loading,setLoading] = useState(true);
+  const [page,setPage] = useState(1);
 
   async function fetchRole() {
     try {
@@ -51,7 +53,24 @@ function PropertyList() {
     // the first time the page is loaded, fetch data from API
     fetchRole();
     fetchPropertylists();
+  }, [page]);
+
+  useEffect(() => {
+    // 监听页面滚动事件
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+  const handleScroll = () => {
+    // 在滚动到页面底部时触发加载更多数据的函数
+    if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        !loading
+    ) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
 
   const handleClick = async (id,propertyStatus) =>{
     try {
@@ -91,7 +110,9 @@ function PropertyList() {
       if(response.ok)
       console.log(data);
       window.alert("Deleted property");
-      fetchPropertylists();
+      await fetchPropertylists();
+      location.reload();
+
     } catch (error) {
       window.alert("Failed to deleted property");
       console.error(error.message);
