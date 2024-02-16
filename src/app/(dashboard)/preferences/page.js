@@ -3,12 +3,14 @@ import { config } from "@/config";
 import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
 import Switchbtn from "@/app/(dashboard)/usersetting/compoents/switchbtn";
+import {data} from "autoprefixer";
 
 const serverUrl = config.serverUrl;
 
 export default function Preferences() {
   const [preferences, setPreferences] = useState([]);
   const [enumOptions, setEnumOptions] = useState([]);
+  const [enumFlatTypes, setEnumFlatTypes] = useState([]);
 
   async function fetchPreferences() {
     // fetch data from API
@@ -25,6 +27,7 @@ export default function Preferences() {
         },
       });
       let data = await response.json();
+      console.log(data);
       setPreferences(data);
     } catch (error) {
       console.error(error.message);
@@ -50,14 +53,39 @@ export default function Preferences() {
       console.error(error.message);
     }
   }
+
+  async function fetchFlatType() {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl = serverUrl + "/api/usersetting/getFlatTypes";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      let data = await response.json();
+      setEnumFlatTypes(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
     fetchTownName();
+    fetchFlatType();
     fetchPreferences();
   }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e;
+    console.log(name);
+    console.log(value);
+    console.log(type);
+    console.log(checked);
     if (type == "change") {
       const { name, value, type, checked } = e.target;
       setPreferences((prevData) => ({
@@ -65,9 +93,9 @@ export default function Preferences() {
         [name]: value,
       }));
     } else {
-      setPreferences((prevData) => ({
-        ...prevData,
-        [name]: value,
+      setPreferences((prevData) =>({
+          ...prevData,
+          [name]: checked,
       }));
     }
   };
@@ -85,7 +113,6 @@ export default function Preferences() {
         },
         body: JSON.stringify(preferences),
       });
-
       if (response.ok) {
         window.alert("save success");
         await fetchPreferences();
@@ -150,12 +177,12 @@ export default function Preferences() {
 
             <tbody className="text-center ">
             <tr>
-              <td className="flex-grow">OneBedRoom</td>
+              <td className="flex-grow">{enumFlatTypes[0]}</td>
               <td className="flex items-center justify-center  w-full ">
                 <div className="flex items-center justify-center ">
                   <Switchbtn
-                      name="bedroom1"
-                      value={preferences.bedroom1}
+                      name="one_ROOM"
+                      checked={preferences.one_ROOM}
                       onChange={handleChange}
                       className=" my-auto"
                   ></Switchbtn>
@@ -164,41 +191,99 @@ export default function Preferences() {
             </tr>
             </tbody>
 
-            <tbody className="text-center">
+
+            <tbody className="text-center ">
             <tr>
-              <td>TwoBedRooms</td>
-              <td className="flex  items-center justify-center w-full">
-                <Switchbtn
-                    name="bedroom2"
-                    value={preferences.bedroom2}
-                    onChange={handleChange}
-                ></Switchbtn>
+              <td className="flex-grow">{enumFlatTypes[1]}</td>
+              <td className="flex items-center justify-center  w-full ">
+                <div className="flex items-center justify-center ">
+                  <Switchbtn
+                      name="two_ROOM"
+                      checked={preferences.two_ROOM}
+                      onChange={handleChange}
+                      className=" my-auto"
+                  ></Switchbtn>
+                </div>
               </td>
             </tr>
             </tbody>
 
             <tbody className="text-center ">
             <tr>
-              <td>ThreeBedRooms</td>
-              <td className="flex items-center justify-center content-center place-items-center w-full">
-                <Switchbtn
-                    name="bedroom3"
-                    value={preferences.bedroom3}
-                    onChange={handleChange}
-                ></Switchbtn>
+              <td className="flex-grow">{enumFlatTypes[2]}</td>
+              <td className="flex items-center justify-center  w-full ">
+                <div className="flex items-center justify-center ">
+                  <Switchbtn
+                      name="three_ROOM"
+                      checked={preferences.three_ROOM}
+                      onChange={handleChange}
+                      className=" my-auto"
+                  ></Switchbtn>
+                </div>
               </td>
             </tr>
             </tbody>
 
             <tbody className="text-center ">
             <tr>
-              <td>FourBedRooms</td>
-              <td className="flex items-center justify-center content-center place-items-center w-full">
-                <Switchbtn
-                    name="bedroom4"
-                    value={preferences.bedroom4}
-                    onChange={handleChange}
-                ></Switchbtn>
+              <td className="flex-grow">{enumFlatTypes[3]}</td>
+              <td className="flex items-center justify-center  w-full ">
+                <div className="flex items-center justify-center ">
+                  <Switchbtn
+                      name="four_ROOM"
+                      checked={preferences.four_ROOM}
+                      onChange={handleChange}
+                      className=" my-auto"
+                  ></Switchbtn>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+
+            <tbody className="text-center ">
+            <tr>
+              <td className="flex-grow">{enumFlatTypes[4]}</td>
+              <td className="flex items-center justify-center  w-full ">
+                <div className="flex items-center justify-center ">
+                  <Switchbtn
+                      name="five_ROOM"
+                      checked={preferences.five_ROOM}
+                      onChange={handleChange}
+                      className=" my-auto"
+                  ></Switchbtn>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+
+            <tbody className="text-center ">
+            <tr>
+              <td className="flex-grow">{enumFlatTypes[5]}</td>
+              <td className="flex items-center justify-center  w-full ">
+                <div className="flex items-center justify-center ">
+                  <Switchbtn
+                      name="executive"
+                      checked={preferences.executive}
+                      onChange={handleChange}
+                      className=" my-auto"
+                  ></Switchbtn>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+
+            <tbody className="text-center ">
+            <tr>
+              <td className="flex-grow">{enumFlatTypes[6]}</td>
+              <td className="flex items-center justify-center  w-full ">
+                <div className="flex items-center justify-center ">
+                  <Switchbtn
+                      name="multi_GENERATION"
+                      checked={preferences.multi_GENERATION}
+                      onChange={handleChange}
+                      className=" my-auto"
+                  ></Switchbtn>
+                </div>
               </td>
             </tr>
             </tbody>
