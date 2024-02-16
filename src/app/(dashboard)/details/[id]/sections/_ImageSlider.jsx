@@ -17,15 +17,20 @@ export default function ImageSlider({ images, type }) {
   };
 
   const getNextImageIndexes = () => {
+    if (images.length <= 1) {
+      return [];
+    }
     const nextIndexes = [];
     for (let i = 1; i <= 3; i++) {
       let nextIndex = (currentIndex + i) % images.length;
       nextIndexes.push(nextIndex);
-
+  
       if (nextIndexes.length === images.length - 1) break;
     }
     return nextIndexes;
   };
+
+ 
 
   return (
     <div className="relative">
@@ -69,7 +74,7 @@ export default function ImageSlider({ images, type }) {
       <div className="relative mt-2">
         {images.length > 1 && (
           <>
-            <button
+          <button
               onClick={goToPrevious}
               aria-label="Previous"
               className="absolute left-0 top-1/2 transform -translate-y-1/2 z-5"
@@ -78,15 +83,16 @@ export default function ImageSlider({ images, type }) {
             </button>
 
             <button
-              onClick={goToNext}
-              aria-label="Next"
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 z-5"
-            >
+            onClick={goToNext}
+            aria-label="Next"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-5"
+          >
               <Image src="/details/Rarrow.png" alt=">" width={40} height={40} />
             </button>
           </>
         )}
 
+        {images.length > 1 && (
         <div className="flex justify-center space-x-2">
           {getNextImageIndexes().map((index) => (
             <Image
@@ -101,6 +107,7 @@ export default function ImageSlider({ images, type }) {
             />
           ))}
         </div>
+      )}
       </div>
     </div>
   );

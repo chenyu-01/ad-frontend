@@ -111,6 +111,7 @@ export default function Details() {
         type={data.propertyStatus}
         name={data.streetName}
         price={data.price}
+        ImageUrl={data.imageUrl}
         info={info}
       />
       <DetailComponent
