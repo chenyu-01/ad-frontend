@@ -65,9 +65,11 @@ function AddProperty() {
         const imageUrl = data.imageUrl
         console.log(imageUrl);
         property.imageUrl = imageUrl;
+        window.alert("submit image successfully");
       }
     } catch (error) {
       console.log(error);
+      window.alert("failed to submit image");
     }
   };
 
@@ -101,7 +103,6 @@ function AddProperty() {
       let data = await response.json();
       if(response.ok)
       console.log(data);
-      
       setRole(data.role);
     } catch (error) {
       console.error(error.message);
@@ -121,8 +122,7 @@ function AddProperty() {
       let data = await response.json();
       if(response.ok){
         setProperty(data);
-
-        fetchImage(data.id);
+        await fetchImage(data.id);
         console.log(data);
       }
     }catch(error){
