@@ -51,7 +51,7 @@ export default class FloatInfoComponent extends Component {
   render() {
     const { isSticky, componentHeight, stickyWidth, showModal } = this.state;
     const stickyStyle = isSticky
-      ? { position: "fixed", top: 20, zIndex: 1000, width: `${stickyWidth}px` }
+      ? { position: "fixed", top: 20, zIndex: 20, width: `${stickyWidth}px` }
       : {};
 
     const nextSiblingStyle = isSticky
@@ -62,7 +62,7 @@ export default class FloatInfoComponent extends Component {
       <>
         {showModal && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
             onClick={this.closeModal}
           >
             <div
