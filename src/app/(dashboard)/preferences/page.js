@@ -101,6 +101,10 @@ export default function Preferences() {
   };
 
   const handleSave = async () => {
+    if(parseInt(preferences.highPrice) <= parseInt(preferences.lowPrice)){
+      window.alert("High price must be greater than low price.");
+      return;
+    }
     try {
       let fetchurl =
         serverUrl + "/api/usersetting/savePreferences";
