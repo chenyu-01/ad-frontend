@@ -1,5 +1,7 @@
 "use client";
 import { config } from "@/config";
+import { useContext } from "react";
+import { AuthContext } from "@/app/(dashboard)/AuthProvider";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -16,8 +18,10 @@ export default function Details() {
   const params = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [info, setInfo] = useState({});
-
+  const { userData, isAuthenticated } = useContext(AuthContext);
+  
   const serverUrl = config.serverUrl;
+
 
   useEffect(() => {
     if (params.id) {
@@ -28,6 +32,7 @@ export default function Details() {
           setData(responseData);
 
           const newInfo = {
+            userid: id,
             estate: params.id,
             area: responseData.floorArea,
             bedrooms: responseData.flatType,
@@ -38,6 +43,7 @@ export default function Details() {
             }),
           };
 
+          setId(userData?.id);
           setInfo(newInfo);
 
           setIsLoading(false);
@@ -73,7 +79,11 @@ export default function Details() {
         price={data.price}
         info={info}
       />
-      <DetailComponent />
+      <DetailComponent
+      price = {data.price} 
+      id = {params.id} 
+      type = {data.propertyStatus}
+      />
 
       <MoreSection items={[]} />
     </div>
