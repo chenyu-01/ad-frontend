@@ -128,6 +128,13 @@ export default function PropertyListTable({ propertyList, setPropertyList }) {
             >
               Price
             </SortDropDownMenu>
+            <SortDropDownMenu
+              column={"price"}
+              sortState={sortState}
+              setSortState={setSortState}
+            >
+              Price
+            </SortDropDownMenu>
           </TableHead>
           <TableHead>Detail</TableHead>
         </TableRow>
