@@ -99,7 +99,10 @@ export default function PropertyList() {
         </div>
       </div>
       <div className="h-[70vh] overflow-auto">
-        <PropertyListTable propertyList={propertyList} />
+        <PropertyListTable
+          propertyList={propertyList}
+          setPropertyList={setPropertyList}
+        />
       </div>
       {error && <Error message={error} />}
       <MyPagination pageNum={page} lastPageNum={lastPageNum} router={router} />
