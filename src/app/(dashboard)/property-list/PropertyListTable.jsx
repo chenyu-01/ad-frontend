@@ -23,15 +23,15 @@ export default function PropertyListTable({ propertyList, setPropertyList }) {
   const [sortState, setSortState] = useState({ column: null, order: null });
   if (!propertyList) return <Error message={"No content"} />;
   function SortDropDownMenu({ children, column, sortState, setSortState }) {
-    const determineSortIcon = () => {
-      if (sortState?.column === column) {
-        return sortState.order ? <ArrowUpIcon /> : <ArrowDownIcon />;
-      } else {
-        return <ArrowUpDownIcon />;
-      }
-    };
     const [sortIcon, setSortIcon] = useState(<ArrowUpDownIcon />);
     useEffect(() => {
+      const determineSortIcon = () => {
+        if (sortState?.column === column) {
+          return sortState.order ? <ArrowUpIcon /> : <ArrowDownIcon />;
+        } else {
+          return <ArrowUpDownIcon />;
+        }
+      };
       setSortIcon(determineSortIcon);
     }, [sortState, column]);
     const toggleSort = (order) => {
