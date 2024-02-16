@@ -8,6 +8,7 @@ import PropertyListTable from "./PropertyListTable";
 import { fetchListByProps } from "./fetchListByProps.js";
 import Error from "../../../components/ui/Error.jsx";
 import SearchDialogue from "@/app/(dashboard)/property-list/advanced/SearchDialog";
+import { useCallback } from "react";
 export default function PropertyList() {
   const [propertyList, setPropertyList] = useState([]);
   const router = useRouter();
@@ -20,22 +21,24 @@ export default function PropertyList() {
   const dialog = useRef(null);
   // get the page number from the query string, and set it to pageNum when URL changes
   const searchParams = useSearchParams();
-  const searchProperty = async ({ ...dataParams } = {}) => {
-    try {
-      let data = await fetchListByProps({
-        page,
-        town,
-        propertyType,
-        ...dataParams,
-      });
-      setPropertyList(data.properties);
-      setTotalRecords(data.totalRecords);
-      setError("");
-    } catch (error) {
-      console.log(error);
-      setError(error);
-    }
-  };
+  const searchProperty = useCallback(
+    async ({ ...dataParams } = {}) => {
+      try {
+        let data = await fetchListByProps({
+          page,
+          town,
+          propertyType,
+          ...dataParams,
+        });
+        setPropertyList(data.properties);
+        setTotalRecords(data.totalRecords);
+      } catch (error) {
+        console.log(error);
+        setError(error);
+      }
+    },
+    [page, town, propertyType],
+  );
   const openDialog = () => {
     dialog.current?.showModal();
   };
@@ -46,17 +49,14 @@ export default function PropertyList() {
       setPage(parseInt(pageNum));
     }
     searchProperty();
-  }, [searchParams, propertyType, propertyType]);
-  useEffect(() => {
-    searchProperty();
-  }, []);
+  }, [searchParams, propertyType, searchProperty]); // because searchProperty is a dependency, will run when page initially loads
 
   return (
     <div className="max-w-screen-lg container mx-auto">
       {/* search bar */}
       <div className="flex justify-between items-center my-5">
         <form
-          className="flex justify-between sm:flex hidden"
+          className="flex justify-between sm:flex"
           onSubmit={(e) => {
             e.preventDefault();
             searchProperty();

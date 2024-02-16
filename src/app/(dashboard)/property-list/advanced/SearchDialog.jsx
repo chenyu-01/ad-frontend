@@ -15,6 +15,9 @@ const SearchDialogue = forwardRef(function SearchDialogue(props, ref) {
       roomTwo: data.roomTwo === "on",
       roomThree: data.roomThree === "on",
       roomFour: data.roomFour === "on",
+      roomFive: data.roomFive === "on",
+      executive: data.executive === "on",
+      multiGen: data.multiGen === "on",
     };
 
     ref.current.close();
@@ -61,6 +64,9 @@ const SearchDialogue = forwardRef(function SearchDialogue(props, ref) {
             <CheckBoxLabel label={`Two`} id={`roomTwo`} />
             <CheckBoxLabel label={`Three`} id={`roomThree`} />
             <CheckBoxLabel label={`Four`} id={`roomFour`} />
+            <CheckBoxLabel label={`Five`} id={`roomFive`} />
+            <CheckBoxLabel label={`Executive`} id={`executive`} />
+            <CheckBoxLabel label={`MultiGent`} id={`multiGen`} />
           </div>
         </div>
 
