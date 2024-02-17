@@ -36,7 +36,7 @@ export default function DatePickerForm(props) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
-
+  const [isError, setisError] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(null);
 
@@ -59,7 +59,7 @@ export default function DatePickerForm(props) {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
+        return response.text();
       })
       .then((data) => {
         console.log("Success:", data);
@@ -68,6 +68,7 @@ export default function DatePickerForm(props) {
       })
       .catch((error) => {
         console.error("Error:", error);
+        setisError(true);
       });
   }
 
@@ -80,6 +81,15 @@ export default function DatePickerForm(props) {
     return (
       <div className="p-4 rounded-md">
         <h2 className="text-lg text-black"> Submitted Successfully!</h2>
+        <pre className="mt-2 text-black">
+          {/* <code>{JSON.stringify(formData, null, 2)}</code> */}
+        </pre>
+      </div>
+    );
+  }else if(isError){
+    return (
+      <div className="p-4 rounded-md">
+        <h2 className="text-lg text-black"> Error!</h2>
         <pre className="mt-2 text-black">
           {/* <code>{JSON.stringify(formData, null, 2)}</code> */}
         </pre>
