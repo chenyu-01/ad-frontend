@@ -64,7 +64,7 @@ export default function Details() {
             setId(userData?.customerId);
 
             const newInfo = {
-              userid: id,
+              userid: userData?.customerId,
               estate: params.id,
               area: responseData.floorArea,
               bedrooms: responseData.flatType,
