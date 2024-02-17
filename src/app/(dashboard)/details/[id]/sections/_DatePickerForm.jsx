@@ -36,7 +36,7 @@ export default function DatePickerForm(props) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
-  const [isError, setisError] = useState(false);
+  const [isError, setisError] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(null);
 
@@ -86,7 +86,7 @@ export default function DatePickerForm(props) {
         </pre>
       </div>
     );
-  }else if(isError){
+  }else if(isError ){
     return (
       <div className="p-4 rounded-md">
         <h2 className="text-lg text-black"> Error!</h2>
