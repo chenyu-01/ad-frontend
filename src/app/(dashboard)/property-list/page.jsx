@@ -9,6 +9,8 @@ import { fetchListByProps } from "./fetchListByProps.js";
 import Error from "../../../components/ui/Error.jsx";
 import SearchDialogue from "@/app/(dashboard)/property-list/advanced/SearchDialog";
 import { useCallback } from "react";
+import Image from "next/image";
+import { set } from "date-fns";
 export default function PropertyList() {
   const [propertyList, setPropertyList] = useState([]);
   const router = useRouter();
@@ -19,10 +21,12 @@ export default function PropertyList() {
   const lastPageNum = Math.ceil(totalRecords / 10);
   const [error, setError] = useState("");
   const dialog = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
   // get the page number from the query string, and set it to pageNum when URL changes
   const searchParams = useSearchParams();
   const searchProperty = useCallback(
     async ({ ...dataParams } = {}) => {
+      setIsLoading(true);
       try {
         let data = await fetchListByProps({
           page,
@@ -35,6 +39,8 @@ export default function PropertyList() {
       } catch (error) {
         console.log(error);
         setError(error);
+      } finally {
+        setIsLoading(false);
       }
     },
     [page, town, propertyType],
@@ -51,6 +57,19 @@ export default function PropertyList() {
     searchProperty();
   }, [searchParams, propertyType, searchProperty]); // because searchProperty is a dependency, will run when page initially loads
 
+  if (isLoading || propertyList.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Image
+          src="/details/loading.gif"
+          alt="Loading..."
+          width={300}
+          height={300}
+          className="block"
+        />
+      </div>
+    );
+  }
   return (
     <div className="max-w-screen-lg container mx-auto">
       {/* search bar */}

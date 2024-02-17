@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function AppoinmentTable({
   appointments,
@@ -18,6 +19,8 @@ export default function AppoinmentTable({
           <th>Contact Number</th>
           <th>Date</th>
           <th>Status</th>
+          <th>Property</th>
+          <th>Detail</th>
           {actionName && <th>{actionName}</th>}
           <th>Cancel</th>
         </tr>
@@ -29,7 +32,15 @@ export default function AppoinmentTable({
             <td>{appointment.contactNumber}</td>
             <td>{renderDate(appointment.date)}</td>
             <td>{appointment.status}</td>
-
+            <td>{appointment.propertyName}</td>
+            <td>
+              <Link
+                href={`/details/${appointment.propertyId}`}
+                className="flex"
+              >
+                <Button>Detail</Button>
+              </Link>
+            </td>
             {actionName && (
               <td>
                 <Button

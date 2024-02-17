@@ -4,8 +4,13 @@ import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
 import AppoinmentTable from "./AppoinmentTable";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useContext } from "react";
+import { AuthContext } from "@/app/(dashboard)/AuthProvider";
 const serverUrl = config.serverUrl;
 export default function ManageAppointments() {
+  const [forOwner, setForOwner] = useState(false);
+  const { userData } = useContext(AuthContext);
   const router = useRouter();
   const [appointments, setAppointments] = useState([]);
   const [appointmentForOwner, setAppointmentForOwner] = useState([]);
@@ -37,21 +42,7 @@ export default function ManageAppointments() {
       console.error(error.message);
     }
   }
-  async function fetchCustomer() {
-    try {
-      let fetchurl = serverUrl + "/api/customer/check-auth";
-      let response = await fetch(fetchurl, {
-        method: "GET",
-        credentials: "include",
-      });
-      let data = await response.json();
-      if (data.role === "owner") {
-        fetchAppointmentFromOtherCustomer();
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
+
   async function handleConfirm(appointmentid) {
     try {
       let fetchurl = serverUrl + "/api/appointment/confirm/" + appointmentid;
@@ -71,7 +62,6 @@ export default function ManageAppointments() {
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
     fetchRequestedAppointments();
-    fetchCustomer();
   }, []);
 
   const handleCancel = async (appointmentid) => {
@@ -99,23 +89,42 @@ export default function ManageAppointments() {
   };
 
   return (
-    <div>
-      {appointments.length >= 1 && (
-        <>
-          <h1>Manage Requested Appointments</h1>
+    <div className="mt-10">
+      <div class="flex space-x-3">
+        <Button
+          onClick={() => {
+            setForOwner(false);
+            fetchRequestedAppointments();
+          }}
+        >
+          My Requested Appointments
+        </Button>
+        {userData.role === "owner" && (
+          <Button
+            onClick={() => {
+              setForOwner(true);
+              fetchAppointmentFromOtherCustomer();
+            }}
+          >
+            Appointments To Me
+          </Button>
+        )}
+      </div>
+
+      {!forOwner && appointments.length >= 1 && (
+        <div>
           <AppoinmentTable appointments={appointments} cancel={handleCancel} />
-        </>
+        </div>
       )}
-      {appointmentForOwner.length >= 1 && (
-        <>
-          <h1>Manage Appointments for Owner</h1>
+      {forOwner && appointmentForOwner.length >= 1 && (
+        <div>
           <AppoinmentTable
             appointments={appointmentForOwner}
             Action={handleConfirm}
             actionName={`Confirm`}
             cancel={handleCancel}
           />
-        </>
+        </div>
       )}
     </div>
   );
