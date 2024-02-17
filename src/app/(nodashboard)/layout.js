@@ -17,7 +17,9 @@ export default function RootLayout({ children }) {
               <div className="">
                 <Header />
               </div>
-              <div className={`flex justify-center mt-10`}>{children}</div>
+              <div className={`flex w-full justify-center mt-10`}>
+                {children}
+              </div>
             </div>
           </div>
         </AuthProvider>

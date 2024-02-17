@@ -3,7 +3,7 @@ import { config } from "@/config";
 import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 
 const serverUrl = config.serverUrl;
 function AddProperty() {
@@ -24,18 +24,16 @@ function AddProperty() {
     block: "",
     leaseCommenceDate: "",
     flatModel: "",
-    ownerid:"",
-    imageUrl:""
+    ownerid: "",
+    imageUrl: "",
   });
-
 
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
   const [enumFlatTypes, setEnumFlatTypes] = useState([]);
-  const [enumFlatModels,setEnumFlatModels] = useState([]);
+  const [enumFlatModels, setEnumFlatModels] = useState([]);
 
-
-  const [role,setRole] = useState();
+  const [role, setRole] = useState();
   const fetchImage = async (id) => {
     const fetchURL = `${serverUrl}/api/usersetting/fetchImg/` + id;
     const response = await fetch(fetchURL);
@@ -52,7 +50,7 @@ function AddProperty() {
     e.preventDefault();
     const formData = new FormData(e.target);
     console.log(formData.get("image"));
-    const idtoSend = property.id || 'null';
+    const idtoSend = property.id || "null";
     const uploadURL = `${serverUrl}/api/usersetting/upload/` + idtoSend;
     try {
       const response = await fetch(uploadURL, {
@@ -62,7 +60,7 @@ function AddProperty() {
       if (response.ok) {
         console.log("Image uploaded successfully");
         let data = await response.json();
-        const imageUrl = data.imageUrl
+        const imageUrl = data.imageUrl;
         console.log(imageUrl);
         property.imageUrl = imageUrl;
         window.alert("submit image successfully");
@@ -91,8 +89,7 @@ function AddProperty() {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let fetchurl =
-        serverUrl + "/api/usersetting/getRole";
+      let fetchurl = serverUrl + "/api/usersetting/getRole";
       let response = await fetch(fetchurl, {
         method: "GET",
         credentials: "include",
@@ -101,35 +98,33 @@ function AddProperty() {
         },
       });
       let data = await response.json();
-      if(response.ok)
-      console.log(data);
+      if (response.ok) console.log(data);
       setRole(data.role);
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  async function fetchProperty(){
+  async function fetchProperty() {
     try {
       let fetchurl = serverUrl + "/api/usersetting/getProperty";
-      let response=await fetch(fetchurl,{
-        method:"GET",
+      let response = await fetch(fetchurl, {
+        method: "GET",
         credentials: "include",
-        headers:{
-          Accept:"application/json",
+        headers: {
+          Accept: "application/json",
         },
       });
       let data = await response.json();
-      if(response.ok){
+      if (response.ok) {
         setProperty(data);
         await fetchImage(data.id);
         console.log(data);
       }
-    }catch(error){
+    } catch (error) {
       console.error(error.message);
     }
   }
-
 
   async function fetchPropertyStatus() {
     // fetch data from API
@@ -236,7 +231,7 @@ function AddProperty() {
     handleChange({ target: { name: "town", value: enumTownOptions[0] } });
     handleChange({ target: { name: "flatType", value: enumFlatTypes[0] } });
     handleChange({ target: { name: "flatModel", value: enumFlatModels[0] } });
-  }, [enumTownOptions,enumFlatTypes,enumFlatModels]);
+  }, [enumTownOptions, enumFlatTypes, enumFlatModels]);
 
   const handleSave = async () => {
     try {
@@ -269,389 +264,402 @@ function AddProperty() {
 
   return (
     <div>
-      {role == "owner" &&(
-      <div className="main-container w-full  flex flex-col items-center mx-auto my-0 overflow-y-auto">
-        <div className="w-full  bg-[#fff]  top-0 left-0  z-[3]">
-          <div className="w-full  text-[0px] bg-[rgba(255,255,255,0.2)] rounded-[3.0px] border-solid border-[5px] border-[#eff0f6]  z-[4] mt-0 mr-0 mb-0 ml-0">
-            <table className="w-full table-auto  border-collapse overflow-y-auto font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000] ">
-              <tbody className="text-center ">
-                <tr>
-                  <td colSpan={2}>
-                    <div className="flex justify-center items-center text-[35px]   font-medium  text-gray-900   text-left z-[13] ">
-                      Register Property
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody>
-                <tr>
-                  <td>
-                    <div className=" h-[50px]   mt-[5px]">
-                      <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
-                        <span
-                          id="listbox-Status"
-                          className="flex items-center  text-[25px]   font-medium leading-6 text-gray-900"
-                        >
-                          Status
-                        </span>
+      {role == "owner" && (
+        <div className="main-container w-full  flex flex-col items-center mx-auto my-0 overflow-y-auto">
+          <div className="w-full  bg-[#fff]  top-0 left-0  z-[3]">
+            <div className="w-full  text-[0px] bg-[rgba(255,255,255,0.2)] rounded-[3.0px] border-solid border-[5px] border-[#eff0f6]  z-[4] mt-0 mr-0 mb-0 ml-0">
+              <table className="w-full table-auto  border-collapse overflow-y-auto font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000] ">
+                <tbody className="text-center ">
+                  <tr>
+                    <td colSpan={2}>
+                      <div className="flex justify-center items-center text-[35px]   font-medium  text-gray-900   text-left z-[13] ">
+                        Register Property
                       </div>
-                    </div>
-                  </td>
+                    </td>
+                  </tr>
+                </tbody>
 
-                  <td>
-                    <div className="flex items-center  mt-2">
-                      <select
-                        name="propertyStatus"
-                        value={property.propertyStatus}
-                        onChange={(e) => {
-                          handleChange(e);
-                        }}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
-
-                        { property.propertyid == null &&(
-                        enumStatusOptions.map((option) => (
-                          <option
-                            key={option}
-                            value={option}
-                            className="flex items-center ml-3  truncate  "
+                <tbody>
+                  <tr>
+                    <td>
+                      <div className=" h-[50px]   mt-[5px]">
+                        <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+                          <span
+                            id="listbox-Status"
+                            className="flex items-center  text-[25px]   font-medium leading-6 text-gray-900"
                           >
-                            {option}
-                          </option>
-                        ))
-                        )}
+                            Status
+                          </span>
+                        </div>
+                      </div>
+                    </td>
 
-                        {property.propertyid != null &&(
+                    <td>
+                      <div className="flex items-center  mt-2">
+                        <select
+                          name="propertyStatus"
+                          value={property.propertyStatus}
+                          onChange={(e) => {
+                            handleChange(e);
+                          }}
+                          className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        >
+                          {property.propertyid == null &&
+                            enumStatusOptions.map((option) => (
+                              <option
+                                key={option}
+                                value={option}
+                                className="flex items-center ml-3  truncate  "
+                              >
+                                {option}
+                              </option>
+                            ))}
+
+                          {property.propertyid != null && (
                             <>
-                              <option value="forRent" className="flex items-center ml-3 truncate">forRent</option>
-                              <option value="forSale" className="flex items-center ml-3 truncate">forSale</option>
+                              <option
+                                value="forRent"
+                                className="flex items-center ml-3 truncate"
+                              >
+                                forRent
+                              </option>
+                              <option
+                                value="forSale"
+                                className="flex items-center ml-3 truncate"
+                              >
+                                forSale
+                              </option>
                             </>
-
-                        )}
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px] relative  mt-[5px]">
-                      <div className="flex items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   ">
-                        <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
-                        >
-                          Town
-                        </span>
+                          )}
+                        </select>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center  w-full">
-                      <select
-                        name="town"
-                        value={property.town}
-                        onChange={handleChange}
-                        className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      >
-                        {enumTownOptions.map((option) => (
-                          <option
-                            key={option}
-                            value={option}
-                            className="flex items-center ml-3 truncate  "
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tbody className="text-center ">
+                  <tr>
+                    <td>
+                      <div className=" h-[50px] relative  mt-[5px]">
+                        <div className="flex items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   ">
+                          <span
+                            id="listbox-label"
+                            className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
                           >
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px]   mt-[5px]">
-                      <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
-                        <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
-                        >
-                          FlatType
-                        </span>
+                            Town
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center  w-full">
-                      <select
+                    </td>
+                    <td>
+                      <div className="flex items-center  w-full">
+                        <select
+                          name="town"
+                          value={property.town}
+                          onChange={handleChange}
+                          className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        >
+                          {enumTownOptions.map((option) => (
+                            <option
+                              key={option}
+                              value={option}
+                              className="flex items-center ml-3 truncate  "
+                            >
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tbody className="text-center ">
+                  <tr>
+                    <td>
+                      <div className=" h-[50px]   mt-[5px]">
+                        <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+                          <span
+                            id="listbox-label"
+                            className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
+                          >
+                            FlatType
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center  w-full">
+                        <select
                           name="flatType"
                           value={property.flatType}
                           onChange={handleChange}
                           className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      >
-                        {enumFlatTypes.map((option) => (
+                        >
+                          {enumFlatTypes.map((option) => (
                             <option
-                                key={option}
-                                value={option}
-                                className="flex items-center ml-3 truncate  "
+                              key={option}
+                              value={option}
+                              className="flex items-center ml-3 truncate  "
                             >
                               {option}
                             </option>
-                        ))}
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
+                          ))}
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
 
-              <tbody className="text-center ">
-              <tr>
-                <td>
-                  <div className=" h-[50px]  mt-[5px]">
-                    <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
-                        <span
+                <tbody className="text-center ">
+                  <tr>
+                    <td>
+                      <div className=" h-[50px]  mt-[5px]">
+                        <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
+                          <span
                             id="listbox-label"
                             className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
-                        >
-                          StoryRange
-                        </span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-center   mt-2">
-                    <input
-                        name="storeyRange"
-                        value={property.storeyRange}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px]   mt-[5px]">
-                      <div className="flex items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
-                        <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
-                        >
-                          StreetName
-                        </span>
+                          >
+                            StoryRange
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center   mt-2">
-                      <input
-                        name="streetName"
-                        value={property.streetName}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px]   mt-[5px]">
-                      <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
-                        <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
-                        >
-                          FloorArea
-                        </span>
+                    </td>
+                    <td>
+                      <div className="flex items-center   mt-2">
+                        <input
+                          name="storeyRange"
+                          value={property.storeyRange}
+                          onChange={handleChange}
+                          className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        />
                       </div>
-                    </div>
-                  </td>
+                    </td>
+                  </tr>
+                </tbody>
 
-                  <td>
-                    <div className="flex items-center   mt-2">
-                      <input
-                        name="floorArea"
-                        value={property.floorArea}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px]  mt-[5px]">
-                      <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
-                        <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
-                        >
-                          Block
-                        </span>
+                <tbody className="text-center ">
+                  <tr>
+                    <td>
+                      <div className=" h-[50px]   mt-[5px]">
+                        <div className="flex items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+                          <span
+                            id="listbox-label"
+                            className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
+                          >
+                            StreetName
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center  mt-2">
-                      <input
-                        name="block"
-                        value={property.block}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px] relative  mt-[5px]">
-                      <div className="flex  items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   ">
-                        <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
-                        >
-                          FlatModel
-                        </span>
+                    </td>
+                    <td>
+                      <div className="flex items-center   mt-2">
+                        <input
+                          name="streetName"
+                          value={property.streetName}
+                          onChange={handleChange}
+                          className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        />
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center  w-full">
-                      <select
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tbody className="text-center ">
+                  <tr>
+                    <td>
+                      <div className=" h-[50px]   mt-[5px]">
+                        <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+                          <span
+                            id="listbox-label"
+                            className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
+                          >
+                            FloorArea
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>
+                      <div className="flex items-center   mt-2">
+                        <input
+                          name="floorArea"
+                          value={property.floorArea}
+                          onChange={handleChange}
+                          className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tbody className="text-center ">
+                  <tr>
+                    <td>
+                      <div className=" h-[50px]  mt-[5px]">
+                        <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
+                          <span
+                            id="listbox-label"
+                            className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
+                          >
+                            Block
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center  mt-2">
+                        <input
+                          name="block"
+                          value={property.block}
+                          onChange={handleChange}
+                          className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tbody className="text-center ">
+                  <tr>
+                    <td>
+                      <div className=" h-[50px] relative  mt-[5px]">
+                        <div className="flex  items-center gap-[8px] flex-nowrap absolute inset-x-0 top-0   ">
+                          <span
+                            id="listbox-label"
+                            className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
+                          >
+                            FlatModel
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center  w-full">
+                        <select
                           name="flatModel"
                           value={property.flatModel}
                           onChange={handleChange}
                           className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      >
-                        {enumFlatModels.map((option) => (
+                        >
+                          {enumFlatModels.map((option) => (
                             <option
-                                key={option}
-                                value={option}
-                                className="flex items-center ml-3 truncate  "
+                              key={option}
+                              value={option}
+                              className="flex items-center ml-3 truncate  "
                             >
                               {option}
                             </option>
-                        ))}
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
+                          ))}
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
 
-              <tbody className="text-center ">
-              <tr>
-                <td>
-                  <div className=" h-[50px]   mt-[5px]">
-                    <div className="flex items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
-                        <span
+                <tbody className="text-center ">
+                  <tr>
+                    <td>
+                      <div className=" h-[50px]   mt-[5px]">
+                        <div className="flex items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+                          <span
                             id="listbox-label"
                             className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
-                        >
-                          Price
-                        </span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-center  relative mt-2">
-                    <input
-                        name="price"
-                        value={property.price}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
+                          >
+                            Price
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center  relative mt-2">
+                        <input
+                          name="price"
+                          value={property.price}
+                          onChange={handleChange}
+                          className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
 
-              {(property.propertyStatus === "forSale" ||
-                property.propertyStatus === "soldOut") && (
-                <>
-                  <tbody className="text-center ">
-                    <tr>
-                      <td>
-                        <div className=" h-[50px]   mt-[5px]">
-                          <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
-                            <span
-                              id="listbox-label"
-                              className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
-                            >
-                              LeaseCommenceDate
-                            </span>
+                {(property.propertyStatus === "forSale" ||
+                  property.propertyStatus === "soldOut") && (
+                  <>
+                    <tbody className="text-center ">
+                      <tr>
+                        <td>
+                          <div className=" h-[50px]   mt-[5px]">
+                            <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+                              <span
+                                id="listbox-label"
+                                className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
+                              >
+                                LeaseCommenceDate
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center  mt-2">
-                          <input
-                            type="date"
-                            name="leaseCommenceDate"
-                            value={property.leaseCommenceDate}
-                            onChange={handleChange}
-                            className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </>
-              )}
-
-              {(property.propertyStatus === "forRent" ||
-                property.propertyStatus === "rented") && (
-                <>
-                  <tbody className="text-center ">
-                    <tr>
-                      <td>
-                        <div className=" h-[50px]   mt-[5px]">
-                          <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
-                            <span
-                              id="listbox-label"
-                              className="flex items-center  text-[25px]   font-medium leading-6 text-gray-900"
-                            >
-                              ContractMonthPeriod
-                            </span>
+                        </td>
+                        <td>
+                          <div className="flex items-center  mt-2">
+                            <input
+                              type="date"
+                              name="leaseCommenceDate"
+                              value={property.leaseCommenceDate}
+                              onChange={handleChange}
+                              className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                            />
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center mt-2">
-                          <input
-                            name="contractMonthPeriod"
-                            value={property.contractMonthPeriod}
-                            onChange={handleChange}
-                            className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </>
-              )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </>
+                )}
 
-              <tbody>
-                <tr>
-                  <td>
-                    <form className="container mx-auto p-4" onSubmit={uploadImage}>
-                      <h1 className="text-xl font-bold mb-4">Upload an Image</h1>
-                      <input
+                {(property.propertyStatus === "forRent" ||
+                  property.propertyStatus === "rented") && (
+                  <>
+                    <tbody className="text-center ">
+                      <tr>
+                        <td>
+                          <div className=" h-[50px]   mt-[5px]">
+                            <div className="flex  items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+                              <span
+                                id="listbox-label"
+                                className="flex items-center  text-[25px]   font-medium leading-6 text-gray-900"
+                              >
+                                ContractMonthPeriod
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex items-center mt-2">
+                            <input
+                              name="contractMonthPeriod"
+                              value={property.contractMonthPeriod}
+                              onChange={handleChange}
+                              className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </>
+                )}
+
+                <tbody>
+                  <tr>
+                    <td>
+                      <form
+                        className="container mx-auto p-4"
+                        onSubmit={uploadImage}
+                      >
+                        <h1 className="text-xl font-bold mb-4">
+                          Upload an Image
+                        </h1>
+                        <input
                           type="file"
                           name="image"
                           onChange={handleImageChange}
@@ -660,53 +668,51 @@ function AddProperty() {
                    file:text-sm file:font-semibold
                    file:bg-violet-50 file:text-violet-700
                    hover:file:bg-violet-100"
-                      />
-                      {imagePreview && (
+                        />
+                        {imagePreview && (
                           <div className="mt-4">
                             <img
-                                src={imagePreview}
-                                alt="Preview"
-                                className="max-w-xs max-h-xs rounded-md shadow-lg"
+                              src={imagePreview}
+                              alt="Preview"
+                              className="max-w-xs max-h-xs rounded-md shadow-lg"
                             />
                           </div>
-                      )}
-                      {isSelect && <Button type="submit">Submit</Button>}
-                    </form>
-                  </td>
-                </tr>
+                        )}
+                        {isSelect && <Button type="submit">Submit</Button>}
+                      </form>
+                    </td>
+                  </tr>
+                </tbody>
 
-              </tbody>
-
-              <tbody className="text-center ">
-              <tr>
-                <td className="flex justify-center items-center">
-                  <div className="flex justify-center items-center">
-                    <Button onClick={handleSave}>Save</Button>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex justify-center items-center">
-                    <Button onClick={goBack}>Back</Button>
-                  </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+                <tbody className="text-center ">
+                  <tr>
+                    <td className="flex justify-center items-center">
+                      <div className="flex justify-center items-center">
+                        <Button onClick={handleSave}>Save</Button>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex justify-center items-center">
+                        <Button onClick={goBack}>Back</Button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
       )}
 
       {role != "owner" && (
-          <>
-            <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
-
-          <div className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000]">
-            You don not have the permission.
+        <>
+          <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
+            <div className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000]">
+              You don not have the permission.
+            </div>
           </div>
-          </div>
-          </>
-        )}
+        </>
+      )}
     </div>
   );
 }
