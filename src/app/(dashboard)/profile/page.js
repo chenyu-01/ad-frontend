@@ -2,10 +2,10 @@
 import { config } from "@/config";
 import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
-import { set } from "date-fns";
-
+import { useRouter } from "next/navigation";
 const serverUrl = config.serverUrl;
 export default function Profile() {
+  const router = useRouter();
   const [profile, setProfile] = useState({
     name: "",
     password: "",
@@ -45,7 +45,7 @@ export default function Profile() {
   const handleSave = async () => {
     try {
       console.log(JSON.stringify(profile));
-      let fetchurl = serverUrl + "/api/usersetting/saveProfile" ;
+      let fetchurl = serverUrl + "/api/usersetting/saveProfile";
       let response = await fetch(fetchurl, {
         method: "POST",
         credentials: "include",
@@ -57,7 +57,7 @@ export default function Profile() {
       if (response.ok) {
         window.alert("save success");
         await fetchProfile();
-        location.reload();
+        router.refresh();
       } else {
         window.alert("save failed");
       }

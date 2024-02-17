@@ -2,24 +2,36 @@ import React from "react";
 import LineChart from "./sections/chart";
 
 export default function DetailComponent(props) {
-
   const generateTimeLabels = () => {
-    const monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthAbbreviations = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     const currentDate = new Date();
-    let currentMonth = currentDate.getMonth(); 
-  
+    let currentMonth = currentDate.getMonth();
+
     const timeLabels = [];
     for (let i = 0; i <= 6; i++) {
-      timeLabels.push(monthAbbreviations[(currentMonth + i) % 12]); 
+      timeLabels.push(monthAbbreviations[(currentMonth + i) % 12]);
     }
-  
+
     return timeLabels;
   };
 
   const time_labels = generateTimeLabels();
 
   return (
-    <div className="bg-zinc-300 w-full mt-9 pt-8 pb-5 px-10 lg:px-5">
+    <div className="bg-zinc-50 w-full mt-9 pt-8 pb-5 px-10 lg:px-5">
       <header className="flex flex-wrap gap-5">
         <div className="flex flex-col w-full lg:w-1/2">
           <section>
@@ -41,19 +53,20 @@ export default function DetailComponent(props) {
             </div>
           </section> */}
 
-          { props.type === "forSale" && (
+          {props.type === "forSale" && (
             <section>
-            <h1 className="text-slate-900 text-4xl font-bold tracking-wide">
-              Prediction
-            </h1>
-            <div className="trend-prediction-container border bg-zinc-300 h-[400px] rounded-md border-black mt-10">
-              <LineChart currentValue = {props.price} 
-              id={props.id}
-              labels = {time_labels}
-              />
-            </div>
-          </section>)
-          }
+              <h1 className="text-slate-900 text-4xl font-bold tracking-wide">
+                Prediction
+              </h1>
+              <div className="trend-prediction-container border bg-zinc-100 h-[400px] rounded-md border-black mt-10">
+                <LineChart
+                  currentValue={props.price}
+                  id={props.id}
+                  labels={time_labels}
+                />
+              </div>
+            </section>
+          )}
         </div>
         <div className="hidden lg:block lg:w-1/2 lg:ml-5">
           {/* Other contents */}

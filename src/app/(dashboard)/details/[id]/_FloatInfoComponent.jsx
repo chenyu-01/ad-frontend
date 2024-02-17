@@ -87,7 +87,7 @@ export default class FloatInfoComponent extends Component {
         <div
           ref={this.ref}
           style={stickyStyle}
-          className="bg-zinc-300 p-4 rounded-2xl shadow-lg"
+          className="bg-zinc-100 p-4 rounded-2xl shadow-lg"
         >
           <h2 className="text-slate-900 text-2xl font-bold leading-tight">
             Information
@@ -140,8 +140,8 @@ export default class FloatInfoComponent extends Component {
                 />
                 <span className="text-gray-400 text-xs mt-2">Price psf</span>
                 <span className="text-black text-xl font-medium">
-                  {/* shall be int */}
-                  $ {Math.floor(this.props.price/this.props.info.area)}
+                  {/* shall be int */}${" "}
+                  {Math.floor(this.props.price / this.props.info.area)}
                 </span>
               </div>
             ) : (

@@ -3,7 +3,7 @@ import { config } from "@/config";
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -36,7 +36,7 @@ export default function DatePickerForm(props) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
-  const [isError, setisError] = useState(null);
+  const [Error, setError] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(null);
 
@@ -45,7 +45,7 @@ export default function DatePickerForm(props) {
       ownerId: props.owner,
       buyerId: props.user, //tmp
       propertyId: props.id,
-      appointmentDate: data.dob.toISOString(), 
+      appointmentDate: data.dob.toISOString(),
     };
 
     fetch(serverUrl + "/api/appointment/create", {
@@ -57,18 +57,19 @@ export default function DatePickerForm(props) {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          response.text().then((text) => {
+            setError(text);
+          });
         }
         return response.text();
       })
       .then((data) => {
         console.log("Success:", data);
         setIsSubmitted(true);
-        setFormData(requestBody); 
+        setFormData(requestBody);
       })
       .catch((error) => {
         console.error("Error:", error);
-        setisError(true);
       });
   }
 
@@ -86,10 +87,10 @@ export default function DatePickerForm(props) {
         </pre>
       </div>
     );
-  }else if(isError ){
+  } else if (Error) {
     return (
       <div className="p-4 rounded-md">
-        <h2 className="text-lg text-black"> Error!</h2>
+        <h2 className="text-lg text-black"> {Error}</h2>
         <pre className="mt-2 text-black">
           {/* <code>{JSON.stringify(formData, null, 2)}</code> */}
         </pre>

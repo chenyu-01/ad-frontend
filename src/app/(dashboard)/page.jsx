@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { config } from "@/config";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+
 const serverUrl = config.serverUrl;
 export default function Dashboard() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function Dashboard() {
       let fetchurl = serverUrl + "/api/property/dashboard/" + propertyId;
       let response = await fetch(fetchurl);
       let data = await response.json();
+      data.id = propertyId;
       if (response.ok) {
         return data;
       }
@@ -64,7 +66,7 @@ export default function Dashboard() {
             src={property.imageUrl}
             alt={property.town}
             caption={property.price}
-            onClick={() => router.push("/property/" + property.id)}
+            propertyId={property.id}
           />
         ))}
       </div>
@@ -73,18 +75,23 @@ export default function Dashboard() {
 }
 
 // Card component for displaying images with captions
-function Card({ onClick, src, alt, caption }) {
+function Card({ src, alt, caption, propertyId }) {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/details/${propertyId}`);
+  };
+
   return (
     <div
       className="flex flex-col items-center justify-center cursor-pointer"
-      onClick={onClick}
+      onClick={handleClick}
     >
       <Image
         src={src}
         alt={alt}
         className="w-full h-auto md:max-w-full md:max-h-full rounded-lg"
         width={300}
-        height={200} // Set a fixed size for the images
+        height={200}
       />
       <div className="text-xl md:text-2xl font-semibold text-center mt-2">
         {alt} ${caption}
