@@ -1,9 +1,9 @@
-import UploadImage from "./UploadImage";
-
-export default function Test() {
+"use client";
+import ImageUpload from "@/components/propertyForm/UploadImage";
+export default function TestUpload() {
   return (
     <div>
-      <UploadImage propertyId={5} />
+      <ImageUpload propertyId={1} />
     </div>
   );
 }

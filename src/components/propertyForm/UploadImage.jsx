@@ -3,21 +3,26 @@
 import { useEffect, useState } from "react";
 import { config } from "@/config";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 const serverUrl = config.serverUrl;
-export default function Upload({ propertyId }) {
+export default function ImageUpload({ propertyId }) {
+  const router = useRouter();
   const [imagePreview, setImagePreview] = useState(null);
   const [isSelect, setIsSelect] = useState(false);
-  propertyId = propertyId || 1;
   const fetchImage = async () => {
-    const fetchURL = `${serverUrl}/api/property/details/${propertyId}`;
+    const fetchURL = `${serverUrl}/api/property/fetchImg/${propertyId}`;
     const response = await fetch(fetchURL);
     // if response not found, then just return
     if (!response.ok) {
       return;
     }
-    const data = await response.json();
-    console.log(data);
-    setImagePreview(data.imageUrl);
+    const imageUrl = await response.text();
+    console.log({
+      imageUrl,
+      propertyId,
+    });
+    setImagePreview(imageUrl);
   };
   const uploadImage = async (e) => {
     e.preventDefault();
@@ -58,7 +63,7 @@ export default function Upload({ propertyId }) {
   }, []);
   return (
     <form className="container mx-auto p-4" onSubmit={uploadImage}>
-      <h1 className="text-xl font-bold mb-4">Upload an Image</h1>
+      <h1 className="text-2xl font-bold mb-4">Click to Upload an Image</h1>
       <input
         type="file"
         name="image"
@@ -71,7 +76,9 @@ export default function Upload({ propertyId }) {
       />
       {imagePreview && (
         <div className="mt-4">
-          <img
+          <Image
+            width={400}
+            height={400}
             src={imagePreview}
             alt="Preview"
             className="max-w-xs max-h-xs rounded-md shadow-lg"
@@ -79,6 +86,9 @@ export default function Upload({ propertyId }) {
         </div>
       )}
       {isSelect && <Button type="submit">Submit</Button>}
+      <Button className={`w-full mt-2`} onClick={() => router.back()}>
+        Back
+      </Button>
     </form>
   );
 }

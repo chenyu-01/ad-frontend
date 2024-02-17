@@ -117,7 +117,7 @@ function PropertyList() {
       if (response.ok) console.log(data);
       window.alert("Deleted property");
       await fetchPropertylists();
-      router.refresh();
+      location.reload();
     } catch (error) {
       window.alert("Failed to deleted property");
       console.error(error.message);

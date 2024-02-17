@@ -50,7 +50,7 @@ export default function ManageAppointments() {
       if (response.ok) {
         window.alert("confirm successful");
         // refresh the page
-        router.refresh();
+        window.location.reload();
       } else {
         window.alert("confirm failed");
       }
@@ -79,7 +79,7 @@ export default function ManageAppointments() {
       if (response.ok) {
         window.alert("cancel successful");
         // refresh the page
-        router.refresh();
+        window.location.reload();
       } else {
         window.alert("cancel failed");
       }
@@ -90,7 +90,7 @@ export default function ManageAppointments() {
 
   return (
     <div className="mt-10">
-      <div class="flex space-x-3">
+      <div className="flex space-x-3">
         <Button
           onClick={() => {
             setForOwner(false);
@@ -99,7 +99,7 @@ export default function ManageAppointments() {
         >
           My Requested Appointments
         </Button>
-        {userData.role === "owner" && (
+        {userData?.role === "owner" && (
           <Button
             onClick={() => {
               setForOwner(true);
