@@ -102,20 +102,32 @@ export default function Preferences() {
     }
   };
 
+  function isIntWithinRange(value) {
+    var intValue = parseInt(value);
+    if (isNaN(intValue) || intValue < -2147483648 || intValue > 2147483647) {
+      return false;
+    }
+    return true;
+  }
+
   const handleSave = async () => {
     if (parseInt(preferences.highPrice) <= parseInt(preferences.lowPrice)) {
       window.alert("High price must be greater than low price.");
+      return;
+    }
+    if(!isIntWithinRange(preferences.highPrice) || !isIntWithinRange(preferences.lowPrice)){
+      window.alert("Price is valid.");
       return;
     }
     if (parseInt(preferences.highPrice) <=0 || parseInt(preferences.lowPrice) <=0) {
       window.alert("High price must be greater than low price.");
       return;
     }
-    if (parseInt(preferences.storyRange) <= 0 || preferences.storyRange == ""  ) {
+    if (parseInt(preferences.storyRange) <= 0 || preferences.storyRange == "" || !isIntWithinRange(preferences.storyRange)  ) {
       window.alert("StoryRange is valid.");
       return;
     }
-
+    console.log(preferences);
     try {
       let fetchurl = serverUrl + "/api/usersetting/savePreferences";
       let response = await fetch(fetchurl, {
