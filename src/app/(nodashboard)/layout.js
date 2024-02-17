@@ -12,12 +12,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <div className="container mx-auto h-screen">
+          <div className="container mx-auto h-screen max-w-screen-lg">
             <div className="flex flex-col">
-              <div className="max-w-screen-lg">
+              <div className="">
                 <Header />
               </div>
-              <div className={`flex mt-10`}>{children}</div>
+              <div className={`flex justify-center mt-10`}>{children}</div>
             </div>
           </div>
         </AuthProvider>

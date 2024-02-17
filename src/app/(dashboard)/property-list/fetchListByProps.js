@@ -42,5 +42,8 @@ export const dataProps = () => {
     roomTwo: false,
     roomThree: false,
     roomFour: false,
+    roomFive: false,
+    executive: false,
+    multiGen: false,
   };
 };

@@ -1,11 +1,9 @@
 import * as React from "react";
 import "@/app/(dashboard)/usersetting/styles/switchbtn.css";
 
-export default function Switchbtn({ name, value, onChange }) {
+export default function Switchbtn({ name, checked, onChange }) {
   const handleCheckboxChange = (e) => {
-    console.log("Eventbtn:", e);
-
-    onChange({ name, value: e.target.checked });
+    onChange({ name, checked: e.target.checked });
   };
   return (
     <div>
@@ -13,7 +11,7 @@ export default function Switchbtn({ name, value, onChange }) {
         <input
           type="checkbox"
           name={name}
-          checked={value}
+          checked={checked}
           onChange={handleCheckboxChange}
         />
       </label>

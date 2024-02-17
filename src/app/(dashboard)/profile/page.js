@@ -56,6 +56,8 @@ export default function Profile() {
       });
       if (response.ok) {
         window.alert("save success");
+        await fetchProfile();
+        location.reload();
       } else {
         window.alert("save failed");
       }

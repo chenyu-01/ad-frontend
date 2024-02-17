@@ -43,9 +43,9 @@ export default function DatePickerForm(props) {
   function onSubmit(data) {
     const requestBody = {
       ownerId: props.owner,
-      buyerId: "1", //tmp
+      buyerId: props.user, //tmp
       propertyId: props.id,
-      appointmentDate: data.dob.toISOString(), // 转换日期为 ISO 字符串
+      appointmentDate: data.dob.toISOString(), 
     };
 
     fetch(serverUrl + "/api/appointment/create", {
@@ -64,7 +64,7 @@ export default function DatePickerForm(props) {
       .then((data) => {
         console.log("Success:", data);
         setIsSubmitted(true);
-        setFormData(requestBody); // 或其他表示成功的状态
+        setFormData(requestBody); 
       })
       .catch((error) => {
         console.error("Error:", error);

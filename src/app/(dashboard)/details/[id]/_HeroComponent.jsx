@@ -4,8 +4,9 @@ import FloatInfoComponent from "./_FloatInfoComponent";
 import ImageSlider from "./sections/_ImageSlider";
 
 export default function HeroComponent(props) {
-  const imageList = ["/pixel-city-1.png", "/pixel-city-2.png"];
-  const { type, name, price, images, info } = props;
+  //const imageList = ["/pixel-city-1.png", "/pixel-city-2.png"];
+  const imageList = [props.ImageUrl];
+  const { type, name, price, ImageUrl, info } = props;
   const TYPE = type === "forRent" ? "Rent" : "Sale";
 
   return (

@@ -8,10 +8,7 @@ import PropertyListTable from "./PropertyListTable";
 import { fetchListByProps } from "./fetchListByProps.js";
 import Error from "../../../components/ui/Error.jsx";
 import SearchDialogue from "@/app/(dashboard)/property-list/advanced/SearchDialog";
-import { config } from "@/config";
-
-const serverUrl = config.serverUrl;
-
+import { useCallback } from "react";
 export default function PropertyList() {
   const [propertyList, setPropertyList] = useState([]);
   const router = useRouter();
@@ -24,25 +21,24 @@ export default function PropertyList() {
   const dialog = useRef(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const searchParams = useSearchParams();
-
-  const searchProperty = async ({ ...dataParams } = {}) => {
-    try {
-      let data = await fetchListByProps({
-        page,
-        town,
-        propertyType,
-        sortDirection,
-        ...dataParams,
-      });
-      setPropertyList(data.properties);
-      setTotalRecords(data.totalRecords);
-      setError("");
-    } catch (error) {
-      console.log(error);
-      setError(error);
-    }
-  };
-
+  const searchProperty = useCallback(
+    async ({ ...dataParams } = {}) => {
+      try {
+        let data = await fetchListByProps({
+          page,
+          town,
+          propertyType,
+          ...dataParams,
+        });
+        setPropertyList(data.properties);
+        setTotalRecords(data.totalRecords);
+      } catch (error) {
+        console.log(error);
+        setError(error);
+      }
+    },
+    [page, town, propertyType],
+  );
   const openDialog = () => {
     dialog.current?.showModal();
   };
@@ -62,33 +58,13 @@ export default function PropertyList() {
       setPage(parseInt(pageNum));
     }
     searchProperty();
-  }, [searchParams, propertyType, sortDirection]);
-  
-
-
-    // Fetch the sorting API URL from the backend
-  async function fetchSort(sort) {
-    try {
-      const fetchurl = serverUrl +'/api/property/list/sort/' + sort;
-      let response = await fetch(fetchurl, {
-        method: "POST",
-        credentials: "include",
-      });
-      let data = await response.json();
-      console.log(data.properties);
-      setPropertyList(data.properties)
-    } catch (error) {
-      console.error('Error fetching sorting URL:', error.message);
-      return null;
-    }
-  }
-
+  }, [searchParams, propertyType, searchProperty]); // because searchProperty is a dependency, will run when page initially loads
 
   return (
     <div className="max-w-screen-lg container mx-auto">
       <div className="flex justify-between items-center my-5">
         <form
-          className="flex justify-between sm:flex hidden"
+          className="flex justify-between sm:flex"
           onSubmit={(e) => {
             e.preventDefault();
             searchProperty();
@@ -132,7 +108,10 @@ export default function PropertyList() {
         </div>
       </div>
       <div className="h-[70vh] overflow-auto">
-        <PropertyListTable propertyList={propertyList} />
+        <PropertyListTable
+          propertyList={propertyList}
+          setPropertyList={setPropertyList}
+        />
       </div>
       {error && <Error message={error} />}
       <MyPagination pageNum={page} lastPageNum={lastPageNum} router={router} />

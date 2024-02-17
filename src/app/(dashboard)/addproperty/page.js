@@ -2,12 +2,17 @@
 import { config } from "@/config";
 import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation"
 
 const serverUrl = config.serverUrl;
 function AddProperty() {
-  const [status, setStatus] = useState("");
+  const router = useRouter();
+  // for image
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isSelect, setIsSelect] = useState(false);
   const [property, setProperty] = useState({
-    propertyid: "",
+    propertyid: "null",
     town: "",
     propertyStatus: "",
     flatType: "",
@@ -18,13 +23,70 @@ function AddProperty() {
     contractMonthPeriod: "",
     block: "",
     leaseCommenceDate: "",
-    remainingLease: "",
-    bedrooms: "1",
+    flatModel: "",
     ownerid:"",
+    imageUrl:""
   });
+
+
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
+  const [enumFlatTypes, setEnumFlatTypes] = useState([]);
+  const [enumFlatModels,setEnumFlatModels] = useState([]);
+
+
   const [role,setRole] = useState();
+  const fetchImage = async (id) => {
+    const fetchURL = `${serverUrl}/api/usersetting/fetchImg/` + id;
+    const response = await fetch(fetchURL);
+    // if response not found, then just return
+    if (!response.ok) {
+      return;
+    }
+    const data = await response.json();
+    console.log(data);
+    setImagePreview(data.imageUrl);
+  };
+
+  const uploadImage = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    console.log(formData.get("image"));
+    const idtoSend = property.id || 'null';
+    const uploadURL = `${serverUrl}/api/usersetting/upload/` + idtoSend;
+    try {
+      const response = await fetch(uploadURL, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        console.log("Image uploaded successfully");
+        let data = await response.json();
+        const imageUrl = data.imageUrl
+        console.log(imageUrl);
+        property.imageUrl = imageUrl;
+        window.alert("submit image successfully");
+      }
+    } catch (error) {
+      console.log(error);
+      window.alert("failed to submit image");
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.substr(0, 5) === "image") {
+      // Check if the file is an image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result); // reader.result contains the base64 encoded image
+        setIsSelect(true);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+    }
+  };
   async function fetchRole() {
     // fetch data from API
     try {
@@ -41,7 +103,6 @@ function AddProperty() {
       let data = await response.json();
       if(response.ok)
       console.log(data);
-      
       setRole(data.role);
     } catch (error) {
       console.error(error.message);
@@ -61,6 +122,7 @@ function AddProperty() {
       let data = await response.json();
       if(response.ok){
         setProperty(data);
+        await fetchImage(data.id);
         console.log(data);
       }
     }catch(error){
@@ -92,7 +154,7 @@ function AddProperty() {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let fetchurl = serverUrl + "/api/usersetting/getTownName";
+      let fetchurl = serverUrl + "/api/usersetting/getTownNames";
       let response = await fetch(fetchurl, {
         method: "GET",
         credentials: "include",
@@ -102,6 +164,44 @@ function AddProperty() {
       });
       let data = await response.json();
       setEnumTownOptions(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function fetchFlatType() {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl = serverUrl + "/api/usersetting/getFlatTypes";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      let data = await response.json();
+      setEnumFlatTypes(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function fetchFlatModel() {
+    // fetch data from API
+    try {
+      // ... fetch data from API ...
+      let fetchurl = serverUrl + "/api/usersetting/getFlatModels";
+      let response = await fetch(fetchurl, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      let data = await response.json();
+      setEnumFlatModels(data);
     } catch (error) {
       console.error(error.message);
     }
@@ -119,6 +219,8 @@ function AddProperty() {
     fetchRole();
     fetchPropertyStatus();
     fetchTownName();
+    fetchFlatType();
+    fetchFlatModel();
     // the first time the page is loaded, fetch data from API
     //SelectStatus({target:{value:'rented'}});
     setProperty((prevProperty) => {
@@ -132,7 +234,9 @@ function AddProperty() {
 
   useEffect(() => {
     handleChange({ target: { name: "town", value: enumTownOptions[0] } });
-  }, [enumTownOptions]);
+    handleChange({ target: { name: "flatType", value: enumFlatTypes[0] } });
+    handleChange({ target: { name: "flatModel", value: enumFlatModels[0] } });
+  }, [enumTownOptions,enumFlatTypes,enumFlatModels]);
 
   const handleSave = async () => {
     try {
@@ -148,7 +252,7 @@ function AddProperty() {
         body: JSON.stringify(property),
       });
       console.log(JSON.stringify(property));
-
+      console.log(response);
       if (response.ok) {
         window.alert("save success");
       } else {
@@ -157,6 +261,10 @@ function AddProperty() {
     } catch (error) {
       console.error(error.message);
     }
+  };
+
+  const goBack = () => {
+    window.history.back();
   };
 
   return (
@@ -278,35 +386,45 @@ function AddProperty() {
                     </div>
                   </td>
                   <td>
-                    <div className="flex items-center  mt-2">
-                      <input
-                        name="flatType"
-                        value={property.flatType}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                      />
+                    <div className="flex items-center  w-full">
+                      <select
+                          name="flatType"
+                          value={property.flatType}
+                          onChange={handleChange}
+                          className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                      >
+                        {enumFlatTypes.map((option) => (
+                            <option
+                                key={option}
+                                value={option}
+                                className="flex items-center ml-3 truncate  "
+                            >
+                              {option}
+                            </option>
+                        ))}
+                      </select>
                     </div>
                   </td>
                 </tr>
               </tbody>
 
               <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px]  mt-[5px]">
-                      <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
+              <tr>
+                <td>
+                  <div className=" h-[50px]  mt-[5px]">
+                    <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
                         <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
+                            id="listbox-label"
+                            className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
                         >
                           StoryRange
                         </span>
-                      </div>
                     </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center   mt-2">
-                      <input
+                  </div>
+                </td>
+                <td>
+                  <div className="flex items-center   mt-2">
+                    <input
                         name="storeyRange"
                         value={property.storeyRange}
                         onChange={handleChange}
@@ -408,43 +526,28 @@ function AddProperty() {
                           id="listbox-label"
                           className="flex items-center  text-[25px] font-medium leading-6 text-gray-900"
                         >
-                          BedRooms
+                          FlatModel
                         </span>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <div className="flex items-center  mt-2">
+                    <div className="flex items-center  w-full">
                       <select
-                        name="bedrooms"
-                        value={property.bedrooms}
-                        onChange={handleChange}
-                        className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                          name="flatModel"
+                          value={property.flatModel}
+                          onChange={handleChange}
+                          className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
                       >
-                        <option
-                          value="1"
-                          className="flex items-center ml-3  truncate "
-                        >
-                          1
-                        </option>
-                        <option
-                          value="2"
-                          className="flex items-center ml-3  truncate "
-                        >
-                          2
-                        </option>
-                        <option
-                          value="3"
-                          className="flex items-center ml-3  truncate "
-                        >
-                          3
-                        </option>
-                        <option
-                          value="4"
-                          className="flex items-center ml-3  truncate "
-                        >
-                          4
-                        </option>
+                        {enumFlatModels.map((option) => (
+                            <option
+                                key={option}
+                                value={option}
+                                className="flex items-center ml-3 truncate  "
+                            >
+                              {option}
+                            </option>
+                        ))}
                       </select>
                     </div>
                   </td>
@@ -452,22 +555,22 @@ function AddProperty() {
               </tbody>
 
               <tbody className="text-center ">
-                <tr>
-                  <td>
-                    <div className=" h-[50px]   mt-[5px]">
-                      <div className="flex items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
+              <tr>
+                <td>
+                  <div className=" h-[50px]   mt-[5px]">
+                    <div className="flex items-center gap-[8px] flex-nowrap  inset-x-0 top-0   ">
                         <span
-                          id="listbox-label"
-                          className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
+                            id="listbox-label"
+                            className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
                         >
                           Price
                         </span>
-                      </div>
                     </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center  relative mt-2">
-                      <input
+                  </div>
+                </td>
+                <td>
+                  <div className="flex items-center  relative mt-2">
+                    <input
                         name="price"
                         value={property.price}
                         onChange={handleChange}
@@ -501,33 +604,6 @@ function AddProperty() {
                             type="date"
                             name="leaseCommenceDate"
                             value={property.leaseCommenceDate}
-                            onChange={handleChange}
-                            className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                  <tbody className="text-center ">
-                    <tr>
-                      <td>
-                        <div className=" h-[50px]   mt-[5px]">
-                          <div className="flex  items-center gap-[8px] flex-nowrap inset-x-0 top-0   ">
-                            <span
-                              id="listbox-label"
-                              className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
-                            >
-                              RemainingLease
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center  mt-2">
-                          <input
-                            name="remainingLease"
-                            value={property.remainingLease}
                             onChange={handleChange}
                             className=" w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
                           />
@@ -570,22 +646,50 @@ function AddProperty() {
                 </>
               )}
 
-              <tbody className="text-center ">
+              <tbody>
                 <tr>
-                  <td colSpan={2}>
-                    <div className="flex justify-center items-center">
-                      <button
-                        type="submmit"
-                        onClick={handleSave}
-                        className="h-[40px]  w-[400px]  flex-nowrap bg-[#4a3aff] rounded-[3.0px] border-none  z-[39] pointer mt-[9.6px] mr-0 mb-0 ml-[22.0px]"
-                      >
-                        <span className=" h-[30px] shrink-0 basis-auto font-['Inter'] text-[25px] font-normal  text-[#fff]  text-left whitespace-nowrap z-40">
-                          Continue
-                        </span>
-                      </button>
-                    </div>
+                  <td>
+                    <form className="container mx-auto p-4" onSubmit={uploadImage}>
+                      <h1 className="text-xl font-bold mb-4">Upload an Image</h1>
+                      <input
+                          type="file"
+                          name="image"
+                          onChange={handleImageChange}
+                          className="file:mr-4 file:py-2 file:px-4
+                   file:rounded-full file:border-0
+                   file:text-sm file:font-semibold
+                   file:bg-violet-50 file:text-violet-700
+                   hover:file:bg-violet-100"
+                      />
+                      {imagePreview && (
+                          <div className="mt-4">
+                            <img
+                                src={imagePreview}
+                                alt="Preview"
+                                className="max-w-xs max-h-xs rounded-md shadow-lg"
+                            />
+                          </div>
+                      )}
+                      {isSelect && <Button type="submit">Submit</Button>}
+                    </form>
                   </td>
                 </tr>
+
+              </tbody>
+
+              <tbody className="text-center ">
+              <tr>
+                <td className="flex justify-center items-center">
+                  <div className="flex justify-center items-center">
+                    <Button onClick={handleSave}>Save</Button>
+                  </div>
+                </td>
+                <td>
+                  <div className="flex justify-center items-center">
+                    <Button onClick={goBack}>Back</Button>
+                  </div>
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -593,9 +697,9 @@ function AddProperty() {
       </div>
       )}
 
-      {role != "owner" &&(
+      {role != "owner" && (
           <>
-          <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
+            <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
 
           <div className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000]">
             You don not have the permission.
