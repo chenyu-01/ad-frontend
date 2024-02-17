@@ -3,11 +3,12 @@ import { config } from "@/config";
 import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
 import AppoinmentTable from "./AppoinmentTable";
+import { useRouter } from "next/navigation";
 const serverUrl = config.serverUrl;
 export default function ManageAppointments() {
+  const router = useRouter();
   const [appointments, setAppointments] = useState([]);
   const [appointmentForOwner, setAppointmentForOwner] = useState([]);
-  const [customer, setCustomer] = useState();
   async function fetchRequestedAppointments() {
     try {
       // fetch data from API
@@ -44,8 +45,6 @@ export default function ManageAppointments() {
         credentials: "include",
       });
       let data = await response.json();
-      setCustomer(data);
-      console.log(data);
       if (data.role === "owner") {
         fetchAppointmentFromOtherCustomer();
       }
@@ -60,7 +59,7 @@ export default function ManageAppointments() {
       if (response.ok) {
         window.alert("confirm successful");
         // refresh the page
-        window.location.reload();
+        router.refresh();
       } else {
         window.alert("confirm failed");
       }
@@ -90,7 +89,7 @@ export default function ManageAppointments() {
       if (response.ok) {
         window.alert("cancel successful");
         // refresh the page
-        window.location.reload();
+        router.refresh();
       } else {
         window.alert("cancel failed");
       }

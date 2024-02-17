@@ -3,21 +3,19 @@ import { config } from "@/config";
 import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
 import Switchbtn from "@/app/(dashboard)/usersetting/compoents/switchbtn";
-import {data} from "autoprefixer";
-
+import { useRouter } from "next/navigation";
 const serverUrl = config.serverUrl;
 
 export default function Preferences() {
   const [preferences, setPreferences] = useState([]);
   const [enumOptions, setEnumOptions] = useState([]);
   const [enumFlatTypes, setEnumFlatTypes] = useState([]);
-
+  const router = useRouter();
   async function fetchPreferences() {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let fetchurl =
-        serverUrl + "/api/usersetting/getPreferences" ;
+      let fetchurl = serverUrl + "/api/usersetting/getPreferences";
       let response = await fetch(fetchurl, {
         method: "GET",
         mode: "cors",
@@ -93,21 +91,20 @@ export default function Preferences() {
         [name]: value,
       }));
     } else {
-      setPreferences((prevData) =>({
-          ...prevData,
-          [name]: checked,
+      setPreferences((prevData) => ({
+        ...prevData,
+        [name]: checked,
       }));
     }
   };
 
   const handleSave = async () => {
-    if(parseInt(preferences.highPrice) <= parseInt(preferences.lowPrice)){
+    if (parseInt(preferences.highPrice) <= parseInt(preferences.lowPrice)) {
       window.alert("High price must be greater than low price.");
       return;
     }
     try {
-      let fetchurl =
-        serverUrl + "/api/usersetting/savePreferences";
+      let fetchurl = serverUrl + "/api/usersetting/savePreferences";
       let response = await fetch(fetchurl, {
         method: "POST",
         mode: "cors",
@@ -120,7 +117,7 @@ export default function Preferences() {
       if (response.ok) {
         window.alert("save success");
         await fetchPreferences();
-        location.reload();
+        router.refresh();
       } else {
         window.alert("save failed");
       }
@@ -133,208 +130,202 @@ export default function Preferences() {
     <div>
       <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0">
         <div className=" flex flex-col items-center">
-          <table
-              className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000] border-collapse ">
+          <table className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000] border-collapse ">
             <tbody className="text-center ">
-            <tr>
-              <td>Town</td>
-              <td className="flex items-center justify-center w-full ">
-                <div>
-                  <select
+              <tr>
+                <td>Town</td>
+                <td className="flex items-center justify-center w-full ">
+                  <div>
+                    <select
                       name="town"
                       value={preferences.town}
                       onChange={handleChange}
                       className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                  >
-                    {enumOptions.map((option) => (
+                    >
+                      {enumOptions.map((option) => (
                         <option
-                            key={option}
-                            value={option}
-                            className="flex items-center ml-3 truncate  "
+                          key={option}
+                          value={option}
+                          className="flex items-center ml-3 truncate  "
                         >
                           {option}
                         </option>
-                    ))}
-                  </select>
-                </div>
-              </td>
-            </tr>
+                      ))}
+                    </select>
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
             <tbody className="text-center ">
-            <tr>
-              <td>StoryRange</td>
-              <td className="flex items-center justify-center w-full ">
-                <div
-                    className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
-                  <input
+              <tr>
+                <td>StoryRange</td>
+                <td className="flex items-center justify-center w-full ">
+                  <div className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
+                    <input
                       type="text"
                       name="storyRange"
                       value={preferences.storyRange}
                       onChange={handleChange}
                       className="flex items-center  h-[30px] font-['Inter'] md:text-[25px] sm:text-[20px] font-medium px-4 text-[#534c4c]"
-                  />
-                </div>
-              </td>
-            </tr>
+                    />
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
             <tbody className="text-center ">
-            <tr>
-              <td className="flex-grow">{enumFlatTypes[0]}</td>
-              <td className="flex items-center justify-center  w-full ">
-                <div className="flex items-center justify-center ">
-                  <Switchbtn
+              <tr>
+                <td className="flex-grow">{enumFlatTypes[0]}</td>
+                <td className="flex items-center justify-center  w-full ">
+                  <div className="flex items-center justify-center ">
+                    <Switchbtn
                       name="one_ROOM"
                       checked={preferences.one_ROOM}
                       onChange={handleChange}
                       className=" my-auto"
-                  ></Switchbtn>
-                </div>
-              </td>
-            </tr>
+                    ></Switchbtn>
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
-
             <tbody className="text-center ">
-            <tr>
-              <td className="flex-grow">{enumFlatTypes[1]}</td>
-              <td className="flex items-center justify-center  w-full ">
-                <div className="flex items-center justify-center ">
-                  <Switchbtn
+              <tr>
+                <td className="flex-grow">{enumFlatTypes[1]}</td>
+                <td className="flex items-center justify-center  w-full ">
+                  <div className="flex items-center justify-center ">
+                    <Switchbtn
                       name="two_ROOM"
                       checked={preferences.two_ROOM}
                       onChange={handleChange}
                       className=" my-auto"
-                  ></Switchbtn>
-                </div>
-              </td>
-            </tr>
+                    ></Switchbtn>
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
             <tbody className="text-center ">
-            <tr>
-              <td className="flex-grow">{enumFlatTypes[2]}</td>
-              <td className="flex items-center justify-center  w-full ">
-                <div className="flex items-center justify-center ">
-                  <Switchbtn
+              <tr>
+                <td className="flex-grow">{enumFlatTypes[2]}</td>
+                <td className="flex items-center justify-center  w-full ">
+                  <div className="flex items-center justify-center ">
+                    <Switchbtn
                       name="three_ROOM"
                       checked={preferences.three_ROOM}
                       onChange={handleChange}
                       className=" my-auto"
-                  ></Switchbtn>
-                </div>
-              </td>
-            </tr>
+                    ></Switchbtn>
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
             <tbody className="text-center ">
-            <tr>
-              <td className="flex-grow">{enumFlatTypes[3]}</td>
-              <td className="flex items-center justify-center  w-full ">
-                <div className="flex items-center justify-center ">
-                  <Switchbtn
+              <tr>
+                <td className="flex-grow">{enumFlatTypes[3]}</td>
+                <td className="flex items-center justify-center  w-full ">
+                  <div className="flex items-center justify-center ">
+                    <Switchbtn
                       name="four_ROOM"
                       checked={preferences.four_ROOM}
                       onChange={handleChange}
                       className=" my-auto"
-                  ></Switchbtn>
-                </div>
-              </td>
-            </tr>
+                    ></Switchbtn>
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
             <tbody className="text-center ">
-            <tr>
-              <td className="flex-grow">{enumFlatTypes[4]}</td>
-              <td className="flex items-center justify-center  w-full ">
-                <div className="flex items-center justify-center ">
-                  <Switchbtn
+              <tr>
+                <td className="flex-grow">{enumFlatTypes[4]}</td>
+                <td className="flex items-center justify-center  w-full ">
+                  <div className="flex items-center justify-center ">
+                    <Switchbtn
                       name="five_ROOM"
                       checked={preferences.five_ROOM}
                       onChange={handleChange}
                       className=" my-auto"
-                  ></Switchbtn>
-                </div>
-              </td>
-            </tr>
+                    ></Switchbtn>
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
             <tbody className="text-center ">
-            <tr>
-              <td className="flex-grow">{enumFlatTypes[5]}</td>
-              <td className="flex items-center justify-center  w-full ">
-                <div className="flex items-center justify-center ">
-                  <Switchbtn
+              <tr>
+                <td className="flex-grow">{enumFlatTypes[5]}</td>
+                <td className="flex items-center justify-center  w-full ">
+                  <div className="flex items-center justify-center ">
+                    <Switchbtn
                       name="executive"
                       checked={preferences.executive}
                       onChange={handleChange}
                       className=" my-auto"
-                  ></Switchbtn>
-                </div>
-              </td>
-            </tr>
+                    ></Switchbtn>
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
             <tbody className="text-center ">
-            <tr>
-              <td className="flex-grow">{enumFlatTypes[6]}</td>
-              <td className="flex items-center justify-center  w-full ">
-                <div className="flex items-center justify-center ">
-                  <Switchbtn
+              <tr>
+                <td className="flex-grow">{enumFlatTypes[6]}</td>
+                <td className="flex items-center justify-center  w-full ">
+                  <div className="flex items-center justify-center ">
+                    <Switchbtn
                       name="multi_GENERATION"
                       checked={preferences.multi_GENERATION}
                       onChange={handleChange}
                       className=" my-auto"
-                  ></Switchbtn>
-                </div>
-              </td>
-            </tr>
+                    ></Switchbtn>
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
-
             <tbody className="text-center ">
-            <tr>
-              <td>LowPrice</td>
-              <td className="flex items-center justify-center w-full ">
-                <div
-                    className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
-                  <input
+              <tr>
+                <td>LowPrice</td>
+                <td className="flex items-center justify-center w-full ">
+                  <div className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
+                    <input
                       type="text"
                       name="lowPrice"
                       value={preferences.lowPrice}
                       onChange={handleChange}
                       className="flex items-center  h-[30px] font-['Inter'] md:text-[25px] sm:text-[20px] font-medium px-4 text-[#534c4c]"
-                  />
-                </div>
-              </td>
-            </tr>
+                    />
+                  </div>
+                </td>
+              </tr>
             </tbody>
 
             <tbody className="text-center ">
-            <tr>
-              <td>HighPrice</td>
-              <td className="flex items-center justify-center w-full ">
-                <div
-                    className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
-                  <input
+              <tr>
+                <td>HighPrice</td>
+                <td className="flex items-center justify-center w-full ">
+                  <div className="flex items-center justify-center rounded-[6px] h-[50px] border-solid border border-[rgba(83,76,76,0.14)]   mr-0 mb-0 ml-[12px]">
+                    <input
                       type="text"
                       name="highPrice"
                       value={preferences.highPrice}
                       onChange={handleChange}
                       className="flex items-center  h-[30px] font-['Inter'] md:text-[25px] sm:text-[20px] font-medium px-4 text-[#534c4c]"
-                  />
-                </div>
-              </td>
-            </tr>
+                    />
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
 
           <div className=" flex justify-center w-full mt-4">
             <button
-                type="submit"
-                onClick={handleSave}
-                className="flex w-[200px] h-[45px] justify-center items-center rounded-[6px] bg-[#24265f] font-['Inter'] text-[20px] font-medium  text-[#fff]  whitespace-nowrap z-[41]"
+              type="submit"
+              onClick={handleSave}
+              className="flex w-[200px] h-[45px] justify-center items-center rounded-[6px] bg-[#24265f] font-['Inter'] text-[20px] font-medium  text-[#fff]  whitespace-nowrap z-[41]"
             >
               Save
             </button>
