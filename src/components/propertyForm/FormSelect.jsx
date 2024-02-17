@@ -43,8 +43,18 @@ const FormSelect = ({ name, value, label }) => {
       }
       break;
     case "flatModel":
+      switch (value) {
+        case "2-room":
+          value = "TWO_ROOM";
+          break;
+        case "3Gen":
+          value = "THREE_GEN";
+          break;
+        default:
+          value = value.toUpperCase().replace(" ", "_");
+          break;
+      }
       fetchurl = serverUrl + "/api/usersetting/getFlatModels";
-      value = value.replace(" ", "_");
       break;
     default:
       fetchurl = serverUrl + "/api/usersetting/getPropertyStatus";
