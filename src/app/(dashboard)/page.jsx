@@ -64,7 +64,7 @@ export default function Dashboard() {
             src={property.imageUrl}
             alt={property.town}
             caption={property.price}
-            onClick={() => router.push("/property/" + property.id)}
+            onClick={() => router.push("/details/" + property.id)}
           />
         ))}
       </div>

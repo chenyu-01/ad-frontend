@@ -31,7 +31,7 @@ export default function HeroComponent(props) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-gray-200 min-h-[250px] rounded-lg">
+        <div className="min-h-[250px] rounded-lg">
           <ImageSlider images={imageList} type={TYPE} />
         </div>
 
