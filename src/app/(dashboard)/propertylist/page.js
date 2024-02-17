@@ -8,9 +8,9 @@ const serverUrl = config.serverUrl;
 function PropertyList() {
   const router = useRouter();
   const [propertylists, setPropertylists] = useState([]);
-  const [role,setRole] = useState();
-  const [loading,setLoading] = useState(true);
-  const [page,setPage] = useState(1);
+  const [role, setRole] = useState();
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   async function fetchRole() {
     try {
@@ -23,7 +23,7 @@ function PropertyList() {
         },
       });
       let data = await response.json();
-      if(response.ok){
+      if (response.ok) {
         setRole(data.role);
       }
     } catch (error) {
@@ -42,8 +42,11 @@ function PropertyList() {
         },
       });
       let data = await response.json();
-      if(response.ok){
-        setPropertylists((prevPropertylists) => [...prevPropertylists, ...data]);
+      if (response.ok) {
+        setPropertylists((prevPropertylists) => [
+          ...prevPropertylists,
+          ...data,
+        ]);
       }
     } catch (error) {
       console.error(error.message);
@@ -65,16 +68,21 @@ function PropertyList() {
   const handleScroll = () => {
     // 在滚动到页面底部时触发加载更多数据的函数
     if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        !loading
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      !loading
     ) {
       setPage((prevPage) => prevPage + 1);
     }
   };
 
-  const handleClick = async (id,propertyStatus) =>{
+  const handleClick = async (id, propertyStatus) => {
     try {
-      let fetchurl = serverUrl + "/api/usersetting/savePropertyInfo/" + id + "&" + propertyStatus;
+      let fetchurl =
+        serverUrl +
+        "/api/usersetting/savePropertyInfo/" +
+        id +
+        "&" +
+        propertyStatus;
       let response = await fetch(fetchurl, {
         method: "GET",
         credentials: "include",
@@ -91,14 +99,13 @@ function PropertyList() {
     } catch (error) {
       console.error(error.message);
     }
-  }
+  };
 
   async function deleteProperty(propertyid) {
     // fetch data from API
     try {
       // ... fetch data from API ...
-      let fetchurl =
-        serverUrl + "/api/usersetting/delProperty/" + propertyid ;
+      let fetchurl = serverUrl + "/api/usersetting/delProperty/" + propertyid;
       let response = await fetch(fetchurl, {
         method: "DELETE",
         credentials: "include",
@@ -107,12 +114,10 @@ function PropertyList() {
         },
       });
       let data = await response.json();
-      if(response.ok)
-      console.log(data);
+      if (response.ok) console.log(data);
       window.alert("Deleted property");
       await fetchPropertylists();
       location.reload();
-
     } catch (error) {
       window.alert("Failed to deleted property");
       console.error(error.message);
@@ -120,73 +125,80 @@ function PropertyList() {
   }
 
   return (
-    
     <div className="">
       <div className="main-container  w-full  bg-[#fff]  overflow-hidden mx-auto my-0 ">
+        {role == "owner" && (
+          <table className="">
+            {propertylists?.map((propertylist) => (
+              <tbody key={propertylist.id}>
+                <tr
+                  className="flex justify-center border"
+                  key={propertylist.id}
+                >
+                  <table className=" w-1/2  bg-white rounded-[20px] shadow mt-[10px]  z-10">
+                    <tr className="border">
+                      <td rowSpan="2" className=" border w-1/2">
+                        <img
+                          className="h-full"
+                          src={propertylist.imageUrl}
+                          alt="placeholder"
+                        />
+                      </td>
 
-        {role == "owner" &&(
-        <table className="">
-          
-          {propertylists?.map((propertylist) => (
-              
-            <tbody key={propertylist.id}>
-              <tr className="flex justify-center border" key={propertylist.id}>         
-                <table className=" w-1/2  bg-white rounded-[20px] shadow mt-[10px]  z-10">           
-                  <tr className="border">
-                    <td rowSpan="2" className=" border w-1/2">
-                      <img
-                        className="h-full"
-                        src={propertylist.imageUrl}
-                        alt="placeholder"
-                      />
-                    </td>
-      
-                    <td className="text-stone-950 text-base font-medium font-['SF UI Display'] whitespace-normal"> 
-                      <div className="flex justify-center items-center">
-                        {propertylist.town}
-                        {propertylist.streetName} 
-                      </div>
-                    </td>
-                  </tr>
+                      <td className="text-stone-950 text-base font-medium font-['SF UI Display'] whitespace-normal">
+                        <div className="flex justify-center items-center">
+                          {propertylist.town}
+                          {propertylist.streetName}
+                        </div>
+                      </td>
+                    </tr>
 
-                  <tr className="border">
-                    <td className="text-neutral-400  text-sm font-medium font-['SF UI Display']">
-                      <div className="flex justify-center items-center">
-                        {propertylist.propertyStatus}
-                        <div>{propertylist.price}</div>
-                      </div>
-                    </td>
-                  </tr>
-                
+                    <tr className="border">
+                      <td className="text-neutral-400  text-sm font-medium font-['SF UI Display']">
+                        <div className="flex justify-center items-center">
+                          {propertylist.propertyStatus}
+                          <div>{propertylist.price}</div>
+                        </div>
+                      </td>
+                    </tr>
 
-                  <tr >
-                    <td> 
-                      <div className="flex justify-center">                   
-                      <Button onClick={() => deleteProperty(propertylist.id)}>Delete</Button>
-                      </div>                      
-                    </td>
-                    <td>
-                      <div className="flex justify-center">
-                      <Button onClick={() => handleClick(propertylist.id,propertylist.propertyStatus)}>Update</Button>
-                      </div> 
-                    </td>
-                  </tr>
-                </table>
-                 
-              </tr>
-            </tbody>
-            
-          ))}
-        
-        </table>
+                    <tr>
+                      <td>
+                        <div className="flex justify-center">
+                          <Button
+                            onClick={() => deleteProperty(propertylist.id)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center">
+                          <Button
+                            onClick={() =>
+                              handleClick(
+                                propertylist.id,
+                                propertylist.propertyStatus,
+                              )
+                            }
+                          >
+                            Update
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </tr>
+              </tbody>
+            ))}
+          </table>
         )}
-        
 
-        {role != "owner" &&(
+        {role != "owner" && (
           <>
-          <div className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000]">
-            You don not have the permission.
-          </div>
+            <div className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000]">
+              You don not have the permission.
+            </div>
           </>
         )}
       </div>

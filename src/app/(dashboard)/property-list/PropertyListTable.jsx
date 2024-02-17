@@ -26,7 +26,7 @@ export default function PropertyListTable({ propertyList, setPropertyList }) {
     const [sortIcon, setSortIcon] = useState(<ArrowUpDownIcon />);
     useEffect(() => {
       const determineSortIcon = () => {
-        if (sortState?.column === column) {
+        if (sortState.column === column) {
           return sortState.order ? <ArrowUpIcon /> : <ArrowDownIcon />;
         } else {
           return <ArrowUpDownIcon />;
@@ -35,7 +35,7 @@ export default function PropertyListTable({ propertyList, setPropertyList }) {
       setSortIcon(determineSortIcon);
     }, [sortState, column]);
     const toggleSort = (order) => {
-      if (sortState?.column === column && sortState?.order === order) return;
+      if (sortState.column === column && sortState?.order === order) return;
       let newList = [...propertyList]; // Clone the list to avoid direct mutation
       if (order !== null) {
         newList.sort((a, b) => {
