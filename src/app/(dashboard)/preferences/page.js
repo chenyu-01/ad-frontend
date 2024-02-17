@@ -7,8 +7,9 @@ import { useRouter } from "next/navigation";
 const serverUrl = config.serverUrl;
 
 export default function Preferences() {
-  const [preferences, setPreferences] = useState([]);
   const [enumOptions, setEnumOptions] = useState([]);
+  const [preferences, setPreferences] = useState([]);
+
   const [enumFlatTypes, setEnumFlatTypes] = useState([]);
   const router = useRouter();
   async function fetchPreferences() {
@@ -25,9 +26,12 @@ export default function Preferences() {
         },
       });
       let data = await response.json();
-      console.log(data);
-      setPreferences(data);
+      if(response.ok){
+        setPreferences(data);
+      }
+
     } catch (error) {
+      window.alert("Please set");
       console.error(error.message);
     }
   }
@@ -103,6 +107,15 @@ export default function Preferences() {
       window.alert("High price must be greater than low price.");
       return;
     }
+    if (parseInt(preferences.highPrice) <=0 || parseInt(preferences.lowPrice) <=0) {
+      window.alert("High price must be greater than low price.");
+      return;
+    }
+    if (parseInt(preferences.storyRange) <= 0 || preferences.storyRange == ""  ) {
+      window.alert("StoryRange is valid.");
+      return;
+    }
+
     try {
       let fetchurl = serverUrl + "/api/usersetting/savePreferences";
       let response = await fetch(fetchurl, {
@@ -139,6 +152,7 @@ export default function Preferences() {
                     <select
                       name="town"
                       value={preferences.town}
+                      defaultValue={enumOptions[0]}
                       onChange={handleChange}
                       className=" w-full  cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
                     >

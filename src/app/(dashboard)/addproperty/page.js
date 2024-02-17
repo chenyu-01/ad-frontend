@@ -240,6 +240,7 @@ function AddProperty() {
 
   const handleSave = async () => {
     try {
+      console.log("要发送的房产");
       console.log(property);
       let fetchurl = serverUrl + "/api/usersetting/saveProperty";
       let response = await fetch(fetchurl, {
@@ -251,8 +252,11 @@ function AddProperty() {
 
         body: JSON.stringify(property),
       });
+      let data = await response.json();
+      console.log("要发送的，解析的");
       console.log(JSON.stringify(property));
-      console.log(response);
+      console.log("电报")
+      console.log(data);
       if (response.ok) {
         window.alert("save success");
       } else {
