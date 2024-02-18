@@ -14,9 +14,8 @@ export default function Register() {
       name: event.target.elements.name.value,
       email: event.target.elements.email.value,
       password: event.target.elements.password.value,
-      contactNumber: "123",
-      role: "buyer",
-      preferences: null,
+      contactNumber:event.target.elements.contactNumber.value,
+      role: event.target.elements.role.value,
     };
 
     // check password and repeat password are same else error
@@ -81,7 +80,7 @@ export default function Register() {
                           Buyer
                         </option>
                         <option
-                          value="rentalseeker"
+                          value="rentalSeeker"
                           className="flex items-center ml-3  truncate "
                         >
                           Rentalseeker

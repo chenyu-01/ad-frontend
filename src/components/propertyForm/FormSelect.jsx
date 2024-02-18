@@ -1,19 +1,59 @@
 "use client";
 import { config } from "@/config";
+import { set } from "date-fns";
 import { useEffect, useState } from "react";
 const serverUrl = config.serverUrl;
 const FormSelect = ({ name, value, label }) => {
   const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
   let fetchurl;
   switch (name) {
     case "town":
       fetchurl = serverUrl + "/api/usersetting/getTownNames";
+      // replace town value ' ' with '_'
+      value = value.replace(" ", "_");
       break;
 
     case "flatType":
       fetchurl = serverUrl + "/api/usersetting/getFlatTypes";
+      switch (value) {
+        case "1 ROOM":
+          value = "1_ROOM";
+          break;
+        case "2 ROOM":
+          value = "2_ROOM";
+          break;
+        case "3 ROOM":
+          value = "3_ROOM";
+          break;
+        case "4 ROOM":
+          value = "4_ROOM";
+          break;
+        case "5 ROOM":
+          value = "5_ROOM";
+          break;
+        case "EXECUTIVE":
+          value = "EXECUTIVE";
+          break;
+        case "MULTI-GENERATION":
+          value = "MULTI_GENERATION";
+          break;
+        default:
+          break;
+      }
       break;
     case "flatModel":
+      switch (value) {
+        case "2-room":
+          value = "TWO_ROOM";
+          break;
+        case "3Gen":
+          value = "THREE_GEN";
+          break;
+        default:
+          value = value.toUpperCase().replace(" ", "_");
+          break;
+      }
       fetchurl = serverUrl + "/api/usersetting/getFlatModels";
       break;
     default:
@@ -21,8 +61,14 @@ const FormSelect = ({ name, value, label }) => {
       break;
   }
   useEffect(() => {
-    fetchOptions(fetchurl).then((data) => setOptions(data));
+    fetchOptions(fetchurl).then((data) => {
+      setOptions(data);
+      setLoading(false);
+    });
   }, []);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   return (
     <div className="flex justify-between items-center container mx-auto">
       <label
