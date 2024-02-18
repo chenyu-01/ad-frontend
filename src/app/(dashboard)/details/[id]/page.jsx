@@ -51,7 +51,13 @@ export default function Details() {
     if (isAuthenticated && userData) {
       if (params.id) {
         setIsLoading(true);
-        fetch(serverUrl + `/api/property/details/${params.id}`)
+        fetch(serverUrl + `/api/property/details/${params.id}`,{
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        })
           .then((response) => {
             if (response.ok) {
               return response.json();  
