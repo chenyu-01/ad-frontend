@@ -11,7 +11,7 @@ const serverUrl = config.serverUrl;
 export default function ManageAppointments() {
   const [forOwner, setForOwner] = useState(false);
   const { userData } = useContext(AuthContext);
-  const router = useRouter();
+  const [role, setRole] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const [appointmentForOwner, setAppointmentForOwner] = useState([]);
   async function fetchRequestedAppointments() {
@@ -61,8 +61,15 @@ export default function ManageAppointments() {
 
   useEffect(() => {
     // the first time the page is loaded, fetch data from API
-    fetchRequestedAppointments();
-  }, []);
+    if (userData) {
+      setRole(userData.role);
+      if (userData.role === "owner") {
+        fetchAppointmentFromOtherCustomer();
+      } else {
+        fetchRequestedAppointments();
+      }
+    }
+  }, [userData]);
 
   const handleCancel = async (appointmentid) => {
     try {
@@ -113,16 +120,23 @@ export default function ManageAppointments() {
 
       {!forOwner && appointments.length >= 1 && (
         <div>
-          <AppoinmentTable appointments={appointments} cancel={handleCancel} />
+          <AppoinmentTable
+            forOwner={forOwner}
+            appointments={appointments}
+            cancel={handleCancel}
+            role={role}
+          />
         </div>
       )}
       {forOwner && appointmentForOwner.length >= 1 && (
         <div>
           <AppoinmentTable
             appointments={appointmentForOwner}
+            forOwner={forOwner}
             Action={handleConfirm}
             actionName={`Confirm`}
             cancel={handleCancel}
+            role={role}
           />
         </div>
       )}

@@ -6,7 +6,21 @@ export default function AppoinmentTable({
   Action,
   actionName,
   cancel,
+  forOwner,
 }) {
+  let contactNumber = [];
+  let contactCustomerName = [];
+  if (forOwner === true) {
+    appointments.forEach((appointment) => {
+      contactNumber.push(appointment.requestNumber);
+      contactCustomerName.push(appointment.requestCustomerName);
+    });
+  } else {
+    appointments.forEach((appointment) => {
+      contactNumber.push(appointment.contactNumber);
+      contactCustomerName.push(appointment.contactCustomerName);
+    });
+  }
   const renderDate = (date) => {
     let d = new Date(date);
     return d.toDateString();
@@ -26,10 +40,10 @@ export default function AppoinmentTable({
         </tr>
       </thead>
       <tbody>
-        {appointments.map((appointment) => (
+        {appointments.map((appointment, index) => (
           <tr key={appointment.id}>
-            <td>{appointment.contactCustomerName}</td>
-            <td>{appointment.contactNumber}</td>
+            <td>{contactCustomerName[index]}</td>
+            <td>{contactNumber[index]}</td>
             <td>{renderDate(appointment.date)}</td>
             <td>{appointment.status}</td>
             <td>{appointment.propertyName}</td>
