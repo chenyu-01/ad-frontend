@@ -6,7 +6,7 @@ import FormInput from "@/components/propertyForm/FormInput";
 import FormSelect from "@/components/propertyForm/FormSelect";
 import { useContext } from "react";
 import { AuthContext } from "@/app/(dashboard)/AuthProvider";
-import Link from "next/link";
+import ImageUpload from "@/components/propertyForm/UploadImage";
 const serverUrl = config.serverUrl;
 
 function PropertyForm({ propertyId }) {
@@ -26,6 +26,7 @@ function PropertyForm({ propertyId }) {
     ownerid: "",
     imageUrl: "",
   });
+  const [isRent, setIsRent] = useState(false);
 
   const { userData } = useContext(AuthContext);
   const role = userData?.role;
@@ -41,6 +42,14 @@ function PropertyForm({ propertyId }) {
         },
       });
       let data = await response.json();
+      if (
+        data?.propertyStatus === "forRent" ||
+        data?.propertyStatus === "rented"
+      ) {
+        setIsRent(true);
+      } else {
+        setIsRent(false);
+      }
       if (response.ok) {
         setProperty((prevData) => {
           const newData = { ...prevData, ...data };
@@ -61,7 +70,7 @@ function PropertyForm({ propertyId }) {
     property.id = propertyId;
     console.log(property);
     try {
-      let fetchurl = serverUrl + "/api/usersetting/saveProperty";
+      let fetchurl = serverUrl + "/api/property/update/" + propertyId;
       let response = await fetch(fetchurl, {
         method: "POST",
         credentials: "include",
@@ -76,7 +85,9 @@ function PropertyForm({ propertyId }) {
       if (response.ok) {
         window.alert("save success");
       } else {
-        window.alert("save failed");
+        window.alert(await response.text());
+        // reload without params
+        window.location.reload();
       }
     } catch (error) {
       console.error(error.message);
@@ -156,14 +167,13 @@ function PropertyForm({ propertyId }) {
           />
 
           {/* Conditional rendering for LeaseCommenceDate and ContractMonthPeriod based on propertyStatus */}
-          {property.propertyStatus === "forRent" && (
+          {isRent ? (
             <FormInput
               name="contractMonthPeriod"
               value={property.contractMonthPeriod}
               label="ContractMonthPeriod"
             />
-          )}
-          {property.propertyStatus === "forSale" && (
+          ) : (
             <FormInput
               name="leaseCommenceDate"
               type="date"
@@ -171,17 +181,13 @@ function PropertyForm({ propertyId }) {
               label="LeaseCommenceDate"
             />
           )}
-          <div className="container space-y-5">
-            {propertyId && (
-              <Link href={`/updateProperty/image/${propertyId}`}>
-                <Button className="w-full"> Update Image </Button>
-              </Link>
-            )}
+          <div className="container mb-5">
             <Button className="w-full">
               <input type="submit" value="Save" />
             </Button>
           </div>
         </form>
+        <ImageUpload propertyId={propertyId} />
       </div>
     </div>
   );
