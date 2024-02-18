@@ -3,11 +3,9 @@
 import { useEffect, useState } from "react";
 import { config } from "@/config";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 const serverUrl = config.serverUrl;
 export default function ImageUpload({ propertyId }) {
-  const router = useRouter();
   const [imagePreview, setImagePreview] = useState(null);
   const [isSelect, setIsSelect] = useState(false);
   const fetchImage = async () => {
