@@ -42,11 +42,9 @@ function PropertyList() {
         },
       });
       let data = await response.json();
+      console.log(data)
       if (response.ok) {
-        setPropertylists((prevPropertylists) => [
-          ...prevPropertylists,
-          ...data,
-        ]);
+        setPropertylists(data);
       }
     } catch (error) {
       console.error(error.message);
@@ -59,14 +57,12 @@ function PropertyList() {
   }, [page]);
 
   useEffect(() => {
-    // 监听页面滚动事件
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
   const handleScroll = () => {
-    // 在滚动到页面底部时触发加载更多数据的函数
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight &&
       !loading
@@ -130,10 +126,10 @@ function PropertyList() {
         {role == "owner" && (
           <table className="">
             {propertylists?.map((propertylist) => (
-              <tbody key={propertylist.id}>
+              <tbody >
                 <tr
                   className="flex justify-center border"
-                  key={propertylist.id}
+
                 >
                   <table className=" w-1/2  bg-white rounded-[20px] shadow mt-[10px]  z-10">
                     <tr className="border">

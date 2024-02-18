@@ -476,7 +476,7 @@ function AddProperty() {
                             id="listbox-label"
                             className="flex items-center  text-[25px]  font-medium leading-6 text-gray-900"
                           >
-                            StoryRange
+                            StoreyRange
                           </span>
                         </div>
                       </div>
