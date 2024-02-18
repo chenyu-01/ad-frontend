@@ -1,13 +1,20 @@
+## Overview
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It uses eslint, prettier, husky, lint-staged, and commitlint for code quality and commit message linting. It also uses tailwindcss for styling.
 
-To learn more, take a look at the following resources:
+> note that we are using nextjs version 14.0.4, and tailwindcss 3.3.0. The project is using eslint, prettier, husky, lint-staged, and commitlint for code quality and commit message linting.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Routing](https://nextjs.org/docs/routing/introduction) - learn about Next.js routing.
-- [Javascript Fetch API](https://www.javascripttutorial.net/javascript-fetch-api/) - learn about the fetch api.
-- [Tailwindcss Documentation](https://tailwindcss.com/docs) - learn about tailwindcss.
-- [React Use State](https://react.dev/learn/reacting-to-input-with-state) - learn about react.
-  > note that we are using nextjs version 14.0.4, and tailwindcss 3.3.0. We are not using typescript.
+## Related Repositories
+
+- [Frontend Next Js](https://github.com/chenyu-01/ad-frontend)
+- [Java Spring Boot](https://github.com/chenyu-01/ad-backend)
+- [Android](https://github.com/preethivenkat5/ad_android)
+- [ML Model](https://github.com/CsCesium/DNN-NCF-Transformer)
+
+## Pre-requisites
+
+- Node.js and npm
+  run `npm install` to install all the dependencies.
 
 ## Getting Started
 
