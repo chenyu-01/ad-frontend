@@ -51,6 +51,7 @@ export default function ImageUpload({ propertyId }) {
       // Check if the file is an image
       const reader = new FileReader();
       reader.onloadend = () => {
+        if (!reader.result) return;
         setImagePreview(reader.result); // reader.result contains the base64 encoded image
         setIsSelect(true);
       };
