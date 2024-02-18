@@ -11,6 +11,8 @@ function AddProperty() {
   // for image
   const [imagePreview, setImagePreview] = useState(null);
   const [isSelect, setIsSelect] = useState(false);
+  const [property, setProperty] = useState([]);
+  /*
   const [property, setProperty] = useState({
     propertyid: "null",
     town: "",
@@ -27,6 +29,31 @@ function AddProperty() {
     ownerid: "",
     imageUrl: "",
   });
+
+   */
+  function transformString(str) {
+    if (/^\d/.test(str)) {
+      str = str.replace(/\d+/g, function(match) {
+        switch (parseInt(match)) {
+          case 1:
+            return 'ONE';
+          case 2:
+            return 'TWO';
+          case 3:
+            return 'THREE';
+          case 4:
+            return 'FOUR';
+          case 5:
+            return 'FIVE';
+          default:
+            return match;
+        }
+      });
+    }
+    str = str.replace(/[^\w]+/g, '_').toUpperCase();
+    return str;
+  }
+
 
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
@@ -117,6 +144,13 @@ function AddProperty() {
       });
       let data = await response.json();
       if (response.ok) {
+        const attributesToTransform = ['flatType', 'town', 'flatModel'];
+        for (const key in data) {
+          if (Object.prototype.hasOwnProperty.call(data, key) && attributesToTransform.includes(key)) {
+            let transformedValue = transformString(data[key]);
+            data[key] = transformedValue;
+          }
+        }
         setProperty(data);
         await fetchImage(data.id);
         console.log(data);
@@ -202,8 +236,14 @@ function AddProperty() {
     }
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (e,typed) => {
+    const { name, value,type,checked } = e.target;
+    console.log(name+"name");
+    console.log(value+"value");
+    console.log(type+"type");
+    console.log(checked+"type");
+
+
     setProperty((prevData) => ({
       ...prevData,
       [name]: value,
@@ -224,18 +264,29 @@ function AddProperty() {
         propertyStatus: "rented",
       };
     });
+    console.log(enumTownOptions[0])
+
     fetchProperty();
   }, []);
 
-  useEffect(() => {
-    handleChange({ target: { name: "town", value: enumTownOptions[0] } });
-    handleChange({ target: { name: "flatType", value: enumFlatTypes[0] } });
-    handleChange({ target: { name: "flatModel", value: enumFlatModels[0] } });
-  }, [enumTownOptions, enumFlatTypes, enumFlatModels]);
+
+
 
   const handleSave = async () => {
     try {
+      console.log("要发送的房产");
       console.log(property);
+      if(!property.hasOwnProperty("town")){
+        property.town = enumTownOptions[0];
+      }
+      if(!property.hasOwnProperty("flatType")){
+        property.flatType = enumFlatTypes[0];
+      }
+      if(!property.hasOwnProperty("flatModel")){
+        property.flatModel = enumFlatModels[0];
+      }
+      console.log("现在的");
+      console.log(property)
       let fetchurl = serverUrl + "/api/usersetting/saveProperty";
       let response = await fetch(fetchurl, {
         method: "POST",
@@ -246,10 +297,15 @@ function AddProperty() {
 
         body: JSON.stringify(property),
       });
+      let data = await response.json();
+      console.log("要发送的，解析的");
       console.log(JSON.stringify(property));
-      console.log(response);
+      console.log("电报")
+      console.log(data);
       if (response.ok) {
         window.alert("save success");
+        await fetchProperty();
+        router.refresh();
       } else {
         window.alert("save failed");
       }
