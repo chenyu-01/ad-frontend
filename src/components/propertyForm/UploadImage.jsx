@@ -3,11 +3,9 @@
 import { useEffect, useState } from "react";
 import { config } from "@/config";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 const serverUrl = config.serverUrl;
 export default function ImageUpload({ propertyId }) {
-  const router = useRouter();
   const [imagePreview, setImagePreview] = useState(null);
   const [isSelect, setIsSelect] = useState(false);
   const fetchImage = async () => {
@@ -35,9 +33,7 @@ export default function ImageUpload({ propertyId }) {
         body: formData,
       });
       if (response.ok) {
-        console.log("Image uploaded successfully");
-        const imageUrl = await response.text();
-        console.log(imageUrl);
+        window.alert("Image uploaded successfully");
       }
     } catch (error) {
       console.log(error);
@@ -45,11 +41,13 @@ export default function ImageUpload({ propertyId }) {
   };
   // Function to handle image upload and preview
   const handleImageChange = (e) => {
+    e.preventDefault();
     const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
       // Check if the file is an image
       const reader = new FileReader();
       reader.onloadend = () => {
+        if (!reader.result) return;
         setImagePreview(reader.result); // reader.result contains the base64 encoded image
         setIsSelect(true);
       };
@@ -75,20 +73,21 @@ export default function ImageUpload({ propertyId }) {
                    hover:file:bg-violet-100"
       />
       {imagePreview && (
-        <div className="mt-4">
+        <div className="mt-4 flex flex-col w-full space-y-2">
           <Image
-            width={400}
-            height={400}
+            width={800}
+            height={800}
             src={imagePreview}
             alt="Preview"
-            className="max-w-xs max-h-xs rounded-md shadow-lg"
+            className=" rounded-md shadow-lg"
           />
+          {isSelect && (
+            <Button className="" type="submit">
+              Update Image
+            </Button>
+          )}
         </div>
       )}
-      {isSelect && <Button type="submit">Submit</Button>}
-      <Button className={`w-full mt-2`} onClick={() => router.back()}>
-        Back
-      </Button>
     </form>
   );
 }

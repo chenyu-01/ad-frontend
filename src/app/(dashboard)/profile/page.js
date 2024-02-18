@@ -42,7 +42,19 @@ export default function Profile() {
     }));
   };
 
+  function isIntWithinRange(value) {
+    var intValue = parseInt(value);
+    if (isNaN(intValue) || intValue < -2147483648 || intValue > 2147483647) {
+      return false;
+    }
+    return true;
+  }
+
   const handleSave = async () => {
+    if (parseInt(profile.contactNumber) <= 0 || !isIntWithinRange(profile.contactNumber)  ||!/^\d+$/.test(profile.contactNumber) ) {
+      window.alert("ContactNumber is valid.");
+      return;
+    }
     try {
       console.log(JSON.stringify(profile));
       let fetchurl = serverUrl + "/api/usersetting/saveProfile";
