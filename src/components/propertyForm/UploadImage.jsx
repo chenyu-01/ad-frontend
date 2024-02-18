@@ -35,9 +35,7 @@ export default function ImageUpload({ propertyId }) {
         body: formData,
       });
       if (response.ok) {
-        console.log("Image uploaded successfully");
-        const imageUrl = await response.text();
-        console.log(imageUrl);
+        window.alert("Image uploaded successfully");
       }
     } catch (error) {
       console.log(error);
