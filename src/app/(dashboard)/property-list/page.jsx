@@ -43,7 +43,7 @@ export default function PropertyList() {
         setIsLoading(false);
       }
     },
-    [page, town, propertyType],
+    [page, propertyType],
   );
   const openDialog = () => {
     dialog.current?.showModal();
