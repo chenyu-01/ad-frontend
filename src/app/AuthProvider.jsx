@@ -19,34 +19,34 @@ export const AuthProvider = ({ children }) => {
       }
     });
   }
-  const checkAuth = async () => {
-    try {
-      const response = await fetch(`${serverUrl}/api/customer/check-auth`, {
-        method: "GET",
-        credentials: "include",
-      });
-      if (response.ok) {
-        setIsAuthenticated(true);
-        const data = await response.json();
-        setUserData(data);
-        if (router.pathname === "/login" || router.pathname === "/register") {
-          router.push("/");
+
+  useEffect(() => {
+    async () => {
+      try {
+        const response = await fetch(`${serverUrl}/api/customer/check-auth`, {
+          method: "GET",
+          credentials: "include",
+        });
+        if (response.ok) {
+          setIsAuthenticated(true);
+          const data = await response.json();
+          setUserData(data);
+          if (router.pathname === "/login" || router.pathname === "/register") {
+            router.push("/");
+          }
+        } else {
+          setIsAuthenticated(false);
+          setUserData(null);
+          router.push("/login");
         }
-      } else {
+      } catch (error) {
+        console.error(error);
         setIsAuthenticated(false);
         setUserData(null);
         router.push("/login");
       }
-    } catch (error) {
-      console.error(error);
-      setIsAuthenticated(false);
-      setUserData(null);
-      router.push("/login");
-    }
-  };
-  useEffect(() => {
-    checkAuth();
-  }, []);
+    };
+  }, [router]);
   return (
     <AuthContext.Provider value={{ isAuthenticated, userData, logout }}>
       {children}

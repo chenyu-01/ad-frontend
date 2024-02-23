@@ -88,7 +88,7 @@ export default function Profile() {
   return (
     <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0">
       <div className=" flex flex-col items-center">
-        <table className="font-['Inter'] md:text-[25px] sm:text-[12.5px] font-semibold leading-[38px] text-[#000] border-collapse ">
+        <table className="text-xl border-collapse ">
           <InputField
             label="Name"
             name="name"
