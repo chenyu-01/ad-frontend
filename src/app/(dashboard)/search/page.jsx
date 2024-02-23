@@ -7,7 +7,7 @@ import MyPagination from "./MyPagination";
 import PropertyListTable from "./PropertyListTable";
 import { fetchListByProps } from "./fetchListByProps.js";
 import Error from "../../../components/ui/Error.jsx";
-import SearchDialogue from "@/app/(dashboard)/property-list/advanced/SearchDialog";
+import SearchDialogue from "@/app/(dashboard)/search/advanced/SearchDialog";
 import { useCallback } from "react";
 import Image from "next/image";
 import { set } from "date-fns";

@@ -38,7 +38,7 @@ export default function Nav() {
             </NavLink>
           </>
         )}
-        <NavLink href="/property-list" icon={<Find />}>
+        <NavLink href="/search" icon={<Find />}>
           Search
         </NavLink>
       </div>
