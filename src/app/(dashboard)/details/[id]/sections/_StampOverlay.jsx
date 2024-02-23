@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const StampOverlay = ({ imageSrc, stampType }) => {
@@ -8,8 +9,16 @@ const StampOverlay = ({ imageSrc, stampType }) => {
 
   return (
     <div className="relative">
-      <img src={imageSrc} alt="Property" className="w-full" />
-      <img
+      <Image
+        width={`800`}
+        height={`800`}
+        src={imageSrc}
+        alt="Property"
+        className="w-full"
+      />
+      <Image
+        width={`300`}
+        height={`300`}
         src={stampSrcMap[stampType]}
         alt={stampType}
         className="absolute top-0 right-0 m-2" // Adjust margins as needed
