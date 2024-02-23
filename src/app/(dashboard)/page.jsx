@@ -1,4 +1,5 @@
 "use client";
+"use strict";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../AuthProvider";
@@ -9,11 +10,10 @@ import Image from "next/image";
 
 const serverUrl = config.serverUrl;
 export default function Dashboard() {
-  const router = useRouter();
   const { userData } = useContext(AuthContext);
-  let customerId = userData?.customerId;
+  const customerId = userData?.customerId;
   const [propertyList, setPropertyList] = useState([]);
-  const fetchPropertyIds = async (customerId) => {
+  const getRecommendedProperties = async (customerId) => {
     try {
       let fetchurl = serverUrl + "/api/property/recommend/" + customerId;
       let response = await fetch(fetchurl);
@@ -48,12 +48,9 @@ export default function Dashboard() {
   useEffect(() => {
     console.log(customerId);
     if (customerId) {
-      fetchPropertyIds(customerId);
+      getRecommendedProperties(customerId);
     }
   }, [customerId]);
-  useEffect(() => {
-    customerId = userData?.customerId;
-  }, [userData]);
   return (
     <div className="flex flex-col items-center bg-white">
       <div className="text-3xl md:text-4xl font-semibold mb-8">

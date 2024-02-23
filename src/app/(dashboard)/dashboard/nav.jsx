@@ -33,7 +33,7 @@ export default function Nav() {
             <NavLink href={`/addproperty`} icon={<AddNewIcon />}>
               Add New Property
             </NavLink>
-            <NavLink href={"/propertylist"} icon={<OwnerListIcon />}>
+            <NavLink href={"/myProperties"} icon={<OwnerListIcon />}>
               My Properties
             </NavLink>
           </>
