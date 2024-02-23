@@ -1,4 +1,3 @@
-"use strict";
 "use client";
 import { config } from "@/config";
 import { useRouter } from "next/navigation";
@@ -19,34 +18,34 @@ export const AuthProvider = ({ children }) => {
       }
     });
   }
-
-  useEffect(() => {
-    async () => {
-      try {
-        const response = await fetch(`${serverUrl}/api/customer/check-auth`, {
-          method: "GET",
-          credentials: "include",
-        });
-        if (response.ok) {
-          setIsAuthenticated(true);
-          const data = await response.json();
-          setUserData(data);
-          if (router.pathname === "/login" || router.pathname === "/register") {
-            router.push("/");
-          }
-        } else {
-          setIsAuthenticated(false);
-          setUserData(null);
-          router.push("/login");
+  const checkAuth = async () => {
+    try {
+      const response = await fetch(`${serverUrl}/api/customer/check-auth`, {
+        method: "GET",
+        credentials: "include",
+      });
+      if (response.ok) {
+        setIsAuthenticated(true);
+        const data = await response.json();
+        setUserData(data);
+        if (router.pathname === "/login" || router.pathname === "/register") {
+          router.push("/");
         }
-      } catch (error) {
-        console.error(error);
+      } else {
         setIsAuthenticated(false);
         setUserData(null);
         router.push("/login");
       }
-    };
-  }, [router]);
+    } catch (error) {
+      console.error(error);
+      setIsAuthenticated(false);
+      setUserData(null);
+      router.push("/login");
+    }
+  };
+  useEffect(() => {
+    checkAuth();
+  }, []);
   return (
     <AuthContext.Provider value={{ isAuthenticated, userData, logout }}>
       {children}

@@ -1,6 +1,5 @@
 "use client";
 import { config } from "@/config";
-import Image from "next/image";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "@/app/AuthProvider";
 import { useRouter } from "next/navigation";
@@ -71,19 +70,6 @@ export default function Profile() {
       console.error(error.message);
     }
   };
-  if (!userData) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Image
-          src="/details/loading.gif"
-          alt="Loading..."
-          width={300}
-          height={300}
-          className="block"
-        />
-      </div>
-    );
-  }
 
   return (
     <div className="main-container  flex flex-col items-center w-full  bg-[#fff]  overflow-hidden mx-auto my-0">
