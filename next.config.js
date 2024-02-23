@@ -2,7 +2,13 @@
 
 module.exports = {
   images: {
-    domains: ["localhost"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        pathname: "**",
+      },
+    ],
   },
   compiler: {
     removeConsole: true,
