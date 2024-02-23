@@ -1,7 +1,7 @@
 import Header from "./dashboard/header";
 import Nav from "./dashboard/nav";
 
-export default function Dashboard({ children }) {
+export default function RootLayout({ children }) {
   return (
     <div className="container mx-auto h-screen">
       <div className="flex flex-col mt-10">

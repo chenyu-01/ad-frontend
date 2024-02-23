@@ -1,6 +1,6 @@
 import Header from "../(dashboard)/dashboard/header";
 
-export default function RootLayout({ children }) {
+export default function AuthenticateLayout({ children }) {
   return (
     <div className="container mx-auto h-screen max-w-screen-lg">
       <div className="flex flex-col">
