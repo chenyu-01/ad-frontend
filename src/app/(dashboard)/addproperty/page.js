@@ -273,7 +273,6 @@ function AddProperty() {
 
   const handleSave = async () => {
     try {
-      console.log("要发送的房产");
       console.log(property);
       if (!property.hasOwnProperty("town")) {
         property.town = enumTownOptions[0];

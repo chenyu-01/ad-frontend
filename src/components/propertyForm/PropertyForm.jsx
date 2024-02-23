@@ -6,7 +6,7 @@ import FormInput from "@/components/propertyForm/FormInput";
 import FormSelect from "@/components/propertyForm/FormSelect";
 import { useContext } from "react";
 import { AuthContext } from "@/app/AuthProvider";
-import ImageUpload from "@/components/propertyForm/UploadImage";
+import Link from "next/link";
 const serverUrl = config.serverUrl;
 
 function PropertyForm({ propertyId }) {
@@ -187,7 +187,7 @@ function PropertyForm({ propertyId }) {
             </Button>
           </div>
         </form>
-        <ImageUpload propertyId={propertyId} />
+        <Link href={`/updateImage/${propertyId}`}>Update Image</Link>
       </div>
     </div>
   );

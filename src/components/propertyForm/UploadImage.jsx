@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { config } from "@/config";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 const serverUrl = config.serverUrl;
 export default function ImageUpload({ propertyId }) {
   const [imagePreview, setImagePreview] = useState(null);
@@ -88,6 +89,7 @@ export default function ImageUpload({ propertyId }) {
           )}
         </div>
       )}
+      <Link href={`/updateProperty/${propertyId}`}>Go Back</Link>
     </form>
   );
 }
