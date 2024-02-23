@@ -1,5 +1,5 @@
 "use client";
-import { AuthContext } from "../AuthProvider";
+import { AuthContext } from "../../AuthProvider";
 import { useContext } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";

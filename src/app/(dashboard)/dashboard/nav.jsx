@@ -7,7 +7,7 @@ import OwnerListIcon from "./icons/OwnerListIcon";
 import Find from "./icons/find";
 import Link from "next/link";
 import AddNewIcon from "./icons/AddNewIcon";
-import { AuthContext } from "@/app/(dashboard)/AuthProvider";
+import { AuthContext } from "@/app/AuthProvider";
 import { useContext } from "react";
 export default function Nav() {
   const { userData } = useContext(AuthContext);

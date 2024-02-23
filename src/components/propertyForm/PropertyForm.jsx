@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import FormInput from "@/components/propertyForm/FormInput";
 import FormSelect from "@/components/propertyForm/FormSelect";
 import { useContext } from "react";
-import { AuthContext } from "@/app/(dashboard)/AuthProvider";
+import { AuthContext } from "@/app/AuthProvider";
 import ImageUpload from "@/components/propertyForm/UploadImage";
 const serverUrl = config.serverUrl;
 
