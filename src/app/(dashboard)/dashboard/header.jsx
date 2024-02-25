@@ -1,11 +1,12 @@
 "use client";
-import { AuthContext } from "../AuthProvider";
-import { useContext } from "react";
+import { AuthContext } from "../../AuthProvider";
+import { useContext, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 export default function Header() {
   const { userData, isAuthenticated, logout } = useContext(AuthContext);
+  const [name, setName] = useState("");
   const pathname = usePathname();
   const router = useRouter();
   function LogButton() {
@@ -15,6 +16,11 @@ export default function Header() {
       return <Button onClick={() => router.push("/login")}>Login</Button>;
     }
   }
+  useEffect(() => {
+    if (userData) {
+      setName(userData.name);
+    }
+  }, [userData]);
   return (
     <div className="">
       <div className="flex justify-between items-center  text-3xl px-5 ">
@@ -22,7 +28,7 @@ export default function Header() {
 
         <div className="md:space-x-3 flex">
           <div className=" font-bold">
-            {userData && <h1>Welcome {userData.name} </h1>}
+            {userData && <h1>Welcome {name} </h1>}
           </div>
           {pathname !== "/login" && <LogButton />}
           {pathname !== "/register" && !isAuthenticated && (

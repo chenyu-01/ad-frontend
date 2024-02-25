@@ -7,7 +7,7 @@ import OwnerListIcon from "./icons/OwnerListIcon";
 import Find from "./icons/find";
 import Link from "next/link";
 import AddNewIcon from "./icons/AddNewIcon";
-import { AuthContext } from "@/app/(dashboard)/AuthProvider";
+import { AuthContext } from "@/app/AuthProvider";
 import { useContext } from "react";
 export default function Nav() {
   const { userData } = useContext(AuthContext);
@@ -33,12 +33,12 @@ export default function Nav() {
             <NavLink href={`/addproperty`} icon={<AddNewIcon />}>
               Add New Property
             </NavLink>
-            <NavLink href={"/propertylist"} icon={<OwnerListIcon />}>
+            <NavLink href={"/myProperties"} icon={<OwnerListIcon />}>
               My Properties
             </NavLink>
           </>
         )}
-        <NavLink href="/property-list" icon={<Find />}>
+        <NavLink href="/search" icon={<Find />}>
           Search
         </NavLink>
       </div>

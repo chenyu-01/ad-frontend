@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import "@/app/(dashboard)/usersetting/styles/index.css";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const serverUrl = config.serverUrl;
 function AddProperty() {
@@ -33,27 +34,26 @@ function AddProperty() {
    */
   function transformString(str) {
     if (/^\d/.test(str)) {
-      str = str.replace(/\d+/g, function(match) {
+      str = str.replace(/\d+/g, function (match) {
         switch (parseInt(match)) {
           case 1:
-            return 'ONE';
+            return "ONE";
           case 2:
-            return 'TWO';
+            return "TWO";
           case 3:
-            return 'THREE';
+            return "THREE";
           case 4:
-            return 'FOUR';
+            return "FOUR";
           case 5:
-            return 'FIVE';
+            return "FIVE";
           default:
             return match;
         }
       });
     }
-    str = str.replace(/[^\w]+/g, '_').toUpperCase();
+    str = str.replace(/[^\w]+/g, "_").toUpperCase();
     return str;
   }
-
 
   const [enumStatusOptions, setEnumStatusOptions] = useState([]);
   const [enumTownOptions, setEnumTownOptions] = useState([]);
@@ -144,9 +144,12 @@ function AddProperty() {
       });
       let data = await response.json();
       if (response.ok) {
-        const attributesToTransform = ['flatType', 'town', 'flatModel'];
+        const attributesToTransform = ["flatType", "town", "flatModel"];
         for (const key in data) {
-          if (Object.prototype.hasOwnProperty.call(data, key) && attributesToTransform.includes(key)) {
+          if (
+            Object.prototype.hasOwnProperty.call(data, key) &&
+            attributesToTransform.includes(key)
+          ) {
             let transformedValue = transformString(data[key]);
             data[key] = transformedValue;
           }
@@ -236,13 +239,12 @@ function AddProperty() {
     }
   }
 
-  const handleChange = (e,typed) => {
-    const { name, value,type,checked } = e.target;
-    console.log(name+"name");
-    console.log(value+"value");
-    console.log(type+"type");
-    console.log(checked+"type");
-
+  const handleChange = (e, typed) => {
+    const { name, value, type, checked } = e.target;
+    console.log(name + "name");
+    console.log(value + "value");
+    console.log(type + "type");
+    console.log(checked + "type");
 
     setProperty((prevData) => ({
       ...prevData,
@@ -264,29 +266,25 @@ function AddProperty() {
         propertyStatus: "rented",
       };
     });
-    console.log(enumTownOptions[0])
+    console.log(enumTownOptions[0]);
 
     fetchProperty();
   }, []);
 
-
-
-
   const handleSave = async () => {
     try {
-      console.log("要发送的房产");
       console.log(property);
-      if(!property.hasOwnProperty("town")){
+      if (!property.hasOwnProperty("town")) {
         property.town = enumTownOptions[0];
       }
-      if(!property.hasOwnProperty("flatType")){
+      if (!property.hasOwnProperty("flatType")) {
         property.flatType = enumFlatTypes[0];
       }
-      if(!property.hasOwnProperty("flatModel")){
+      if (!property.hasOwnProperty("flatModel")) {
         property.flatModel = enumFlatModels[0];
       }
       console.log("现在的");
-      console.log(property)
+      console.log(property);
       let fetchurl = serverUrl + "/api/usersetting/saveProperty";
       let response = await fetch(fetchurl, {
         method: "POST",
@@ -300,7 +298,7 @@ function AddProperty() {
       let data = await response.json();
       console.log("要发送的，解析的");
       console.log(JSON.stringify(property));
-      console.log("电报")
+      console.log("电报");
       console.log(data);
       if (response.ok) {
         window.alert("save success");
@@ -727,7 +725,9 @@ function AddProperty() {
                         />
                         {imagePreview && (
                           <div className="mt-4">
-                            <img
+                            <Image
+                              width={200}
+                              height={200}
                               src={imagePreview}
                               alt="Preview"
                               className="max-w-xs max-h-xs rounded-md shadow-lg"

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Use next/navigation instead of next/router
 import { config } from "@/config";
+import Image from "next/image";
 const serverUrl = config.serverUrl;
 
 export default function Login() {
@@ -48,9 +49,11 @@ export default function Login() {
     <div className="bg-white rounded-3xl md:max-w-screen-lg">
       <div className="flex flex-col md:flex-row items-center justify-center">
         <div className="w-full md:w-1/2">
-          <img
+          <Image
+            width={500}
+            height={500}
             loading="lazy"
-            src="dream.jpg"
+            src="/login/dream.jpg"
             className="w-full md:max-w-lg md:mx-auto"
             alt="Dream Home"
           />

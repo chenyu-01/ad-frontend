@@ -1,5 +1,5 @@
 "use client";
-import SearchDialogue from "@/app/(dashboard)/property-list/advanced/SearchDialog";
+import SearchDialogue from "@/app/(dashboard)/search/advanced/SearchDialog";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 

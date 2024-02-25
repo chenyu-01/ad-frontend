@@ -1,17 +1,16 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSearchParams, useRouter } from "next/navigation";
 import MyPagination from "./MyPagination";
 import PropertyListTable from "./PropertyListTable";
 import { fetchListByProps } from "./fetchListByProps.js";
-import Error from "../../../components/ui/Error.jsx";
-import SearchDialogue from "@/app/(dashboard)/property-list/advanced/SearchDialog";
+import Error from "@/components/ui/Error.jsx";
+import SearchDialogue from "@/app/(dashboard)/search/advanced/SearchDialog";
 import { useCallback } from "react";
 import Image from "next/image";
-import { set } from "date-fns";
-export default function PropertyList() {
+export function PropertyList() {
   const [propertyList, setPropertyList] = useState([]);
   const router = useRouter();
   let [town, setTown] = useState("");
@@ -43,6 +42,7 @@ export default function PropertyList() {
         setIsLoading(false);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, propertyType],
   );
   const openDialog = () => {
@@ -126,5 +126,13 @@ export default function PropertyList() {
       {error && <Error message={error} />}
       <MyPagination pageNum={page} lastPageNum={lastPageNum} router={router} />
     </div>
+  );
+}
+
+export default function PropertyListPage() {
+  return (
+    <Suspense>
+      <PropertyList />
+    </Suspense>
   );
 }

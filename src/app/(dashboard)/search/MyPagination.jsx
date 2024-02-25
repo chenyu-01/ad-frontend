@@ -9,7 +9,7 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 function PaginationMiddle({ lastPageNum, pageNum }) {
-  const pageLink = "./property-list?page=";
+  const pageLink = "./search?page=";
   if (lastPageNum < 10) {
     return listPagination(1, lastPageNum);
   }
@@ -79,7 +79,7 @@ export default function MyPagination({ lastPageNum, pageNum, router }) {
     if (pageNum === lastPageNum) {
       return; // if it's the last page, do nothing
     }
-    router.push("/property-list?" + ("page=" + (pageNum + 1)));
+    router.push("/search?" + ("page=" + (pageNum + 1)));
   };
 
   const prevPage = (e) => {
@@ -87,7 +87,7 @@ export default function MyPagination({ lastPageNum, pageNum, router }) {
     if (pageNum === 1) {
       return; // if it's the first page, do nothing
     }
-    router.push("/property-list?" + ("page=" + (pageNum - 1)));
+    router.push("/search?" + ("page=" + (pageNum - 1)));
   };
   return (
     <Pagination className="text-2xl">

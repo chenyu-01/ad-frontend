@@ -6,7 +6,7 @@ import AppoinmentTable from "./AppoinmentTable";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
-import { AuthContext } from "@/app/(dashboard)/AuthProvider";
+import { AuthContext } from "@/app/AuthProvider";
 const serverUrl = config.serverUrl;
 export default function ManageAppointments() {
   const [forOwner, setForOwner] = useState(false);

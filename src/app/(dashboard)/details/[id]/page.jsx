@@ -1,7 +1,7 @@
 "use client";
 import { config } from "@/config";
 import { useContext } from "react";
-import { AuthContext } from "@/app/(dashboard)/AuthProvider";
+import { AuthContext } from "@/app/AuthProvider";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -27,19 +27,19 @@ export default function Details() {
       fetch(serverUrl + `/api/property/recommend/${id}`)
         .then((response) => {
           if (response.ok) {
-            return response.json();  
+            return response.json();
           } else {
-            throw new Error('Network response was not ok.');
+            throw new Error("Network response was not ok.");
           }
         })
         .then((responseData) => {
           console.log("Data received:", responseData);
           //shall not have the same id as the current property
           responseData = responseData.filter((item) => item !== params.id);
-          responseData = responseData.sort(() => 0.5 - Math.random()) 
-          .slice(0, window.innerWidth >= 768 ? 5 : 3);
+          responseData = responseData
+            .sort(() => 0.5 - Math.random())
+            .slice(0, window.innerWidth >= 768 ? 5 : 3);
           setItem_id_list(responseData);
-
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -51,7 +51,7 @@ export default function Details() {
     if (isAuthenticated && userData) {
       if (params.id) {
         setIsLoading(true);
-        fetch(serverUrl + `/api/property/details/${params.id}`,{
+        fetch(serverUrl + `/api/property/details/${params.id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -60,9 +60,9 @@ export default function Details() {
         })
           .then((response) => {
             if (response.ok) {
-              return response.json();  
+              return response.json();
             } else {
-              throw new Error('Network response was not ok.');
+              throw new Error("Network response was not ok.");
             }
           })
           .then((responseData) => {
@@ -81,7 +81,6 @@ export default function Details() {
               }),
             };
 
-
             setInfo(newInfo);
 
             setIsLoading(false);
@@ -92,10 +91,9 @@ export default function Details() {
             //SHALL GOTO 404 PAGE
             router.push("/error");
           });
-      } 
+      }
     }
   }, [params.id, isAuthenticated, userData]);
-
 
   if (isLoading || !data) {
     return (
@@ -121,9 +119,9 @@ export default function Details() {
         info={info}
       />
       <DetailComponent
-      price = {data.price} 
-      id = {params.id} 
-      type = {data.propertyStatus}
+        price={data.price}
+        id={params.id}
+        type={data.propertyStatus}
       />
 
       <MoreSection items={item_id_list} />
@@ -138,6 +136,4 @@ export default function Details() {
       </section>
     );
   }
-
-
 }

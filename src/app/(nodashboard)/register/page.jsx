@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { config } from "@/config";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Image from "next/image";
 
 const serverUrl = config.serverUrl;
 export default function Register() {
@@ -14,7 +15,7 @@ export default function Register() {
       name: event.target.elements.name.value,
       email: event.target.elements.email.value,
       password: event.target.elements.password.value,
-      contactNumber:event.target.elements.contactNumber.value,
+      contactNumber: event.target.elements.contactNumber.value,
       role: event.target.elements.role.value,
     };
 
@@ -183,7 +184,13 @@ export default function Register() {
                 </form>
               </div>
               <div className="col-md-10 col-lg-6 col-xl-5 order-lg-2 d-flex align-items-center">
-                <img src="house.jpg" className="img-fluid" alt="Sample image" />
+                <Image
+                  width={`300`}
+                  height={`300`}
+                  src="/register/house.jpg"
+                  className="img-fluid"
+                  alt="Sample image"
+                />
               </div>
             </div>
           </div>
