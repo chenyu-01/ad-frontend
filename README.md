@@ -17,12 +17,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - **Node.js and npm**: Required for managing the project's dependencies.
 - **ESLint, Prettier, Husky, lint-staged, and commitlint**: Ensures code quality and consistency.
 
-### Related Repositories
 
-- [Frontend Next Js](https://github.com/chenyu-01/ad-frontend)
-- [Java Spring Boot](https://github.com/chenyu-01/ad-backend)
-- [Android](https://github.com/preethivenkat5/ad_android)
-- [ML Model](https://github.com/CsCesium/DNN-NCF-Transformer)
 
 ## Pre-requisites
 
@@ -38,4 +33,11 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Related Repositories
+
+- [**Frontend Next Js(*this project*)**](https://github.com/chenyu-01/ad-frontend)
+- [Java Spring Boot](https://github.com/chenyu-01/ad-backend)
+- [Android](https://github.com/preethivenkat5/ad_android)
+- [ML Model](https://github.com/CsCesium/DNN-NCF-Transformer)
 
